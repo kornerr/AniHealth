@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  AnimalsTableViewController.h
 //  AniHealth
 //
 //  Created by Admin on 14.01.15.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
-
+@interface AnimalsTableViewController : UITableViewController
 
 @end
-

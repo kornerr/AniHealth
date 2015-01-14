@@ -16,6 +16,8 @@
 		845632E31A664FB8004697A3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 845632E21A664FB8004697A3 /* Images.xcassets */; };
 		845632E61A664FB8004697A3 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 845632E41A664FB8004697A3 /* LaunchScreen.xib */; };
 		845632F21A664FB8004697A3 /* AniHealthTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 845632F11A664FB8004697A3 /* AniHealthTests.m */; };
+		84CE4FBF1A66B7B600C39E29 /* AddAnimalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CE4FBD1A66B7B600C39E29 /* AddAnimalViewController.m */; };
+		84CE4FC01A66B7B600C39E29 /* AddAnimalViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84CE4FBE1A66B7B600C39E29 /* AddAnimalViewController.xib */; };
 		F6B0375CEBEA2ED1C0A49F8E /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF153D2C559765581641595A /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -47,6 +49,9 @@
 		845632EB1A664FB8004697A3 /* AniHealthTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AniHealthTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		845632F01A664FB8004697A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		845632F11A664FB8004697A3 /* AniHealthTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AniHealthTests.m; sourceTree = "<group>"; };
+		84CE4FBC1A66B7B600C39E29 /* AddAnimalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddAnimalViewController.h; sourceTree = "<group>"; };
+		84CE4FBD1A66B7B600C39E29 /* AddAnimalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddAnimalViewController.m; sourceTree = "<group>"; };
+		84CE4FBE1A66B7B600C39E29 /* AddAnimalViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddAnimalViewController.xib; sourceTree = "<group>"; };
 		BF153D2C559765581641595A /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		EAB2F2AB6598065B713814C4 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -112,6 +117,9 @@
 				845632E21A664FB8004697A3 /* Images.xcassets */,
 				845632E41A664FB8004697A3 /* LaunchScreen.xib */,
 				845632D51A664FB8004697A3 /* Supporting Files */,
+				84CE4FBC1A66B7B600C39E29 /* AddAnimalViewController.h */,
+				84CE4FBD1A66B7B600C39E29 /* AddAnimalViewController.m */,
+				84CE4FBE1A66B7B600C39E29 /* AddAnimalViewController.xib */,
 			);
 			path = AniHealth;
 			sourceTree = "<group>";
@@ -237,6 +245,7 @@
 				84326A9F1A6679DA00B62549 /* MainTableViewController.xib in Resources */,
 				845632E31A664FB8004697A3 /* Images.xcassets in Resources */,
 				84326AA41A667A0B00B62549 /* AnimalsTableViewController.xib in Resources */,
+				84CE4FC01A66B7B600C39E29 /* AddAnimalViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -290,6 +299,7 @@
 				845632DB1A664FB8004697A3 /* AppDelegate.m in Sources */,
 				845632D81A664FB8004697A3 /* main.m in Sources */,
 				84326A9E1A6679DA00B62549 /* MainTableViewController.m in Sources */,
+				84CE4FBF1A66B7B600C39E29 /* AddAnimalViewController.m in Sources */,
 				84326AA31A667A0B00B62549 /* AnimalsTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

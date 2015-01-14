@@ -7,6 +7,7 @@
 //
 
 #import "MainTableViewController.h"
+#import <RESideMenu.h>
 
 @interface MainTableViewController ()
 
@@ -15,10 +16,33 @@
 @implementation MainTableViewController
 
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil //Процедура, реализуемая в самом начале работы "Вперёд батьки"
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self)
+    {
+        self.navigationItem.title = @"Main"; //Заголовок NC
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Menu" //кнопка слева в NC
+                                                                                 style:UIBarButtonItemStylePlain
+                                                                                target:self
+                                                                                action:@selector(openLeftMenu)];//назначение процедуры вызываемой нажатием на кнопку
+    }
+    return self;
+}
+
+- (void)openLeftMenu // процедура, вызываемая нажатием кнопки на NC
+{
+    [self.sideMenuViewController presentLeftMenuViewController]; //вызов бокового меню, реализованного в библиотеки RESideMenu
+}
+
+
+
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationController.title = @"main";
+    
     
     
     // Uncomment the following line to preserve selection between presentations.

@@ -18,10 +18,10 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]]; //Обозначаем область действия на всю площать экрана
-    MainTableViewController *mtvc = [[MainTableViewController alloc]init];
-    UINavigationController *mtvc_nc = [[UINavigationController alloc] initWithRootViewController:mtvc];
+    MainTableViewController *mtvc = [[MainTableViewController alloc]init]; //Объявление формы и присваевание ей псевдонима (хлеб)
+    UINavigationController *mtvc_nc = [[UINavigationController alloc] initWithRootViewController:mtvc]; //Наложение NC поверх формы
     
-    AnimalsTableViewController *atvc = [[AnimalsTableViewController alloc]init];
+    AnimalsTableViewController *atvc = [[AnimalsTableViewController alloc]init]; //(колбаска)
     UINavigationController *atvc_nc = [[UINavigationController alloc] initWithRootViewController:atvc];
     
     RESideMenu *sideMenuViewController = [[RESideMenu alloc] initWithContentViewController:mtvc_nc

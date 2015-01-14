@@ -7,6 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MainTableViewController.h"
+#import "AnimalsTableViewController.h"
+#import <RESideMenu.h>
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 

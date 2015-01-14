@@ -14,8 +14,12 @@
 
 @implementation MainTableViewController
 
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.navigationController.title = @"main";
+    
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;

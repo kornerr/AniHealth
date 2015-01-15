@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface EventTableViewCell : UITableViewCell
-@property (weak, nonatomic) IBOutlet UILabel *nameEvent;
+@property (strong, nonatomic) IBOutlet UILabel *name;
 
 @end

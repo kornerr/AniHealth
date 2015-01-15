@@ -13,7 +13,7 @@
 @end
 
 @implementation HistoryTableViewController
-/*
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil //Процедура, реализуемая в самом начале работы "Вперёд батьки"
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -21,15 +21,7 @@
     {
         self.navigationItem.title = @"History"; //Заголовок NC
         
-        UIBarButtonItem *backHistForm = [[UIBarButtonItem alloc] initWithTitle:@"Back" //Создание первой кнопки для NC и присвоение ей псевдонима
-                                                                       style:UIBarButtonItemStylePlain
-                                                                      target:self
-                                                                      action:@selector(backHistoryForm)];
-        
-       
-        
-        self.navigationItem.leftBarButtonItems = [[NSArray alloc] initWithObjects:backHistForm, nil]; //Присвоение двух кнопок к левой стороне NC
-        
+      
         UIBarButtonItem *delHystory = [[UIBarButtonItem alloc] initWithTitle:@"Delete" //Создание первой кнопки для NC и присвоение ей псевдонима
                                                                       style:UIBarButtonItemStylePlain
                                                                      target:self
@@ -38,20 +30,15 @@
         
         self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:delHystory, nil]; //Присвоение двух кнопок к левой стороне NC
         
-        
+      
     }
     return self;
 }
 
-- (void) backHistoryForm{
-
-}
-
-
 - (void) openActionSheetDeleteHistory{
 
 }
-*/
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     

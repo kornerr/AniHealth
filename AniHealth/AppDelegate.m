@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 
-@interface AppDelegate ()
+@interface AppDelegate () <RESideMenuDelegate>
 
 @end
 
@@ -27,8 +27,23 @@
     RESideMenu *sideMenuViewController = [[RESideMenu alloc] initWithContentViewController:mtvc_nc
                                                                     leftMenuViewController:atvc_nc
                                                                    rightMenuViewController:nil];
+    
+    sideMenuViewController.delegate = self; // Задание параметров тени на боковом меню
+    sideMenuViewController.contentViewShadowColor = [UIColor blackColor];
+    sideMenuViewController.contentViewShadowOffset = CGSizeMake(0, 0);
+    sideMenuViewController.contentViewShadowOpacity = 0.6;
+    sideMenuViewController.contentViewShadowRadius = 12;
+    sideMenuViewController.contentViewShadowEnabled = YES;
+    
+    
+    
+    
+    
     self.window.rootViewController = sideMenuViewController;
     [self.window makeKeyAndVisible];
+    
+    
+    
     
     // Override point for customization after application launch.
     return YES;

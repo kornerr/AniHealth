@@ -53,29 +53,31 @@
     return self;
 }
 
-- (void)openAnimalInfo{
+- (void)openAnimalInfo{ // процедура перехода на другую форму с "Back"
 
-    self.animalInfo = [[AnimalInfoViewController alloc] init];
-    self.animalInfo.hidesBottomBarWhenPushed = YES;
-    self.animalInfo.title = @"AnimalInfo";
-    [self.navigationController pushViewController:self.animalInfo animated:YES];
+    self.animalInfo = [[AnimalInfoViewController alloc] init]; // Инициализация псивдонима и формы
+    
+    self.animalInfo.title = @"AnimalInfo"; //Заголовок формы-назначения
+    [self.navigationController pushViewController:self.animalInfo animated:YES]; // способ перехода "puch"
     
 }
 
 - (void)openHistory{
     
     self.historyForm = [[HistoryTableViewController alloc] init];
-    self.historyForm.hidesBottomBarWhenPushed = YES;
-    self.historyForm.title = @"History";
+    
+    
     [self.navigationController pushViewController:self.historyForm animated:YES];
+    
+    
     
 }
 
-- (void)openAddEvent{
+- (void)openAddEvent{ // процедура перехода на другую форму с "Cancel"
     
-    self.addEventForm = [[AddEventViewController alloc] init];
-    UINavigationController *aef_nc = [[UINavigationController alloc] initWithRootViewController:self.addEventForm];
-    [self presentViewController:aef_nc
+    self.addEventForm = [[AddEventViewController alloc] init]; // Инициализация псивдонима и формы
+    UINavigationController *aef_nc = [[UINavigationController alloc] initWithRootViewController:self.addEventForm]; // Объявление псевдонима для перехода
+    [self presentViewController:aef_nc //реализация перехода на форму по заданным псевдонимом
                        animated:YES
                      completion:nil];
 }
@@ -125,7 +127,10 @@
 
 /*
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
+    
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:(@"") forIndexPath:indexPath];
+    
     
     // Configure the cell...
     

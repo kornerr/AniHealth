@@ -9,6 +9,7 @@
 #import "MainTableViewController.h"
 #import <RESideMenu.h>
 
+
 @interface MainTableViewController ()
 
 @end
@@ -31,19 +32,19 @@
         UIBarButtonItem *infLeftBut = [[UIBarButtonItem alloc] initWithTitle:@"Info"//Создание второй кнопки для NC и присвоение ей псевдонима
                                                                        style:UIBarButtonItemStylePlain
                                                                       target:self
-                                                                      action:@selector(openLeftMenu)];
+                                                                      action:@selector(openAnimalInfo)];
         
         self.navigationItem.leftBarButtonItems = [[NSArray alloc] initWithObjects:aniLeftBut, infLeftBut, nil]; //Присвоение двух кнопок к левой стороне NC
         
         UIBarButtonItem *hisRigBut = [[UIBarButtonItem alloc] initWithTitle:@"History" //Создание первой кнопки для NC и присвоение ей псевдонима
                                                                        style:UIBarButtonItemStylePlain
                                                                       target:self
-                                                                      action:nil];
+                                                                      action:@selector(openHistory)];
         
         UIBarButtonItem *addRigBut = [[UIBarButtonItem alloc] initWithTitle:@"Add"//Создание второй кнопки для NC и присвоение ей псевдонима
                                                                        style:UIBarButtonItemStylePlain
                                                                       target:self
-                                                                      action:nil];
+                                                                      action:@selector(openAddEvent)];
         
         self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:addRigBut, hisRigBut, nil]; //Присвоение двух кнопок к левой стороне NC
         
@@ -51,6 +52,35 @@
     }
     return self;
 }
+
+- (void)openAnimalInfo{
+
+    self.animalInfo = [[AnimalInfoViewController alloc] init];
+    self.animalInfo.hidesBottomBarWhenPushed = YES;
+    self.animalInfo.title = @"AnimalInfo";
+    [self.navigationController pushViewController:self.animalInfo animated:YES];
+    
+}
+
+- (void)openHistory{
+    
+    self.historyForm = [[HistoryTableViewController alloc] init];
+    self.historyForm.hidesBottomBarWhenPushed = YES;
+    self.historyForm.title = @"History";
+    [self.navigationController pushViewController:self.historyForm animated:YES];
+    
+}
+
+- (void)openAddEvent{
+    
+    self.addEventForm = [[AddEventViewController alloc] init];
+    UINavigationController *aef_nc = [[UINavigationController alloc] initWithRootViewController:self.addEventForm];
+    [self presentViewController:aef_nc
+                       animated:YES
+                     completion:nil];
+}
+
+
 
 - (void)openLeftMenu // процедура, вызываемая нажатием кнопки на NC
 {

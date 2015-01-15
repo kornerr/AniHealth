@@ -11,6 +11,14 @@
 		84326A9F1A6679DA00B62549 /* MainTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84326A9D1A6679DA00B62549 /* MainTableViewController.xib */; };
 		84326AA31A667A0B00B62549 /* AnimalsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84326AA11A667A0B00B62549 /* AnimalsTableViewController.m */; };
 		84326AA41A667A0B00B62549 /* AnimalsTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84326AA21A667A0B00B62549 /* AnimalsTableViewController.xib */; };
+		844DECAC1A67ABBB0026B7B2 /* HistoryTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 844DECAA1A67ABBB0026B7B2 /* HistoryTableViewController.m */; };
+		844DECAD1A67ABBB0026B7B2 /* HistoryTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 844DECAB1A67ABBB0026B7B2 /* HistoryTableViewController.xib */; };
+		844DECB11A67BFF70026B7B2 /* AnimalInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 844DECAF1A67BFF70026B7B2 /* AnimalInfoViewController.m */; };
+		844DECB21A67BFF70026B7B2 /* AnimalInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 844DECB01A67BFF70026B7B2 /* AnimalInfoViewController.xib */; };
+		844DECB61A67C52D0026B7B2 /* AddEventViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 844DECB41A67C52D0026B7B2 /* AddEventViewController.m */; };
+		844DECB71A67C52D0026B7B2 /* AddEventViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 844DECB51A67C52D0026B7B2 /* AddEventViewController.xib */; };
+		844DECBB1A67CE380026B7B2 /* IconAnimalCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 844DECB91A67CE380026B7B2 /* IconAnimalCollectionViewController.m */; };
+		844DECBC1A67CE380026B7B2 /* IconAnimalCollectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 844DECBA1A67CE380026B7B2 /* IconAnimalCollectionViewController.xib */; };
 		845632D81A664FB8004697A3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 845632D71A664FB8004697A3 /* main.m */; };
 		845632DB1A664FB8004697A3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 845632DA1A664FB8004697A3 /* AppDelegate.m */; };
 		845632E31A664FB8004697A3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 845632E21A664FB8004697A3 /* Images.xcassets */; };
@@ -39,6 +47,18 @@
 		84326AA01A667A0B00B62549 /* AnimalsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimalsTableViewController.h; sourceTree = "<group>"; };
 		84326AA11A667A0B00B62549 /* AnimalsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnimalsTableViewController.m; sourceTree = "<group>"; };
 		84326AA21A667A0B00B62549 /* AnimalsTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AnimalsTableViewController.xib; sourceTree = "<group>"; };
+		844DECA91A67ABBB0026B7B2 /* HistoryTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryTableViewController.h; sourceTree = "<group>"; };
+		844DECAA1A67ABBB0026B7B2 /* HistoryTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryTableViewController.m; sourceTree = "<group>"; };
+		844DECAB1A67ABBB0026B7B2 /* HistoryTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HistoryTableViewController.xib; sourceTree = "<group>"; };
+		844DECAE1A67BFF70026B7B2 /* AnimalInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimalInfoViewController.h; sourceTree = "<group>"; };
+		844DECAF1A67BFF70026B7B2 /* AnimalInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnimalInfoViewController.m; sourceTree = "<group>"; };
+		844DECB01A67BFF70026B7B2 /* AnimalInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AnimalInfoViewController.xib; sourceTree = "<group>"; };
+		844DECB31A67C52D0026B7B2 /* AddEventViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddEventViewController.h; sourceTree = "<group>"; };
+		844DECB41A67C52D0026B7B2 /* AddEventViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddEventViewController.m; sourceTree = "<group>"; };
+		844DECB51A67C52D0026B7B2 /* AddEventViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddEventViewController.xib; sourceTree = "<group>"; };
+		844DECB81A67CE380026B7B2 /* IconAnimalCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IconAnimalCollectionViewController.h; sourceTree = "<group>"; };
+		844DECB91A67CE380026B7B2 /* IconAnimalCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IconAnimalCollectionViewController.m; sourceTree = "<group>"; };
+		844DECBA1A67CE380026B7B2 /* IconAnimalCollectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IconAnimalCollectionViewController.xib; sourceTree = "<group>"; };
 		845632D21A664FB8004697A3 /* AniHealth.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AniHealth.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		845632D61A664FB8004697A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		845632D71A664FB8004697A3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -111,15 +131,27 @@
 				84326A9B1A6679DA00B62549 /* MainTableViewController.h */,
 				84326A9C1A6679DA00B62549 /* MainTableViewController.m */,
 				84326A9D1A6679DA00B62549 /* MainTableViewController.xib */,
+				844DECB31A67C52D0026B7B2 /* AddEventViewController.h */,
+				844DECB41A67C52D0026B7B2 /* AddEventViewController.m */,
+				844DECB51A67C52D0026B7B2 /* AddEventViewController.xib */,
+				844DECAE1A67BFF70026B7B2 /* AnimalInfoViewController.h */,
+				844DECAF1A67BFF70026B7B2 /* AnimalInfoViewController.m */,
+				844DECB01A67BFF70026B7B2 /* AnimalInfoViewController.xib */,
 				84326AA01A667A0B00B62549 /* AnimalsTableViewController.h */,
 				84326AA11A667A0B00B62549 /* AnimalsTableViewController.m */,
 				84326AA21A667A0B00B62549 /* AnimalsTableViewController.xib */,
-				845632E21A664FB8004697A3 /* Images.xcassets */,
-				845632E41A664FB8004697A3 /* LaunchScreen.xib */,
-				845632D51A664FB8004697A3 /* Supporting Files */,
 				84CE4FBC1A66B7B600C39E29 /* AddAnimalViewController.h */,
 				84CE4FBD1A66B7B600C39E29 /* AddAnimalViewController.m */,
 				84CE4FBE1A66B7B600C39E29 /* AddAnimalViewController.xib */,
+				844DECA91A67ABBB0026B7B2 /* HistoryTableViewController.h */,
+				844DECAA1A67ABBB0026B7B2 /* HistoryTableViewController.m */,
+				844DECAB1A67ABBB0026B7B2 /* HistoryTableViewController.xib */,
+				844DECB81A67CE380026B7B2 /* IconAnimalCollectionViewController.h */,
+				844DECB91A67CE380026B7B2 /* IconAnimalCollectionViewController.m */,
+				844DECBA1A67CE380026B7B2 /* IconAnimalCollectionViewController.xib */,
+				845632E21A664FB8004697A3 /* Images.xcassets */,
+				845632E41A664FB8004697A3 /* LaunchScreen.xib */,
+				845632D51A664FB8004697A3 /* Supporting Files */,
 			);
 			path = AniHealth;
 			sourceTree = "<group>";
@@ -241,10 +273,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				844DECAD1A67ABBB0026B7B2 /* HistoryTableViewController.xib in Resources */,
 				845632E61A664FB8004697A3 /* LaunchScreen.xib in Resources */,
+				844DECB21A67BFF70026B7B2 /* AnimalInfoViewController.xib in Resources */,
 				84326A9F1A6679DA00B62549 /* MainTableViewController.xib in Resources */,
 				845632E31A664FB8004697A3 /* Images.xcassets in Resources */,
+				844DECB71A67C52D0026B7B2 /* AddEventViewController.xib in Resources */,
 				84326AA41A667A0B00B62549 /* AnimalsTableViewController.xib in Resources */,
+				844DECBC1A67CE380026B7B2 /* IconAnimalCollectionViewController.xib in Resources */,
 				84CE4FC01A66B7B600C39E29 /* AddAnimalViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -296,9 +332,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				844DECAC1A67ABBB0026B7B2 /* HistoryTableViewController.m in Sources */,
 				845632DB1A664FB8004697A3 /* AppDelegate.m in Sources */,
 				845632D81A664FB8004697A3 /* main.m in Sources */,
+				844DECB11A67BFF70026B7B2 /* AnimalInfoViewController.m in Sources */,
 				84326A9E1A6679DA00B62549 /* MainTableViewController.m in Sources */,
+				844DECB61A67C52D0026B7B2 /* AddEventViewController.m in Sources */,
+				844DECBB1A67CE380026B7B2 /* IconAnimalCollectionViewController.m in Sources */,
 				84CE4FBF1A66B7B600C39E29 /* AddAnimalViewController.m in Sources */,
 				84326AA31A667A0B00B62549 /* AnimalsTableViewController.m in Sources */,
 			);

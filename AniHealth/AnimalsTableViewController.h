@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AddAnimalViewController.h"
 
 @interface AnimalsTableViewController : UITableViewController
+
+@property (retain, nonatomic)   AddAnimalViewController    *addAnimalForm;
 
 @end

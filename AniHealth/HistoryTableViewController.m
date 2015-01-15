@@ -1,55 +1,59 @@
 //
-//  AnimalsTableViewController.m
+//  HistoryTableViewController.m
 //  AniHealth
 //
-//  Created by Admin on 14.01.15.
+//  Created by Admin on 15.01.15.
 //  Copyright (c) 2015 Admin. All rights reserved.
 //
 
-#import "AnimalsTableViewController.h"
+#import "HistoryTableViewController.h"
 
-@interface AnimalsTableViewController ()
+@interface HistoryTableViewController ()
 
 @end
 
-@implementation AnimalsTableViewController
-
+@implementation HistoryTableViewController
+/*
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil //Процедура, реализуемая в самом начале работы "Вперёд батьки"
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-        self.navigationItem.title = @"Animals"; //Заголовок NC
+        self.navigationItem.title = @"History"; //Заголовок NC
         
-        UIBarButtonItem *addAninLefBut = [[UIBarButtonItem alloc] initWithTitle:@"AddAnimal" //Создание первой кнопки для NC и присвоение ей псевдонима
+        UIBarButtonItem *backHistForm = [[UIBarButtonItem alloc] initWithTitle:@"Back" //Создание первой кнопки для NC и присвоение ей псевдонима
                                                                        style:UIBarButtonItemStylePlain
                                                                       target:self
-                                                                      action:@selector(openAddAnimalForm)];
+                                                                      action:@selector(backHistoryForm)];
+        
+       
+        
+        self.navigationItem.leftBarButtonItems = [[NSArray alloc] initWithObjects:backHistForm, nil]; //Присвоение двух кнопок к левой стороне NC
+        
+        UIBarButtonItem *delHystory = [[UIBarButtonItem alloc] initWithTitle:@"Delete" //Создание первой кнопки для NC и присвоение ей псевдонима
+                                                                      style:UIBarButtonItemStylePlain
+                                                                     target:self
+                                                                     action:@selector(openActionSheetDeleteHistory)];
         
         
-        self.navigationItem.leftBarButtonItems = [[NSArray alloc] initWithObjects:addAninLefBut, nil]; //Присвоение кнопок к левой стороне NC
-        
-        
+        self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:delHystory, nil]; //Присвоение двух кнопок к левой стороне NC
         
         
     }
     return self;
 }
 
-- (void) openAddAnimalForm{
+- (void) backHistoryForm{
 
-    self.addAnimalForm = [[AddAnimalViewController alloc] init];
-    UINavigationController *aaf_nc = [[UINavigationController alloc] initWithRootViewController:self.addAnimalForm];
-    [self presentViewController:aaf_nc
-                       animated:YES
-                     completion:nil];
-    
 }
 
+
+- (void) openActionSheetDeleteHistory{
+
+}
+*/
 - (void)viewDidLoad {
     [super viewDidLoad];
-  
-    
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;

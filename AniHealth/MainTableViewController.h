@@ -7,8 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AnimalInfoViewController.h"
+#import "HistoryTableViewController.h"
+#import "AddEventViewController.h"
 
 @interface MainTableViewController : UITableViewController
+
+@property (retain, nonatomic)   AnimalInfoViewController    *animalInfo;
+@property (retain, nonatomic)   HistoryTableViewController    *historyForm;
+@property (retain, nonatomic)   AddEventViewController    *addEventForm;
 
 
 @end

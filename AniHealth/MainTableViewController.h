@@ -17,7 +17,7 @@
 @property (retain, nonatomic)   AnimalInfoViewController    *animalInfo;
 @property (retain, nonatomic)   HistoryTableViewController    *historyForm;
 @property (retain, nonatomic)   AddEventViewController    *addEventForm;
-@property (retain, nonatomic)   EventTableViewCell    *eventCell;
+
 
 
 @end

@@ -1,14 +1,14 @@
 //
-//  EventTableViewCell.h
+//  MainTableViewCell.h
 //  AniHealth
 //
-//  Created by Admin on 15.01.15.
+//  Created by Admin on 16.01.15.
 //  Copyright (c) 2015 Admin. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface EventTableViewCell : UITableViewCell
+@interface MainTableViewCell : UITableViewCell
 @property (strong, nonatomic) IBOutlet UILabel *name;
 
 @end

@@ -93,9 +93,9 @@
 {
     [super viewDidLoad];
     
-    [self.tableView registerNib:[UINib nibWithNibName:@"EventTableViewCell"
+    [self.tableView registerNib:[UINib nibWithNibName:@"MainTableViewCell"
                                                bundle:nil]
-         forCellReuseIdentifier:@"EventTableViewCell"];
+         forCellReuseIdentifier:@"MainTableViewCell"];
     
     
     
@@ -115,7 +115,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return 1;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -125,9 +125,12 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    EventTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:(@"EventTableViewCell") forIndexPath:indexPath];
+    MainTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:(@"MainTableViewCell") forIndexPath:indexPath];
     
-    cell.name.text = @"Test";
+    if (indexPath.section == 1)
+        cell.name.text = @"Section 1";
+    else
+        cell.name.text = @"Section 2";
     
     // Configure the cell...
     

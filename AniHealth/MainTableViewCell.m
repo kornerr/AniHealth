@@ -1,14 +1,14 @@
 //
-//  EventTableViewCell.m
+//  MainTableViewCell.m
 //  AniHealth
 //
-//  Created by Admin on 15.01.15.
+//  Created by Admin on 16.01.15.
 //  Copyright (c) 2015 Admin. All rights reserved.
 //
 
-#import "EventTableViewCell.h"
+#import "MainTableViewCell.h"
 
-@implementation EventTableViewCell
+@implementation MainTableViewCell
 
 - (void)awakeFromNib {
     // Initialization code

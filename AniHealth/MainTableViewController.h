@@ -10,7 +10,7 @@
 #import "AnimalInfoViewController.h"
 #import "HistoryTableViewController.h"
 #import "AddEventViewController.h"
-#import "EventTableViewCell.h"
+#import "MainTableViewCell.h"
 
 @interface MainTableViewController : UITableViewController
 

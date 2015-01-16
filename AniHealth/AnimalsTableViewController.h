@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "AddAnimalViewController.h"
+#import "AnimalTableViewCell.h"
 
 @interface AnimalsTableViewController : UITableViewController
 

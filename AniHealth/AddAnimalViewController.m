@@ -2,7 +2,7 @@
 //  AddAnimalViewController.m
 //  AniHealth
 //
-//  Created by Admin on 14.01.15.
+//  Created by Admin on 16.01.15.
 //  Copyright (c) 2015 Admin. All rights reserved.
 //
 
@@ -13,6 +13,17 @@
 @end
 
 @implementation AddAnimalViewController
+- (IBAction)selectIconForm:(id)sender {
+    
+    self.iconForm = [[IconViewController alloc] init]; // Инициализация псивдонима и формы
+    UINavigationController *ico_nc = [[UINavigationController alloc] initWithRootViewController:self.iconForm]; // Объявление псевдонима для перехода
+    [self presentViewController:ico_nc //реализация перехода на форму по заданным псевдонимом
+                       animated:YES
+                     completion:nil];
+    
+}
+
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil //Процедура, реализуемая в самом начале работы "Вперёд батьки"
 {
@@ -22,18 +33,18 @@
         self.navigationItem.title = @"AddAnimal"; //Заголовок NC
         
         UIBarButtonItem *cancelAddAnimal = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" //Создание первой кнопки для NC и присвоение ей псевдонима
-                                                                           style:UIBarButtonItemStylePlain
-                                                                          target:self
-                                                                          action:@selector(cancelAddAnimalForm)];
+                                                                            style:UIBarButtonItemStylePlain
+                                                                           target:self
+                                                                           action:@selector(cancelAddAnimalForm)];
         
         
         
         self.navigationItem.leftBarButtonItems = [[NSArray alloc] initWithObjects:cancelAddAnimal, nil]; //Присвоение двух кнопок к левой стороне NC
         
         UIBarButtonItem *saveAnimal = [[UIBarButtonItem alloc] initWithTitle:@"Save" //Создание первой кнопки для NC и присвоение ей псевдонима
-                                                                      style:UIBarButtonItemStylePlain
-                                                                     target:self
-                                                                     action:@selector(saveAddAnimal)];
+                                                                       style:UIBarButtonItemStylePlain
+                                                                      target:self
+                                                                      action:@selector(saveAddAnimal)];
         
         
         
@@ -51,6 +62,7 @@
 -(void) saveAddAnimal{
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+
 
 
 - (void)viewDidLoad {

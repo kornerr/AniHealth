@@ -37,6 +37,61 @@
 
 - (void) openActionSheetDeleteHistory{
 
+    UIAlertController * view=   [UIAlertController
+                                 alertControllerWithTitle:@"Select time"
+                                 message:@""
+                                 preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    UIAlertAction* all = [UIAlertAction
+                         actionWithTitle:@"All events"
+                         style:UIAlertActionStyleDestructive
+                         handler:^(UIAlertAction * action)
+                         {
+                             //Do some thing here
+                             [view dismissViewControllerAnimated:YES completion:nil];
+                             
+                         }];
+    UIAlertAction* oneYear = [UIAlertAction
+                             actionWithTitle:@"Older than one year"
+                             style:UIAlertActionStyleDefault
+                             handler:^(UIAlertAction * action)
+                             {
+                                 [view dismissViewControllerAnimated:YES completion:nil];
+                                 
+                             }];
+    UIAlertAction* sixMonths = [UIAlertAction
+                              actionWithTitle:@"Older than six months"
+                              style:UIAlertActionStyleDefault
+                              handler:^(UIAlertAction * action)
+                              {
+                                  [view dismissViewControllerAnimated:YES completion:nil];
+                                  
+                              }];
+    UIAlertAction* oneMonth = [UIAlertAction
+                              actionWithTitle:@"Older than one month"
+                              style:UIAlertActionStyleDefault
+                              handler:^(UIAlertAction * action)
+                              {
+                                  [view dismissViewControllerAnimated:YES completion:nil];
+                                  
+                              }];
+    UIAlertAction* cancel = [UIAlertAction
+                              actionWithTitle:@"Cancel"
+                              style:UIAlertActionStyleDefault
+                              handler:^(UIAlertAction * action)
+                              {
+                                  [view dismissViewControllerAnimated:YES completion:nil];
+                                  
+                              }];
+    
+    
+    [view addAction:all];
+    [view addAction:oneYear];
+    [view addAction:sixMonths];
+    [view addAction:oneMonth];
+    [view addAction:cancel];
+    [self presentViewController:view animated:YES completion:nil];
+    
 }
 
 - (void)viewDidLoad {

@@ -55,10 +55,10 @@
 
 - (void)openAnimalInfo{ // процедура перехода на другую форму с "Back"
     
-    self.animalInfo = [[AnimalInfoViewController alloc] init]; // Инициализация псивдонима и формы
+    self.addAnimalForm = [[AddAnimalViewController alloc] init]; // Инициализация псивдонима и формы
     
-    self.animalInfo.title = @"AnimalInfo"; //Заголовок формы-назначения
-    [self.navigationController pushViewController:self.animalInfo animated:YES]; // способ перехода "puch"
+    self.addAnimalForm.title = @"EditInfo"; //Заголовок формы-назначения
+    [self.navigationController pushViewController:self.addAnimalForm animated:YES]; // способ перехода "puch"
     
 }
 
@@ -135,6 +135,18 @@
     // Configure the cell...
     
     return cell;
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        //remove the deleted object from your data source.
+        //If your data source is an NSMutableArray, do this
+        [tableView reloadData]; // tell table to refresh now
+    }
 }
 
 

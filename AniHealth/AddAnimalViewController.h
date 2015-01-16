@@ -7,10 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "IconViewController.h"
+
 
 @interface AddAnimalViewController : UIViewController
-@property (retain, nonatomic)   IconViewController    *iconForm;
-@property (strong, nonatomic) IBOutlet UIButton *selectIcon;
+
 
 @end

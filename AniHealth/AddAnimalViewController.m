@@ -13,15 +13,7 @@
 @end
 
 @implementation AddAnimalViewController
-- (IBAction)selectIconForm:(id)sender {
-    
-    self.iconForm = [[IconViewController alloc] init]; // Инициализация псивдонима и формы
-    UINavigationController *ico_nc = [[UINavigationController alloc] initWithRootViewController:self.iconForm]; // Объявление псевдонима для перехода
-    [self presentViewController:ico_nc //реализация перехода на форму по заданным псевдонимом
-                       animated:YES
-                     completion:nil];
-    
-}
+
 
 
 

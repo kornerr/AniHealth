@@ -6,6 +6,13 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AddAnimalViewController">
             <connections>
+                <outlet property="dateAnimal" destination="fZm-VR-L9h" id="AXf-5o-Vmc"/>
+                <outlet property="iconImage1" destination="vkh-mJ-Lgf" id="24U-SR-Dyf"/>
+                <outlet property="iconImage2" destination="C3m-tn-6no" id="eGi-EL-k4s"/>
+                <outlet property="iconImage3" destination="d0w-3f-4i3" id="c3i-Gd-c45"/>
+                <outlet property="iconImage4" destination="Qgc-oR-45K" id="K1K-DM-lSg"/>
+                <outlet property="maleAnimal" destination="LNC-7O-oe6" id="chY-tQ-pbe"/>
+                <outlet property="nameAnimal" destination="FoR-fQ-laQ" id="bgx-zo-KyH"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -32,10 +39,6 @@
                     <rect key="frame" x="88" y="157" width="60" height="60"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="d0w-3f-4i3">
-                    <rect key="frame" x="171" y="157" width="60" height="60"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                </imageView>
                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="LNC-7O-oe6">
                     <rect key="frame" x="8" y="72" width="304" height="29"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -50,6 +53,10 @@
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="d0w-3f-4i3">
+                    <rect key="frame" x="171" y="157" width="60" height="60"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <point key="canvasLocation" x="305" y="295"/>

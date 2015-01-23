@@ -12,15 +12,19 @@
 #import "AddEventViewController.h"
 #import "MainTableViewCell.h"
 #import "AddAnimalViewController.h"
+#import <CoreData/CoreData.h>
 
-@interface MainTableViewController : UITableViewController
+@interface MainTableViewController : UITableViewController <NSFetchedResultsControllerDelegate>
 
 
 @property (retain, nonatomic)   HistoryTableViewController    *historyForm;
 @property (retain, nonatomic)   AddEventViewController    *addEventForm;
 @property (retain, nonatomic)   AddAnimalViewController    *addAnimalForm;
 
+@property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
+@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 
-
+- (void)nameEvent:(NSString *)nameEvent dateEvent:(NSDate *)dateEvent comment:(NSString *)comment history:(NSNumber *)history;
+- (void)saveContext;
 
 @end

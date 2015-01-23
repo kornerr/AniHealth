@@ -8,9 +8,12 @@
 
 #import "MainTableViewController.h"
 #import <RESideMenu.h>
+#import "Event.h"
 
 
 @interface MainTableViewController ()
+
+@property (retain,nonatomic) NSMutableArray *events;
 
 @end
 
@@ -89,6 +92,18 @@
     [self.sideMenuViewController presentLeftMenuViewController]; //вызов бокового меню, реализованного в библиотеки RESideMenu
 }
 
+- (NSManagedObjectContext *)managedObjectContext
+{
+    NSManagedObjectContext *context = nil;
+    id delegate = [[UIApplication sharedApplication] delegate];
+    if ([delegate performSelector:@selector(managedObjectContext)]) {
+        context = [delegate managedObjectContext];
+    }
+    return context;
+}
+
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -106,6 +121,17 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    NSManagedObjectContext *managedObjectContext = [self managedObjectContext];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Event"];
+    self.events = [[managedObjectContext executeFetchRequest:fetchRequest error:nil] mutableCopy];
+    [self.tableView reloadData];
+}
+
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -120,22 +146,61 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    return 5;
-}
+    if (section == 0)
+    return [self.events count];
+    
+    else
+        return 1;
+    
+    }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     MainTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:(@"MainTableViewCell") forIndexPath:indexPath];
+    if (indexPath.section == 0)
+    {
+    NSManagedObject *note = [self.events objectAtIndex:indexPath.row];
+    NSString *nameEve = [NSString stringWithFormat:@"%@", [note valueForKey:@"nameEvent"]];
     
-    if (indexPath.section == 1)
-        cell.name.text = @"Section 1";
-    else
-        cell.name.text = @"Section 2";
+    cell.name.text = nameEve;
+    }
     
     // Configure the cell...
     
     return cell;
+        
+    }
+
+
+
+- (void)nameEvent:(NSString *)nameEvent dateEvent:(NSDate *)dateEvent comment:(NSString *)comment history:(NSNumber *)history{
+    
+    NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
+    NSEntityDescription *entity = [[self.fetchedResultsController fetchRequest] entity];
+    NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:[entity name] inManagedObjectContext:context];
+    
+    
+    [newManagedObject setValue:nameEvent forKey:@"nameEvent"];
+    [newManagedObject setValue:dateEvent forKey:@"dateEvent"];
+    [newManagedObject setValue:comment forKey:@"comment"];
+    [newManagedObject setValue:history forKey:@"history"];
+    
+    
+    [self saveContext];
+    
 }
+
+- (void)saveContext
+{
+    NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
+    NSError *error = nil;
+    
+    if(![context save:&error]){
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
+}
+
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     return YES;
@@ -145,7 +210,8 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         //remove the deleted object from your data source.
         //If your data source is an NSMutableArray, do this
-        [tableView reloadData]; // tell table to refresh now
+        [self saveContext];
+        //[tableView reloadData]; // tell table to refresh now
     }
 }
 

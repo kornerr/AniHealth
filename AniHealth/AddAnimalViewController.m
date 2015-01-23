@@ -9,11 +9,16 @@
 #import "AddAnimalViewController.h"
 
 
+
+
 @interface AddAnimalViewController ()
+
+@property (nonatomic, retain) NSManagedObjectContext    *managedObjectContext;
 
 @end
 
 @implementation AddAnimalViewController
+
 
 
 
@@ -54,10 +59,26 @@
 
 -(void) saveAddAnimal{
     
+    NSError * error = nil;
+        
+    NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:@"Animals"
+                                                            inManagedObjectContext:self.managedObjectContext];
+    [object setValue:self.addNameAnimal.text forKey:@"nameAnimal"];
+    
+    if (![self.managedObjectContext save:&error]) {
+        NSLog(@"Failed to save - error: %@", [error localizedDescription]);
+    }
+
+    
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
+    self.managedObjectContext = appDelegate.managedObjectContext;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];

@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AppDelegate.h"
 #import "Animals.h"
 
 
 @interface AddAnimalViewController : UIViewController
 @property (strong, nonatomic) IBOutlet UISegmentedControl *maleAnimal;
-@property (strong, nonatomic) IBOutlet UITextField *nameAnimal;
+@property (strong, nonatomic) IBOutlet UITextField *addNameAnimal;
 @property (strong, nonatomic) IBOutlet UIImageView *iconImage1;
 @property (strong, nonatomic) IBOutlet UIImageView *iconImage2;
 @property (strong, nonatomic) IBOutlet UIImageView *iconImage3;

@@ -10,5 +10,6 @@
 
 @interface MainTableViewCell : UITableViewCell
 @property (strong, nonatomic) IBOutlet UILabel *name;
+@property (strong, nonatomic) IBOutlet UILabel *dateEvent;
 
 @end

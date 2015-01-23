@@ -6,13 +6,13 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AddAnimalViewController">
             <connections>
+                <outlet property="addNameAnimal" destination="FoR-fQ-laQ" id="Xnb-Rb-1Fj"/>
                 <outlet property="dateAnimal" destination="fZm-VR-L9h" id="AXf-5o-Vmc"/>
                 <outlet property="iconImage1" destination="vkh-mJ-Lgf" id="24U-SR-Dyf"/>
                 <outlet property="iconImage2" destination="C3m-tn-6no" id="eGi-EL-k4s"/>
                 <outlet property="iconImage3" destination="d0w-3f-4i3" id="c3i-Gd-c45"/>
                 <outlet property="iconImage4" destination="Qgc-oR-45K" id="K1K-DM-lSg"/>
                 <outlet property="maleAnimal" destination="LNC-7O-oe6" id="chY-tQ-pbe"/>
-                <outlet property="nameAnimal" destination="FoR-fQ-laQ" id="bgx-zo-KyH"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -21,12 +21,6 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="FoR-fQ-laQ">
-                    <rect key="frame" x="8" y="114" width="304" height="30"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <textInputTraits key="textInputTraits"/>
-                </textField>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="vkh-mJ-Lgf">
                     <rect key="frame" x="8" y="157" width="60" height="60"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -57,6 +51,12 @@
                     <rect key="frame" x="171" y="157" width="60" height="60"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="FoR-fQ-laQ">
+                    <rect key="frame" x="8" y="114" width="304" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <point key="canvasLocation" x="305" y="295"/>

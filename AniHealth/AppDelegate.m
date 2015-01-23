@@ -7,6 +7,8 @@
 //
 
 #import "AppDelegate.h"
+#import "MainTableViewController.h"
+#import "AnimalsTableViewController.h"
 
 @interface AppDelegate () <RESideMenuDelegate>
 
@@ -51,7 +53,7 @@
     // Override point for customization after application launch.
     return YES;
 }
-
+//Объявление базы - Начало
 - (NSManagedObjectModel *)managedObjectModel {
     if (_managedObjectModel != nil){
         return _managedObjectModel;
@@ -79,6 +81,7 @@
     
     return _persistentStoreCoordinator;
 }
+//Объявление базы - Конец
 
 - (NSManagedObjectContext *)managedObjectContext {
     if(_managedObjectContext != nil){
@@ -109,6 +112,9 @@
         }
     }
 }
+
+
+
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

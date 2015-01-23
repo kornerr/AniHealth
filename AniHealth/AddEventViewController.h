@@ -7,7 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Event.h"
+#import "AppDelegate.h"
 
-@interface AddEventViewController : UIViewController
+
+
+@interface AddEventViewController : UIViewController 
+@property (strong, nonatomic) IBOutlet UITextField *nameEvent;
+@property (strong, nonatomic) IBOutlet UITextView *comment;
+@property (strong, nonatomic) IBOutlet UITextField *dateEvent;
+
+
+
+
 
 @end

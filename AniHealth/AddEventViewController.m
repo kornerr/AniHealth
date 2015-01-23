@@ -10,6 +10,8 @@
 
 @interface AddEventViewController ()
 
+@property (nonatomic, retain) NSManagedObjectContext    *managedObjectContext;
+
 @end
 
 @implementation AddEventViewController
@@ -44,17 +46,45 @@
     return self;
 }
 
+
+
+
 - (void) cancelAddEventForm{
 [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void) saveAddEvent{
-[self dismissViewControllerAnimated:YES completion:nil];
+    
+    NSError * error = nil;
+    
+    NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:@"Event"
+                                                            inManagedObjectContext:self.managedObjectContext];
+    [object setValue:self.nameEvent.text forKey:@"nameEvent"];
+    [object setValue:self.comment.text forKey:@"comment"];
+    
+    
+    if (![self.managedObjectContext save:&error]) {
+        NSLog(@"Failed to save - error: %@", [error localizedDescription]);
+    }
+    
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
+
 }
 
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
+    self.managedObjectContext = appDelegate.managedObjectContext;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    
     // Do any additional setup after loading the view from its nib.
 }
 

@@ -7,8 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MainTableViewController.h"
-#import "AnimalsTableViewController.h"
+
 #import <RESideMenu.h>
 
 
@@ -21,6 +20,7 @@
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
 - (void)saveContext;
+- (NSURL *)applicationDocumentsDirectory;
 
 @end
 

@@ -7,8 +7,11 @@
 //
 
 #import "AnimalsTableViewController.h"
+#import "Animals.h"
 
 @interface AnimalsTableViewController ()
+@property (retain,nonatomic) NSMutableArray *animals;
+
 
 @end
 
@@ -46,12 +49,26 @@
     
 }
 
+- (NSManagedObjectContext *)managedObjectContext
+{
+    NSManagedObjectContext *context = nil;
+    id delegate = [[UIApplication sharedApplication] delegate];
+    if ([delegate performSelector:@selector(managedObjectContext)]) {
+        context = [delegate managedObjectContext];
+    }
+    return context;
+}
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
   
     [self.tableView registerNib:[UINib nibWithNibName:@"AnimalTableViewCell"
                                                bundle:nil]
          forCellReuseIdentifier:@"AnimalTableViewCell"];
+    
+
+
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -65,6 +82,18 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    NSManagedObjectContext *managedObjectContext = [self managedObjectContext];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Animals"];
+    self.animals = [[managedObjectContext executeFetchRequest:fetchRequest error:nil] mutableCopy];
+    [self.tableView reloadData];
+}
+
+
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -76,14 +105,19 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
     // Return the number of rows in the section.
-    return 5;
+    return [self.animals count];
 }
+
+
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     AnimalTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AnimalTableViewCell" forIndexPath:indexPath];
+    NSManagedObject *note = [self.animals objectAtIndex:indexPath.row];
+    NSString *nameAni = [NSString stringWithFormat:@"%@", [note valueForKey:@"nameAnimal"]];
     
-    cell.nameAnimal.text = @"Animals";
+    cell.nameAnimal.text = nameAni;
+    
     
     // Configure the cell...
     

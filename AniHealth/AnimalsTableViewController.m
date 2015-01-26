@@ -114,9 +114,10 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     AnimalTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AnimalTableViewCell" forIndexPath:indexPath];
     NSManagedObject *note = [self.animals objectAtIndex:indexPath.row];
-    NSString *nameAni = [NSString stringWithFormat:@"%@", [note valueForKey:@"nameAnimal"]];
     
-    cell.nameAnimal.text = nameAni;
+    
+    
+    cell.nameAnimal.text = [NSString stringWithFormat:@"%@", [note valueForKey:@"nameAnimal"]];
     
     
     // Configure the cell...

@@ -156,13 +156,13 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+        
     MainTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:(@"MainTableViewCell") forIndexPath:indexPath];
     if (indexPath.section == 0)
     {
     NSManagedObject *note = [self.events objectAtIndex:indexPath.row];
-    NSString *nameEve = [NSString stringWithFormat:@"%@", [note valueForKey:@"nameEvent"]];
-    
-    cell.name.text = nameEve;
+        cell.name.text = [NSString stringWithFormat:@"%@", [note valueForKey:@"nameEvent"]];
+        cell.dateEvent.text = [NSString stringWithFormat:@"%@", [note valueForKey:@"dateEvent"]];
     }
     
     // Configure the cell...

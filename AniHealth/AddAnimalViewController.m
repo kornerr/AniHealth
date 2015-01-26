@@ -14,7 +14,7 @@
 @interface AddAnimalViewController ()
 
 @property (nonatomic, retain) NSManagedObjectContext    *managedObjectContext;
-
+@property (nonatomic, retain) NSDate                    *selectedDate;
 @end
 
 @implementation AddAnimalViewController
@@ -64,6 +64,7 @@
     NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:@"Animals"
                                                             inManagedObjectContext:self.managedObjectContext];
     [object setValue:self.addNameAnimal.text forKey:@"nameAnimal"];
+    [object setValue:self.selectedDate forKey:@"date"];
     
     if (![self.managedObjectContext save:&error]) {
         NSLog(@"Failed to save - error: %@", [error localizedDescription]);
@@ -88,6 +89,32 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+- (IBAction)someTextFieldYouch:(UITextField *)sender {
+    if (self.dateAnimal.inputView == nil)
+    {
+        UIDatePicker *datePicker = [[UIDatePicker alloc] init];
+        datePicker.datePickerMode = UIDatePickerModeDate;
+        [datePicker addTarget:self action:@selector(updateTextField:)
+             forControlEvents:UIControlEventValueChanged];
+        [self.dateAnimal setInputView:datePicker];
+    }
+}
+
+-(void)updateTextField:(UIDatePicker *)sender
+{
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"dd MMM yyyy"];
+    self.dateAnimal.text = [dateFormat stringFromDate:sender.date];
+    self.selectedDate = sender.date;
+    
+}
+
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [super touchesBegan:touches withEvent:event];
+    [self.view endEditing:YES];
 }
 
 /*

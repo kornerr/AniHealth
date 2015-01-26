@@ -11,4 +11,5 @@
 @interface AnimalTableViewCell : UITableViewCell
 @property (strong, nonatomic) IBOutlet UILabel *nameAnimal;
 
+
 @end

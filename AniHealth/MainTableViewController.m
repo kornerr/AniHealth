@@ -53,6 +53,7 @@
         
         
     }
+    
     return self;
 }
 
@@ -156,11 +157,13 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-        
+    
+    NSArray *descriptor = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"dateEvent" ascending:YES]];
+    NSArray *sortedArray = [self.events sortedArrayUsingDescriptors:descriptor];
     MainTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:(@"MainTableViewCell") forIndexPath:indexPath];
     if (indexPath.section == 0)
     {
-    NSManagedObject *note = [self.events objectAtIndex:indexPath.row];
+    NSManagedObject *note = [sortedArray objectAtIndex:indexPath.row];
         cell.name.text = [NSString stringWithFormat:@"%@", [note valueForKey:@"nameEvent"]];
         cell.dateEvent.text = [NSString stringWithFormat:@"%@", [note valueForKey:@"dateEvent"]];
     }

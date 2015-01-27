@@ -118,6 +118,15 @@
     
     
     cell.nameAnimal.text = [NSString stringWithFormat:@"%@", [note valueForKey:@"nameAnimal"]];
+    NSString *male = [NSString stringWithFormat:@"%@", [note valueForKey:@"male"]];
+    
+    if ([male  isEqual: @"0"]) {
+        cell.maleAnimLabel.text = @"Female";
+    }
+    else {
+        cell.maleAnimLabel.text = @"Male";
+    }
+    //cell.maleAnimLabel.text = [NSString stringWithFormat:@"%@", [note valueForKey:@"male"]];
     
     
     // Configure the cell...

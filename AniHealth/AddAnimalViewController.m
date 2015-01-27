@@ -66,6 +66,17 @@
     [object setValue:self.addNameAnimal.text forKey:@"nameAnimal"];
     [object setValue:self.selectedDate forKey:@"date"];
     
+    if (self.maleAnimal.selectedSegmentIndex == 0)
+    {
+        
+        [object setValue:[NSNumber numberWithBool:YES] forKey:@"male"];
+        
+    }
+    else
+    {
+        [object setValue:[NSNumber numberWithBool:NO] forKey:@"male"];
+    }
+    
     if (![self.managedObjectContext save:&error]) {
         NSLog(@"Failed to save - error: %@", [error localizedDescription]);
     }

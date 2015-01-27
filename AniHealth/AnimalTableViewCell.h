@@ -10,7 +10,7 @@
 
 @interface AnimalTableViewCell : UITableViewCell
 @property (strong, nonatomic) IBOutlet UILabel *nameAnimal;
-@property (strong, nonatomic) IBOutlet UILabel *maleAnimLabel;
+@property (strong, nonatomic) IBOutlet UIImageView *iconAnimalCell;
 
 
 @end

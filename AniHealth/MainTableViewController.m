@@ -125,10 +125,41 @@
     NSManagedObject *note = [sortedArray objectAtIndex:indexPath.row];
         cell.name.text = [NSString stringWithFormat:@"%@", [note valueForKey:@"nameEvent"]];
         NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-        [dateFormat setDateFormat:@"hh:mm"];
+        [dateFormat setDateFormat:@"dd MMM hh:mm"];
         cell.dateEvent.text = [dateFormat stringFromDate:[note valueForKey:@"dateEvent"]];
     }
     return cell;
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSManagedObjectContext *context = [self managedObjectContext];
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        [context deleteObject:[self.events objectAtIndex:indexPath.row]];
+        NSError *error = nil;
+        if (![context save:&error]) {
+            NSLog(@"Can't Delete! %@ %@", error, [error localizedDescription]);
+            return;
+        }
+        [self.events removeObjectAtIndex:indexPath.row];
+        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        //[self saveContext];
+        [tableView reloadData]; // tell table to refresh now
+    }
+}
+
+- (void)saveContext
+{
+    NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
+    NSError *error = nil;
+    
+    if(![context save:&error]){
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
 }
 
 @end

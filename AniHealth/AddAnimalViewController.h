@@ -14,12 +14,10 @@
 @interface AddAnimalViewController : UIViewController
 @property (strong, nonatomic) IBOutlet UISegmentedControl *maleAnimal;
 @property (strong, nonatomic) IBOutlet UITextField *addNameAnimal;
-@property (strong, nonatomic) IBOutlet UIImageView *iconImage1;
-@property (strong, nonatomic) IBOutlet UIImageView *iconImage2;
-@property (strong, nonatomic) IBOutlet UIImageView *iconImage3;
-@property (strong, nonatomic) IBOutlet UIImageView *iconImage4;
 @property (strong, nonatomic) IBOutlet UITextField *dateAnimal;
-
-
+@property (strong, nonatomic) IBOutlet UIButton *iconButton1;
+@property (strong, nonatomic) IBOutlet UIButton *iconButton2;
+@property (strong, nonatomic) IBOutlet UIButton *iconButton3;
+@property (strong, nonatomic) IBOutlet UIButton *iconButton4;
 
 @end

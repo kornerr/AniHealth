@@ -35,7 +35,8 @@
     return self;
 }
 
-- (void) openActionSheetDeleteHistory{
+- (void) openActionSheetDeleteHistory
+{
 
     UIAlertController * view=   [UIAlertController
                                  alertControllerWithTitle:@"Select time"
@@ -47,34 +48,38 @@
                          style:UIAlertActionStyleDestructive
                          handler:^(UIAlertAction * action)
                          {
-                             //Do some thing here
                              [view dismissViewControllerAnimated:YES completion:nil];
-                             
                          }];
+    [view addAction:all];
+
+    
     UIAlertAction* oneYear = [UIAlertAction
                              actionWithTitle:@"Older than one year"
                              style:UIAlertActionStyleDefault
                              handler:^(UIAlertAction * action)
                              {
                                  [view dismissViewControllerAnimated:YES completion:nil];
-                                 
                              }];
+    [view addAction:oneYear];
+
     UIAlertAction* sixMonths = [UIAlertAction
                               actionWithTitle:@"Older than six months"
                               style:UIAlertActionStyleDefault
                               handler:^(UIAlertAction * action)
                               {
                                   [view dismissViewControllerAnimated:YES completion:nil];
-                                  
                               }];
+    [view addAction:sixMonths];
+
     UIAlertAction* oneMonth = [UIAlertAction
                               actionWithTitle:@"Older than one month"
                               style:UIAlertActionStyleDefault
                               handler:^(UIAlertAction * action)
                               {
                                   [view dismissViewControllerAnimated:YES completion:nil];
-                                  
                               }];
+    [view addAction:oneMonth];
+
     UIAlertAction* cancel = [UIAlertAction
                               actionWithTitle:@"Cancel"
                               style:UIAlertActionStyleDefault
@@ -83,13 +88,8 @@
                                   [view dismissViewControllerAnimated:YES completion:nil];
                                   
                               }];
-    
-    
-    [view addAction:all];
-    [view addAction:oneYear];
-    [view addAction:sixMonths];
-    [view addAction:oneMonth];
     [view addAction:cancel];
+
     [self presentViewController:view animated:YES completion:nil];
     
 }

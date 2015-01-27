@@ -114,10 +114,10 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     AnimalTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AnimalTableViewCell" forIndexPath:indexPath];
     NSManagedObject *note = [self.animals objectAtIndex:indexPath.row];
-    
-    
-    
     cell.nameAnimal.text = [NSString stringWithFormat:@"%@", [note valueForKey:@"nameAnimal"]];
+    cell.iconAnimalCell.image = [UIImage imageNamed: [note valueForKey:@"iconAnimal"]];
+
+    /*
     NSString *male = [NSString stringWithFormat:@"%@", [note valueForKey:@"male"]];
     
     if ([male  isEqual: @"0"]) {
@@ -126,11 +126,7 @@
     else {
         cell.maleAnimLabel.text = @"Male";
     }
-    //cell.maleAnimLabel.text = [NSString stringWithFormat:@"%@", [note valueForKey:@"male"]];
-    
-    
-    // Configure the cell...
-    
+     */
     return cell;
 }
 

@@ -24,6 +24,6 @@
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 
-
+- (void)saveContext;
 
 @end

@@ -10,6 +10,7 @@
                 <outlet property="comment" destination="4SA-rz-srW" id="HYB-f7-Rzy"/>
                 <outlet property="dateEvent" destination="Frz-5m-dSV" id="UVx-zz-Ob7"/>
                 <outlet property="nameEvent" destination="4BG-Gk-246" id="bca-EO-QS2"/>
+                <outlet property="teamsEvent" destination="c5k-08-FT4" id="FTM-Ys-U7y"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>

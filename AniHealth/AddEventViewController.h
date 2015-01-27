@@ -16,6 +16,7 @@
 @property (strong, nonatomic) IBOutlet UITextField *nameEvent;
 @property (strong, nonatomic) IBOutlet UITextView *comment;
 @property (strong, nonatomic) IBOutlet UITextField *dateEvent;
+@property (strong, nonatomic) IBOutlet UISegmentedControl *teamsEvent;
 
 
 

@@ -59,11 +59,31 @@
     
     NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:@"Event"
                                                             inManagedObjectContext:self.managedObjectContext];
-    [object setValue:self.nameEvent.text forKey:@"nameEvent"];
-    [object setValue:self.comment.text forKey:@"comment"];
-    [object setValue:self.selectedDate forKey:@"dateEvent"];
     
-    
+    if (self.teamsEvent.selectedSegmentIndex == 0)
+    {
+        [object setValue:self.nameEvent.text forKey:@"nameEvent"];
+        [object setValue:self.comment.text forKey:@"comment"];
+        [object setValue:self.selectedDate forKey:@"dateEvent"];
+    }
+    else
+    {
+        NSDate *today = [NSDate date];
+        NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+        NSUInteger unitFlags = NSDayCalendarUnit;
+        NSDateComponents *components = [gregorian components:unitFlags fromDate:today toDate:self.selectedDate options:0];
+        NSInteger days = [components day];
+        for (int i; days; i++)
+        {
+            //[object setValue:self.nameEvent.text forKey:@"nameEvent"];
+            //[object setValue:self.comment.text forKey:@"comment"];
+            NSDateComponents* components = [[[NSDateComponents alloc] init] autorelease];
+            int hour = 86400*i;
+            NSDate *saveDate = [NSDate dateWithTimeIntervalSinceNow:hour];
+            //[object setValue:saveDate forKey:@"dateEvent"];
+            NSLog(@"%@", saveDate);
+        }
+    }
     if (![self.managedObjectContext save:&error]) {
         NSLog(@"Failed to save - error: %@", [error localizedDescription]);
     }
@@ -73,7 +93,6 @@
     
 
 }
-
 
 - (void)viewWillAppear:(BOOL)animated
 {

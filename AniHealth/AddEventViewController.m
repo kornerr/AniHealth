@@ -57,38 +57,43 @@
     
     NSError * error = nil;
     
-    NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:@"Event"
-                                                            inManagedObjectContext:self.managedObjectContext];
+    
     
     if (self.teamsEvent.selectedSegmentIndex == 0)
     {
+        NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:@"Event"
+                                                                inManagedObjectContext:self.managedObjectContext]; // Инициализируем object после IF по причине, описанной ниже
         [object setValue:self.nameEvent.text forKey:@"nameEvent"];
         [object setValue:self.comment.text forKey:@"comment"];
         [object setValue:self.selectedDate forKey:@"dateEvent"];
+        if (![self.managedObjectContext save:&error])
+        {
+            NSLog(@"Failed to save - error: %@", [error localizedDescription]);
+        }
     }
     else
     {
+       
         NSDate *today = [NSDate date];
         NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
         NSUInteger unitFlags = NSDayCalendarUnit;
         NSDateComponents *components = [gregorian components:unitFlags fromDate:today toDate:self.selectedDate options:0];
         NSInteger days = [components day];
-        for (int i; days; i++)
+        for (int forI=0; forI<=days; forI++)
         {
-            //[object setValue:self.nameEvent.text forKey:@"nameEvent"];
-            //[object setValue:self.comment.text forKey:@"comment"];
-            NSDateComponents* components = [[[NSDateComponents alloc] init] autorelease];
-            int hour = 86400*i;
-            NSDate *saveDate = [NSDate dateWithTimeIntervalSinceNow:hour];
-            //[object setValue:saveDate forKey:@"dateEvent"];
-            NSLog(@"%@", saveDate);
+            NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:@"Event"
+                                                                    inManagedObjectContext:self.managedObjectContext]; // Инициализация object реализованва в цикле по причине того, что запись его содержимого в базу происходит (предположительно) после заверщения куска кода, в которой он инициализируется, иначе будет записан только последний прогон цикла
+            [object setValue:self.nameEvent.text forKey:@"nameEvent"];
+            [object setValue:self.comment.text forKey:@"comment"];
+            int daysToAdd = (-1)*forI;
+            NSDate *newDate = [self.selectedDate dateByAddingTimeInterval:60*60*24*daysToAdd];
+            [object setValue:newDate forKey:@"dateEvent"];
+            if (![self.managedObjectContext save:&error])
+            {
+                NSLog(@"Failed to save - error: %@", [error localizedDescription]);
+            }
         }
     }
-    if (![self.managedObjectContext save:&error]) {
-        NSLog(@"Failed to save - error: %@", [error localizedDescription]);
-    }
-    
-    
     [self dismissViewControllerAnimated:YES completion:nil];
     
 

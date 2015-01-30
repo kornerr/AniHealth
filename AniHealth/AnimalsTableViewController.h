@@ -11,8 +11,6 @@
 #import "AnimalTableViewCell.h"
 
 
-@interface AnimalsTableViewController : UITableViewController
-
-@property (retain, nonatomic)   AddAnimalViewController    *addAnimalForm;
+@interface AnimalsTableViewController : UITableViewController 
 
 @end

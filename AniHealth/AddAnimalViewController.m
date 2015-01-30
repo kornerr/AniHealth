@@ -49,9 +49,12 @@
 {
     NSError * error = nil;
     NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:@"Animals" inManagedObjectContext:self.managedObjectContext];
+    self.registNuberAnimal = self.registNuberAnimal + 1;
+    NSNumber *registrNumberNewAnimal = [NSNumber numberWithInt: [self registNuberAnimal]];
     [object setValue:self.addNameAnimal.text forKey:@"nameAnimal"];
     [object setValue:self.selectedDate forKey:@"date"];
     [object setValue:self.iconNameAnimal forKey:@"iconAnimal"];
+    [object setValue:registrNumberNewAnimal forKey:@"idAni"];
     if (self.maleAnimal.selectedSegmentIndex == 0)
     {
         [object setValue:[NSNumber numberWithBool:YES] forKey:@"male"];
@@ -60,7 +63,6 @@
     {
         [object setValue:[NSNumber numberWithBool:NO] forKey:@"male"];
     }
-    
     if (![self.managedObjectContext save:&error])
     {
         NSLog(@"Failed to save - error: %@", [error localizedDescription]);

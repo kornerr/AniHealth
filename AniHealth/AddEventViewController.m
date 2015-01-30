@@ -54,11 +54,7 @@
 }
 
 -(void) saveAddEvent{
-    
     NSError * error = nil;
-    
-    
-    
     if (self.teamsEvent.selectedSegmentIndex == 0)
     {
         NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:@"Event"
@@ -73,7 +69,6 @@
     }
     else
     {
-       
         NSDate *today = [NSDate date];
         NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
         NSUInteger unitFlags = NSDayCalendarUnit;
@@ -95,8 +90,6 @@
         }
     }
     [self dismissViewControllerAnimated:YES completion:nil];
-    
-
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -106,7 +99,8 @@
     self.managedObjectContext = appDelegate.managedObjectContext;
 }
 
-- (IBAction)selectTextFiledDate:(UITextField *)sender {
+- (IBAction)selectTextFiledDate:(UITextField *)sender
+{
     if (self.dateEvent.inputView == nil)
     {
         UIDatePicker *datePicker = [[UIDatePicker alloc] init];
@@ -123,9 +117,7 @@
     [dateFormat setDateFormat:@"dd MMMM yyyy hh mm"];
     self.dateEvent.text = [dateFormat stringFromDate:sender.date];
     self.selectedDate = sender.date;
-    
 }
-
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
@@ -133,19 +125,14 @@
     [self.view endEditing:YES];
 }
 
-
-
-
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    
-    
-    // Do any additional setup after loading the view from its nib.
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 /*

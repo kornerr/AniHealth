@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface MainTableViewCell : UITableViewCell
+
 @property (strong, nonatomic) IBOutlet UILabel *name;
 @property (strong, nonatomic) IBOutlet UILabel *dateEvent;
 

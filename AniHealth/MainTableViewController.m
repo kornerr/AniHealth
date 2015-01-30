@@ -1,10 +1,9 @@
 #import "MainTableViewController.h"
 #import <RESideMenu.h>
 #import "Event.h"
+#import "Animals.h"
 
 @interface MainTableViewController ()
-
-@property (retain,nonatomic) NSMutableArray *events;
 
 @end
 
@@ -99,8 +98,6 @@
     [super didReceiveMemoryWarning];
 }
 
-#pragma mark - Table view data source
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 2;
@@ -131,7 +128,8 @@
     return cell;
 }
 
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
     return YES;
 }
 

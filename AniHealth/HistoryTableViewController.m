@@ -20,29 +20,21 @@
     if (self)
     {
         self.navigationItem.title = @"History"; //Заголовок NC
-        
-      
         UIBarButtonItem *delHystory = [[UIBarButtonItem alloc] initWithTitle:@"Delete" //Создание первой кнопки для NC и присвоение ей псевдонима
                                                                       style:UIBarButtonItemStylePlain
                                                                      target:self
                                                                      action:@selector(openActionSheetDeleteHistory)];
-        
-        
         self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:delHystory, nil]; //Присвоение двух кнопок к левой стороне NC
-        
-      
     }
     return self;
 }
 
 - (void) openActionSheetDeleteHistory
 {
-
     UIAlertController * view=   [UIAlertController
                                  alertControllerWithTitle:@"Select time"
                                  message:@""
                                  preferredStyle:UIAlertControllerStyleActionSheet];
-    
     UIAlertAction* all = [UIAlertAction
                          actionWithTitle:@"All events"
                          style:UIAlertActionStyleDestructive
@@ -51,8 +43,6 @@
                              [view dismissViewControllerAnimated:YES completion:nil];
                          }];
     [view addAction:all];
-
-    
     UIAlertAction* oneYear = [UIAlertAction
                              actionWithTitle:@"Older than one year"
                              style:UIAlertActionStyleDefault
@@ -61,7 +51,6 @@
                                  [view dismissViewControllerAnimated:YES completion:nil];
                              }];
     [view addAction:oneYear];
-
     UIAlertAction* sixMonths = [UIAlertAction
                               actionWithTitle:@"Older than six months"
                               style:UIAlertActionStyleDefault
@@ -70,7 +59,6 @@
                                   [view dismissViewControllerAnimated:YES completion:nil];
                               }];
     [view addAction:sixMonths];
-
     UIAlertAction* oneMonth = [UIAlertAction
                               actionWithTitle:@"Older than one month"
                               style:UIAlertActionStyleDefault
@@ -79,7 +67,6 @@
                                   [view dismissViewControllerAnimated:YES completion:nil];
                               }];
     [view addAction:oneMonth];
-
     UIAlertAction* cancel = [UIAlertAction
                               actionWithTitle:@"Cancel"
                               style:UIAlertActionStyleDefault
@@ -89,53 +76,38 @@
                                   
                               }];
     [view addAction:cancel];
-
     [self presentViewController:view animated:YES completion:nil];
-    
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    
     [self.tableView registerNib:[UINib nibWithNibName:@"HistoryTableViewCell"
                                                bundle:nil]
          forCellReuseIdentifier:@"HistoryTableViewCell"];
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    // Return the number of sections.
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    // Return the number of rows in the section.
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
     return 6;
 }
 
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     HistoryTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"HistoryTableViewCell" forIndexPath:indexPath];
-    
     cell.nameHistory.text = @"History";
-    
-    // Configure the cell...
-    
     return cell;
 }
-
 
 /*
 // Override to support conditional editing of the table view.

@@ -8,10 +8,12 @@
 
 #import "AnimalsTableViewController.h"
 #import "Animals.h"
+#import "MainTableViewController.h"
 
 @interface AnimalsTableViewController ()
-@property (retain,nonatomic) NSMutableArray *animals;
-
+@property (retain,nonatomic) NSMutableArray         *animals;
+@property (retain, nonatomic)   NSManagedObjectID   *managedObjectID;
+@property (retain, nonatomic)   AddAnimalViewController *addAnimal;
 
 @end
 
@@ -28,110 +30,83 @@
                                                                        style:UIBarButtonItemStylePlain
                                                                       target:self
                                                                       action:@selector(openAddAnimalForm)];
-        
-        
         self.navigationItem.leftBarButtonItems = [[NSArray alloc] initWithObjects:addAninLefBut, nil]; //Присвоение кнопок к левой стороне NC
-        
-        
-        
-        
     }
     return self;
 }
 
-- (void) openAddAnimalForm{
+- (void) openAddAnimalForm
+{
+    self.addAnimal = [[AddAnimalViewController alloc] init];
+    UINavigationController *aaf_nc = [[UINavigationController alloc] initWithRootViewController:self.addAnimal];
 
-    self.addAnimalForm = [[AddAnimalViewController alloc] init];
-    UINavigationController *aaf_nc = [[UINavigationController alloc] initWithRootViewController:self.addAnimalForm];
+    self.addAnimal.registNuberAnimal = [self.animals count];
+    NSLog(@"aninum: %i", self.addAnimal.registNuberAnimal);
+
     [self presentViewController:aaf_nc
                        animated:YES
                      completion:nil];
-    
 }
 
 - (NSManagedObjectContext *)managedObjectContext
 {
     NSManagedObjectContext *context = nil;
     id delegate = [[UIApplication sharedApplication] delegate];
-    if ([delegate performSelector:@selector(managedObjectContext)]) {
+    if ([delegate performSelector:@selector(managedObjectContext)])
+    {
         context = [delegate managedObjectContext];
     }
     return context;
 }
 
-
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-  
     [self.tableView registerNib:[UINib nibWithNibName:@"AnimalTableViewCell"
                                                bundle:nil]
          forCellReuseIdentifier:@"AnimalTableViewCell"];
-    
-
-
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    NSManagedObjectContext *managedObjectContext = [self managedObjectContext];
+    NSManagedObjectContext *managedObjectContext1 = [self managedObjectContext];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Animals"];
-    self.animals = [[managedObjectContext executeFetchRequest:fetchRequest error:nil] mutableCopy];
+    self.animals = [[managedObjectContext1 executeFetchRequest:fetchRequest error:nil] mutableCopy];
     [self.tableView reloadData];
 }
 
-
-
-#pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-
-    // Return the number of sections.
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-
-    // Return the number of rows in the section.
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
     return [self.animals count];
 }
 
-
-
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     AnimalTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AnimalTableViewCell" forIndexPath:indexPath];
     NSManagedObject *note = [self.animals objectAtIndex:indexPath.row];
     cell.nameAnimal.text = [NSString stringWithFormat:@"%@", [note valueForKey:@"nameAnimal"]];
     cell.iconAnimalCell.image = [UIImage imageNamed: [note valueForKey:@"iconAnimal"]];
-
-    /*
-    NSString *male = [NSString stringWithFormat:@"%@", [note valueForKey:@"male"]];
-    
-    if ([male  isEqual: @"0"]) {
-        cell.maleAnimLabel.text = @"Female";
-    }
-    else {
-        cell.maleAnimLabel.text = @"Male";
-    }
-     */
+    cell.idAnimal.text = [NSString stringWithFormat:@"%@", [note valueForKey:@"idAni"]];
     return cell;
 }
-
-
 /*
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+}
+*/
+/*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     // Return NO if you do not want the specified item to be editable.
@@ -162,22 +137,6 @@
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
     // Return NO if you do not want the item to be re-orderable.
     return YES;
-}
-*/
-
-/*
-#pragma mark - Table view delegate
-
-// In a xib-based application, navigation from a table can be handled in -tableView:didSelectRowAtIndexPath:
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Navigation logic may go here, for example:
-    // Create the next view controller.
-    <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:<#@"Nib name"#> bundle:nil];
-    
-    // Pass the selected object to the new view controller.
-    
-    // Push the view controller.
-    [self.navigationController pushViewController:detailViewController animated:YES];
 }
 */
 

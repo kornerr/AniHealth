@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface AnimalTableViewCell : UITableViewCell
-@property (strong, nonatomic) IBOutlet UILabel *nameAnimal;
-@property (strong, nonatomic) IBOutlet UIImageView *iconAnimalCell;
+@property (strong, nonatomic) IBOutlet UILabel      *nameAnimal;
+@property (strong, nonatomic) IBOutlet UIImageView  *iconAnimalCell;
+@property (strong, nonatomic) IBOutlet UILabel      *idAnimal;
 
 
 @end

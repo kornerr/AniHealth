@@ -23,17 +23,10 @@
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Psd-ek-4WE">
-                        <rect key="frame" x="139" y="15" width="42" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                 </subviews>
             </tableViewCellContentView>
             <connections>
                 <outlet property="iconAnimalCell" destination="afn-Lz-f0C" id="mb7-Bd-8sh"/>
-                <outlet property="idAnimal" destination="Psd-ek-4WE" id="2gX-ir-nTn"/>
                 <outlet property="nameAnimal" destination="tYD-0u-0aB" id="dtW-Vt-oHF"/>
             </connections>
             <point key="canvasLocation" x="305" y="287"/>

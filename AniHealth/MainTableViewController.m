@@ -88,14 +88,27 @@
 {
     [super viewWillAppear:animated];
     NSManagedObjectContext *managedObjectContext = [self managedObjectContext];
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Event"];
+//    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Event"];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Event"
+                                              inManagedObjectContext:managedObjectContext];
+    [fetchRequest setEntity:entity];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"idAnimal = %@", self.selectedAnimal];
+    [fetchRequest setPredicate:predicate];
     self.events = [[managedObjectContext executeFetchRequest:fetchRequest error:nil] mutableCopy];
     [self.tableView reloadData];
+    NSLog(@"Выбранное животное: %i", self.selectedAnimal);
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+}
+
+-(void)gettingDataFromAnimalList: (NSInteger)number
+{
+    self.selectedAnimal = number;
+    [self.tableView reloadData];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -109,7 +122,7 @@
     return [self.events count];
     
     else
-        return 1;
+        return self.selectedAnimal;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -124,6 +137,10 @@
         NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
         [dateFormat setDateFormat:@"dd MMM hh:mm"];
         cell.dateEvent.text = [dateFormat stringFromDate:[note valueForKey:@"dateEvent"]];
+    }
+    else
+    {
+        cell.name.text = [NSString stringWithFormat:@"%i",self.selectedAnimal];
     }
     return cell;
 }

@@ -7,11 +7,13 @@
 //
 
 #import "AddEventViewController.h"
+#import "MainTableViewController.h"
 
 @interface AddEventViewController ()
 
 @property (nonatomic, retain) NSManagedObjectContext    *managedObjectContext;
 @property (nonatomic, retain) NSDate                    *selectedDate;
+@property (nonatomic, retain) MainTableViewController   *mainTableView;
 @end
 
 @implementation AddEventViewController
@@ -55,6 +57,7 @@
 
 -(void) saveAddEvent{
     NSError * error = nil;
+    NSNumber *animalID = [NSNumber numberWithInt: (int)self.mainTableView.selectedAnimal];
     if (self.teamsEvent.selectedSegmentIndex == 0)
     {
         NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:@"Event"
@@ -62,6 +65,8 @@
         [object setValue:self.nameEvent.text forKey:@"nameEvent"];
         [object setValue:self.comment.text forKey:@"comment"];
         [object setValue:self.selectedDate forKey:@"dateEvent"];
+        [object setValue:animalID forKey:@"idAnimal"];
+        NSLog(@"!!!!!!%i", self.mainTableView.selectedAnimal);
         if (![self.managedObjectContext save:&error])
         {
             NSLog(@"Failed to save - error: %@", [error localizedDescription]);
@@ -83,6 +88,9 @@
             int daysToAdd = (-1)*forI;
             NSDate *newDate = [self.selectedDate dateByAddingTimeInterval:60*60*24*daysToAdd];
             [object setValue:newDate forKey:@"dateEvent"];
+            [object setValue:animalID forKey:@"idAnimal"];
+            NSLog(@"!!!!!!!: %i", self.mainTableView.selectedAnimal);
+            
             if (![self.managedObjectContext save:&error])
             {
                 NSLog(@"Failed to save - error: %@", [error localizedDescription]);

@@ -12,6 +12,7 @@
 
 
 
+
 @interface AddEventViewController : UIViewController 
 @property (strong, nonatomic) IBOutlet UITextField          *nameEvent;
 @property (strong, nonatomic) IBOutlet UITextView           *comment;

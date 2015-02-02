@@ -23,14 +23,14 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]]; //Обозначаем область действия на всю площать экрана
-    MainTableViewController *mtvc = [[MainTableViewController alloc]init]; //Объявление формы и присваевание ей псевдонима (хлеб)
+    MainTableViewController *mtvc = [[MainTableViewController alloc]init]; //Объявление формы и присваевание ей псевдонима
     UINavigationController *mtvc_nc = [[UINavigationController alloc] initWithRootViewController:mtvc]; //Наложение NC поверх формы
-    AnimalsTableViewController *atvc = [[AnimalsTableViewController alloc]init]; //(колбаска)
+    AnimalsTableViewController *atvc = [[AnimalsTableViewController alloc]init];
     UINavigationController *atvc_nc = [[UINavigationController alloc] initWithRootViewController:atvc];
     RESideMenu *sideMenuViewController = [[RESideMenu alloc] initWithContentViewController:mtvc_nc
                                                                     leftMenuViewController:atvc_nc
                                                                    rightMenuViewController:nil];
-    sideMenuViewController.delegate = self; // Задание параметров тени на боковом меню
+    sideMenuViewController.delegate = self;
     sideMenuViewController.contentViewShadowColor = [UIColor blackColor];
     sideMenuViewController.contentViewShadowOffset = CGSizeMake(0, 0);
     sideMenuViewController.contentViewShadowOpacity = 0.6;

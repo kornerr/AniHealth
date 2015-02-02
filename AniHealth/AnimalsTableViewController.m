@@ -8,12 +8,12 @@
 
 #import "AnimalsTableViewController.h"
 #import "Animals.h"
-#import "MainTableViewController.h"
 
 @interface AnimalsTableViewController ()
 @property (retain,nonatomic) NSMutableArray         *animals;
-@property (retain, nonatomic)   NSManagedObjectID   *managedObjectID;
-@property (retain, nonatomic)   AddAnimalViewController *addAnimal;
+@property (retain, nonatomic) NSManagedObjectID   *managedObjectID;
+@property (retain, nonatomic) AddAnimalViewController *addAnimal;
+@property (retain, nonatomic) MainTableViewController *mainTableView;
 
 @end
 
@@ -39,10 +39,21 @@
 {
     self.addAnimal = [[AddAnimalViewController alloc] init];
     UINavigationController *aaf_nc = [[UINavigationController alloc] initWithRootViewController:self.addAnimal];
-
-    self.addAnimal.registNuberAnimal = [self.animals count];
-    NSLog(@"aninum: %i", self.addAnimal.registNuberAnimal);
-
+    int animalCoutn = (int)[self.animals count];
+    NSLog(@"%i", animalCoutn);
+    
+    if (animalCoutn ==0)
+    {
+        self.addAnimal.registNuberAnimal = 0;
+    }
+    else
+    {
+        animalCoutn = animalCoutn-1;
+        NSManagedObject *note = [self.animals objectAtIndex:animalCoutn];
+        self.addAnimal.registNuberAnimal = [[note valueForKey:@"idAni"] integerValue];
+        NSLog(@"Номер последнего животного: %li", (long)self.addAnimal.registNuberAnimal);
+    }
+//    self.addAnimal.registNuberAnimal = [self.animals count];
     [self presentViewController:aaf_nc
                        animated:YES
                      completion:nil];
@@ -75,6 +86,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    self.mainTableView = [[MainTableViewController alloc] init];
     NSManagedObjectContext *managedObjectContext1 = [self managedObjectContext];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Animals"];
     self.animals = [[managedObjectContext1 executeFetchRequest:fetchRequest error:nil] mutableCopy];
@@ -97,15 +109,19 @@
     NSManagedObject *note = [self.animals objectAtIndex:indexPath.row];
     cell.nameAnimal.text = [NSString stringWithFormat:@"%@", [note valueForKey:@"nameAnimal"]];
     cell.iconAnimalCell.image = [UIImage imageNamed: [note valueForKey:@"iconAnimal"]];
-    cell.idAnimal.text = [NSString stringWithFormat:@"%@", [note valueForKey:@"idAni"]];
     return cell;
 }
-/*
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    NSManagedObject *note = [self.animals objectAtIndex:indexPath.row];
+    self.mainTableView.selectedAnimal = [[NSString stringWithFormat:@"%@", [note valueForKey:@"idAni"]] integerValue];
+    NSLog(@"Нажалось: %i", self.mainTableView.selectedAnimal);
+    [self.sideMenuViewController hideMenuViewController];
+    [self.mainTableView gettingDataFromAnimalList:[[NSString stringWithFormat:@"%@", [note valueForKey:@"idAni"]] integerValue]];
+    [self.mainTableView.tableView reloadData];
 }
-*/
+
 /*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {

@@ -50,7 +50,7 @@
     NSError * error = nil;
     NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:@"Animals" inManagedObjectContext:self.managedObjectContext];
     self.registNuberAnimal = self.registNuberAnimal + 1;
-    NSNumber *registrNumberNewAnimal = [NSNumber numberWithInt: [self registNuberAnimal]];
+    NSNumber *registrNumberNewAnimal = [NSNumber numberWithInt: (int)[self registNuberAnimal]];
     [object setValue:self.addNameAnimal.text forKey:@"nameAnimal"];
     [object setValue:self.selectedDate forKey:@"date"];
     [object setValue:self.iconNameAnimal forKey:@"iconAnimal"];

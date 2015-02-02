@@ -3,7 +3,7 @@
     <entity name="Animals" representedClassName="Animals" syncable="YES">
         <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="iconAnimal" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="idAni" optional="YES" attributeType="Integer 16" minValueString="1" defaultValueString="1" syncable="YES"/>
+        <attribute name="idAni" optional="YES" attributeType="Integer 16" syncable="YES"/>
         <attribute name="male" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="nameAnimal" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="events" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Event" inverseName="animal" inverseEntity="Event" syncable="YES"/>
@@ -12,7 +12,7 @@
         <attribute name="comment" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="dateEvent" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="history" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="idAnimal" optional="YES" attributeType="Integer 16" minValueString="1" defaultValueString="1" syncable="YES"/>
+        <attribute name="idAnimal" optional="YES" attributeType="Integer 16" syncable="YES"/>
         <attribute name="nameEvent" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="animal" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Animals" inverseName="events" inverseEntity="Animals" syncable="YES"/>
     </entity>

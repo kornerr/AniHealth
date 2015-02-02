@@ -37,8 +37,8 @@
 		84D1969F1A6902E9003E0FDD /* HistoryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84D1969D1A6902E9003E0FDD /* HistoryTableViewCell.xib */; };
 		84D1FFEA1A6927C1007EAF9E /* AddAnimalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D1FFE81A6927C1007EAF9E /* AddAnimalViewController.m */; };
 		84D1FFEB1A6927C1007EAF9E /* AddAnimalViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84D1FFE91A6927C1007EAF9E /* AddAnimalViewController.xib */; };
-		84D3583A1A7B885600266451 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D358391A7B885600266451 /* Event.m */; };
-		84D3583D1A7B885700266451 /* Animals.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D3583C1A7B885700266451 /* Animals.m */; };
+		84D50D481A7FB312002CFF42 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D50D471A7FB312002CFF42 /* Event.m */; };
+		84D50D4B1A7FB313002CFF42 /* Animals.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D50D4A1A7FB313002CFF42 /* Animals.m */; };
 		F6B0375CEBEA2ED1C0A49F8E /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF153D2C559765581641595A /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -97,10 +97,10 @@
 		84D1FFE71A6927C1007EAF9E /* AddAnimalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddAnimalViewController.h; sourceTree = "<group>"; };
 		84D1FFE81A6927C1007EAF9E /* AddAnimalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddAnimalViewController.m; sourceTree = "<group>"; };
 		84D1FFE91A6927C1007EAF9E /* AddAnimalViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddAnimalViewController.xib; sourceTree = "<group>"; };
-		84D358381A7B885600266451 /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
-		84D358391A7B885600266451 /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Event.m; sourceTree = "<group>"; };
-		84D3583B1A7B885700266451 /* Animals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Animals.h; sourceTree = "<group>"; };
-		84D3583C1A7B885700266451 /* Animals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Animals.m; sourceTree = "<group>"; };
+		84D50D461A7FB312002CFF42 /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
+		84D50D471A7FB312002CFF42 /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Event.m; sourceTree = "<group>"; };
+		84D50D491A7FB313002CFF42 /* Animals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Animals.h; sourceTree = "<group>"; };
+		84D50D4A1A7FB313002CFF42 /* Animals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Animals.m; sourceTree = "<group>"; };
 		BF153D2C559765581641595A /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		EAB2F2AB6598065B713814C4 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -192,10 +192,10 @@
 				845632E21A664FB8004697A3 /* Images.xcassets */,
 				845632E41A664FB8004697A3 /* LaunchScreen.xib */,
 				84D0EC481A6CE91100C82EF4 /* DBAniHea.xcdatamodeld */,
-				84D3583B1A7B885700266451 /* Animals.h */,
-				84D3583C1A7B885700266451 /* Animals.m */,
-				84D358381A7B885600266451 /* Event.h */,
-				84D358391A7B885600266451 /* Event.m */,
+				84D50D491A7FB313002CFF42 /* Animals.h */,
+				84D50D4A1A7FB313002CFF42 /* Animals.m */,
+				84D50D461A7FB312002CFF42 /* Event.h */,
+				84D50D471A7FB312002CFF42 /* Event.m */,
 				84CECA4C1A777BCE00F99C2B /* icon */,
 				845632D51A664FB8004697A3 /* Supporting Files */,
 			);
@@ -396,11 +396,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				84D3583A1A7B885600266451 /* Event.m in Sources */,
+				84D50D481A7FB312002CFF42 /* Event.m in Sources */,
 				844DECAC1A67ABBB0026B7B2 /* HistoryTableViewController.m in Sources */,
 				845632DB1A664FB8004697A3 /* AppDelegate.m in Sources */,
 				84D1969E1A6902E9003E0FDD /* HistoryTableViewCell.m in Sources */,
-				84D3583D1A7B885700266451 /* Animals.m in Sources */,
+				84D50D4B1A7FB313002CFF42 /* Animals.m in Sources */,
 				845632D81A664FB8004697A3 /* main.m in Sources */,
 				84D1FFEA1A6927C1007EAF9E /* AddAnimalViewController.m in Sources */,
 				84D1968F1A68F836003E0FDD /* MainTableViewCell.m in Sources */,

@@ -21,11 +21,13 @@
 @property (retain, nonatomic) HistoryTableViewController    *historyForm;
 @property (retain, nonatomic) AddEventViewController        *addEventForm;
 @property (retain, nonatomic) AddAnimalViewController       *addAnimalForm;
-@property (nonatomic, strong) NSFetchedResultsController      *fetchedResultsController;
-@property (nonatomic, strong) NSManagedObjectContext          *managedObjectContext;
-@property (nonatomic, retain) Animals                         *animal;
-@property (retain, nonatomic) NSMutableArray                  *events;
+@property (nonatomic, strong) NSFetchedResultsController    *fetchedResultsController;
+@property (nonatomic, strong) NSManagedObjectContext        *managedObjectContext;
+@property (nonatomic, retain) Animals                       *animal;
+@property (retain, nonatomic) NSMutableArray                *events;
+@property (nonatomic) NSInteger                             selectedAnimal;
 
+- (void)gettingDataFromAnimalList: (NSInteger)number;
 - (void)saveContext;
 
 @end

@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "AddAnimalViewController.h"
 #import "AnimalTableViewCell.h"
+#import "MainTableViewController.h"
 
 
 @interface AnimalsTableViewController : UITableViewController 

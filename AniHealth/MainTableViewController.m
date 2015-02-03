@@ -55,6 +55,7 @@
 {
     self.addEventForm = [[AddEventViewController alloc] init]; // Инициализация псивдонима и формы
     UINavigationController *aef_nc = [[UINavigationController alloc] initWithRootViewController:self.addEventForm]; // Объявление псевдонима для перехода
+    self.addEventForm.idSelectedAnimal = self.selectedAnimal;
     [self presentViewController:aef_nc //реализация перехода на форму по заданным псевдонимом
                        animated:YES
                      completion:nil];
@@ -104,10 +105,11 @@
     [super didReceiveMemoryWarning];
 }
 
--(void)gettingDataFromAnimalList: (NSInteger)number
+-(IBAction)gettingDataFromAnimalList: (NSInteger)number
 {
     self.selectedAnimal = number;
     [self.tableView reloadData];
+    NSLog(@"Работа getting: %i", self.selectedAnimal);
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

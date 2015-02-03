@@ -118,6 +118,8 @@
     self.mainTableView.selectedAnimal = [[NSString stringWithFormat:@"%@", [note valueForKey:@"idAni"]] integerValue];
     NSLog(@"Нажалось: %i", self.mainTableView.selectedAnimal);
     [self.sideMenuViewController hideMenuViewController];
+    UINavigationController *mtvc_nc = [[UINavigationController alloc] initWithRootViewController:self.mainTableView];
+    self.sideMenuViewController.contentViewController = mtvc_nc;
     [self.mainTableView gettingDataFromAnimalList:[[NSString stringWithFormat:@"%@", [note valueForKey:@"idAni"]] integerValue]];
     [self.mainTableView.tableView reloadData];
 }

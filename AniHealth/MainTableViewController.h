@@ -27,7 +27,7 @@
 @property (retain, nonatomic) NSMutableArray                *events;
 @property (nonatomic) NSInteger                             selectedAnimal;
 
-- (void)gettingDataFromAnimalList: (NSInteger)number;
+-(IBAction)gettingDataFromAnimalList: (NSInteger)number;
 - (void)saveContext;
 
 @end

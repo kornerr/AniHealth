@@ -13,7 +13,7 @@
 
 @property (nonatomic, retain) NSManagedObjectContext    *managedObjectContext;
 @property (nonatomic, retain) NSDate                    *selectedDate;
-@property (nonatomic, retain) MainTableViewController   *mainTableView;
+//@property (nonatomic, retain) MainTableViewController   *mainTableView;
 @end
 
 @implementation AddEventViewController
@@ -30,16 +30,12 @@
                                                                       target:self
                                                                       action:@selector(cancelAddEventForm)];
         
-        
-        
         self.navigationItem.leftBarButtonItems = [[NSArray alloc] initWithObjects:cancelAddEvent, nil]; //Присвоение двух кнопок к левой стороне NC
         
         UIBarButtonItem *saveEvent = [[UIBarButtonItem alloc] initWithTitle:@"Save" //Создание первой кнопки для NC и присвоение ей псевдонима
                                                                       style:UIBarButtonItemStylePlain
                                                                      target:self
                                                                      action:@selector(saveAddEvent)];
-        
-       
         
         self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:saveEvent, nil]; //Присвоение двух кнопок к левой стороне NC
         
@@ -48,16 +44,15 @@
     return self;
 }
 
-
-
-
-- (void) cancelAddEventForm{
+- (void) cancelAddEventForm
+{
 [self dismissViewControllerAnimated:YES completion:nil];
 }
 
--(void) saveAddEvent{
+-(void) saveAddEvent
+{
     NSError * error = nil;
-    NSNumber *animalID = [NSNumber numberWithInt: (int)self.mainTableView.selectedAnimal];
+    NSNumber *animalID = [NSNumber numberWithInt: (int)self.idSelectedAnimal];
     if (self.teamsEvent.selectedSegmentIndex == 0)
     {
         NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:@"Event"
@@ -66,7 +61,6 @@
         [object setValue:self.comment.text forKey:@"comment"];
         [object setValue:self.selectedDate forKey:@"dateEvent"];
         [object setValue:animalID forKey:@"idAnimal"];
-        NSLog(@"!!!!!!%i", self.mainTableView.selectedAnimal);
         if (![self.managedObjectContext save:&error])
         {
             NSLog(@"Failed to save - error: %@", [error localizedDescription]);
@@ -82,15 +76,13 @@
         for (int forI=0; forI<=days; forI++)
         {
             NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:@"Event"
-                                                                    inManagedObjectContext:self.managedObjectContext]; // Инициализация object реализованва в цикле по причине того, что запись его содержимого в базу происходит (предположительно) после заверщения куска кода, в которой он инициализируется, иначе будет записан только последний прогон цикла
+                                                                    inManagedObjectContext:self.managedObjectContext]; // Инициализация object реализованва в цикле по причине того, что запись его содержимого в базу происходит (предположительно) после завершения куска кода, в которой он инициализируется, иначе будет записан только последний прогон цикла
             [object setValue:self.nameEvent.text forKey:@"nameEvent"];
             [object setValue:self.comment.text forKey:@"comment"];
             int daysToAdd = (-1)*forI;
             NSDate *newDate = [self.selectedDate dateByAddingTimeInterval:60*60*24*daysToAdd];
             [object setValue:newDate forKey:@"dateEvent"];
             [object setValue:animalID forKey:@"idAnimal"];
-            NSLog(@"!!!!!!!: %i", self.mainTableView.selectedAnimal);
-            
             if (![self.managedObjectContext save:&error])
             {
                 NSLog(@"Failed to save - error: %@", [error localizedDescription]);
@@ -105,6 +97,7 @@
     [super viewWillAppear:animated];
     AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
     self.managedObjectContext = appDelegate.managedObjectContext;
+    NSLog(@"записи для животного: %i", self.idSelectedAnimal);
 }
 
 - (IBAction)selectTextFiledDate:(UITextField *)sender

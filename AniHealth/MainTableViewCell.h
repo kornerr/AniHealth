@@ -12,5 +12,6 @@
 
 @property (strong, nonatomic) IBOutlet UILabel *name;
 @property (strong, nonatomic) IBOutlet UILabel *dateEvent;
+@property (strong, nonatomic) IBOutlet UILabel *animalNum;
 
 @end

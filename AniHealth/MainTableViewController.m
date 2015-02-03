@@ -78,7 +78,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     [self.tableView registerNib:[UINib nibWithNibName:@"MainTableViewCell"
                                                bundle:nil]
          forCellReuseIdentifier:@"MainTableViewCell"];
@@ -88,13 +87,13 @@
 {
     [super viewWillAppear:animated];
     NSManagedObjectContext *managedObjectContext = [self managedObjectContext];
-//    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Event"];
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Event"
-                                              inManagedObjectContext:managedObjectContext];
-    [fetchRequest setEntity:entity];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"idAnimal = %@", self.selectedAnimal];
-    [fetchRequest setPredicate:predicate];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Event"];
+//    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+//    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Event"
+//                                              inManagedObjectContext:managedObjectContext];
+//    [fetchRequest setEntity:entity];
+//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"idAnimal = %@", self.selectedAnimal];
+//    [fetchRequest setPredicate:predicate];
     self.events = [[managedObjectContext executeFetchRequest:fetchRequest error:nil] mutableCopy];
     [self.tableView reloadData];
     NSLog(@"Выбранное животное: %i", self.selectedAnimal);
@@ -137,6 +136,7 @@
         NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
         [dateFormat setDateFormat:@"dd MMM hh:mm"];
         cell.dateEvent.text = [dateFormat stringFromDate:[note valueForKey:@"dateEvent"]];
+        cell.animalNum.text = [NSString stringWithFormat:@"%@", [note valueForKey:@"idAnimal"]];
     }
     else
     {

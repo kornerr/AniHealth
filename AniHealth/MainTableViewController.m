@@ -87,17 +87,88 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    self.futureEvents = [[NSMutableArray alloc] init];
+    self.events = [[NSMutableArray alloc] init];
+    self.pastEvents = [[NSMutableArray alloc] init];
+    self.allEvents = [[NSMutableArray alloc] init];
     NSManagedObjectContext *managedObjectContext = [self managedObjectContext];
-//    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Event"];
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSFetchRequest *fetchRequestAllEvents = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Event"
                                               inManagedObjectContext:managedObjectContext];
-    [fetchRequest setEntity:entity];
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"idAnimal == %i", self.selectedAnimal];
-    [fetchRequest setPredicate:predicate];
-    self.events = [[managedObjectContext executeFetchRequest:fetchRequest error:nil] mutableCopy];
+    [fetchRequestAllEvents setEntity:entity];
+    [fetchRequestAllEvents setResultType:NSDictionaryResultType];
+        NSPredicate *predicateAllEvents = [NSPredicate predicateWithFormat:@"idAnimal == %i", self.selectedAnimal];
+    [fetchRequestAllEvents setPredicate:predicateAllEvents];
+    self.allEvents = [[managedObjectContext executeFetchRequest:fetchRequestAllEvents error:nil] mutableCopy];
     [self.tableView reloadData];
-    NSLog(@"Выбранное животное: %i", self.selectedAnimal);
+   
+    NSDate *today = [NSDate date];
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSUInteger unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit;
+    
+    if (self.allEvents.count <1)
+    {
+        self.events = self.allEvents;
+    }
+    else
+    {
+        for (int I=0; I<=(self.allEvents.count - 1); I++)
+        {
+            NSDateComponents *components = [gregorian components:unitFlags fromDate:today toDate:endDate options:0];
+            NSInteger months = [components month];
+            NSInteger days = [components day];
+            
+        }
+    }
+    
+/*
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"dd MMM yyyy"];
+    NSDate *today = [NSDate date];
+    NSString *stringToday = [dateFormat stringFromDate:today];
+    NSDate *currDate = [dateFormat dateFromString:stringToday];
+    NSLog(@"Всего записей: %lu и текущая дата: %@", (unsigned long)self.allEvents.count, stringToday);
+    if (self.allEvents.count <1)
+    {
+        self.events = self.allEvents;
+    }
+    else
+    {
+        for (int I=0; I<=(self.allEvents.count - 1); I++)
+        {
+            NSString *stringActivDate = [dateFormat stringFromDate:[[self.allEvents objectAtIndex:I] objectForKey:@"dateEvent"]];
+            NSLog(@"Дата в записе: %@", stringActivDate);
+            NSDate *activDate = [dateFormat dateFromString:stringActivDate];
+            BOOL check = [currDate isEqualToDate:activDate];
+            if (check)
+            {
+                NSLog(@"Сегодня: yes");
+            }
+            else
+            {
+                NSLog(@"Сегодня: no");
+            }
+            
+            if (check)
+            {
+                [self.events addObject:[self.allEvents objectAtIndex:I]];
+                NSLog(@"Строк в текущем: %i", self.events.count);
+
+            }
+            else if (currDate > activDate)
+            {
+                [self.futureEvents addObject:[self.allEvents objectAtIndex:I]];
+                NSLog(@"Строк в будущем:%i", self.futureEvents.count);
+            }
+            else
+            {
+                [self.pastEvents addObject:[self.allEvents objectAtIndex:I]];
+                NSLog(@"Строк в прошлом: %i", self.pastEvents.count);
+            }
+        }
+    }*/
+
+//    NSLog(@"Выбранное животное: %i", self.selectedAnimal);
 }
 
 - (void)didReceiveMemoryWarning
@@ -120,20 +191,20 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section == 0)
-    return [self.events count];
-    
+        return [self.events count];
     else
-        return self.selectedAnimal;
+        return [self.futureEvents count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSArray *descriptor = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"dateEvent" ascending:YES]];//Сортировка по полю "dateEvent" по возрастанию "YES"
-    NSArray *sortedArray = [self.events sortedArrayUsingDescriptors:descriptor]; //Создание сортированного массива из массива events по сортировке descriptor
+    NSArray *sortedTodayArray = [self.events sortedArrayUsingDescriptors:descriptor]; //Создание сортированного массива из массива events по сортировке descriptor
+    NSArray *sortedFutureArray = [self.futureEvents sortedArrayUsingDescriptors:descriptor];
     MainTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:(@"MainTableViewCell") forIndexPath:indexPath];
     if (indexPath.section == 0)
     {
-    NSManagedObject *note = [sortedArray objectAtIndex:indexPath.row];
+    NSManagedObject *note = [sortedTodayArray objectAtIndex:indexPath.row];
         cell.name.text = [NSString stringWithFormat:@"%@", [note valueForKey:@"nameEvent"]];
         NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
         [dateFormat setDateFormat:@"dd MMM hh:mm"];
@@ -142,7 +213,12 @@
     }
     else
     {
-        cell.name.text = [NSString stringWithFormat:@"%i",self.selectedAnimal];
+        NSManagedObject *note = [sortedFutureArray objectAtIndex:indexPath.row];
+        cell.name.text = [NSString stringWithFormat:@"%@", [note valueForKey:@"nameEvent"]];
+        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+        [dateFormat setDateFormat:@"dd MMM hh:mm"];
+        cell.dateEvent.text = [dateFormat stringFromDate:[note valueForKey:@"dateEvent"]];
+        cell.animalNum.text = [NSString stringWithFormat:@"%@", [note valueForKey:@"idAnimal"]];
     }
     return cell;
 }

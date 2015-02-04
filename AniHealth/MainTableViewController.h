@@ -24,7 +24,10 @@
 @property (nonatomic, strong) NSFetchedResultsController    *fetchedResultsController;
 @property (nonatomic, strong) NSManagedObjectContext        *managedObjectContext;
 @property (nonatomic, retain) Animals                       *animal;
+@property (retain, nonatomic) NSMutableArray                *allEvents;
+@property (retain, nonatomic) NSMutableArray                *futureEvents;
 @property (retain, nonatomic) NSMutableArray                *events;
+@property (retain, nonatomic) NSMutableArray                *pastEvents;
 @property (nonatomic) NSInteger                             selectedAnimal;
 
 -(IBAction)gettingDataFromAnimalList: (NSInteger)number;

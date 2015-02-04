@@ -18,7 +18,6 @@
 		845632D81A664FB8004697A3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 845632D71A664FB8004697A3 /* main.m */; };
 		845632DB1A664FB8004697A3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 845632DA1A664FB8004697A3 /* AppDelegate.m */; };
 		845632E31A664FB8004697A3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 845632E21A664FB8004697A3 /* Images.xcassets */; };
-		845632E61A664FB8004697A3 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 845632E41A664FB8004697A3 /* LaunchScreen.xib */; };
 		845632F21A664FB8004697A3 /* AniHealthTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 845632F11A664FB8004697A3 /* AniHealthTests.m */; };
 		84CECA591A777DEA00F99C2B /* iconAnimal1.png in Resources */ = {isa = PBXBuildFile; fileRef = 84CECA551A777DEA00F99C2B /* iconAnimal1.png */; };
 		84CECA5A1A777DEA00F99C2B /* iconAnimal2.png in Resources */ = {isa = PBXBuildFile; fileRef = 84CECA561A777DEA00F99C2B /* iconAnimal2.png */; };
@@ -72,7 +71,6 @@
 		845632D91A664FB8004697A3 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		845632DA1A664FB8004697A3 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		845632E21A664FB8004697A3 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		845632E51A664FB8004697A3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		845632EB1A664FB8004697A3 /* AniHealthTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AniHealthTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		845632F01A664FB8004697A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		845632F11A664FB8004697A3 /* AniHealthTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AniHealthTests.m; sourceTree = "<group>"; };
@@ -190,7 +188,6 @@
 				84D1969C1A6902E9003E0FDD /* HistoryTableViewCell.m */,
 				84D1969D1A6902E9003E0FDD /* HistoryTableViewCell.xib */,
 				845632E21A664FB8004697A3 /* Images.xcassets */,
-				845632E41A664FB8004697A3 /* LaunchScreen.xib */,
 				84D0EC481A6CE91100C82EF4 /* DBAniHea.xcdatamodeld */,
 				84D50D491A7FB313002CFF42 /* Animals.h */,
 				84D50D4A1A7FB313002CFF42 /* Animals.m */,
@@ -333,7 +330,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				844DECAD1A67ABBB0026B7B2 /* HistoryTableViewController.xib in Resources */,
-				845632E61A664FB8004697A3 /* LaunchScreen.xib in Resources */,
 				84326A9F1A6679DA00B62549 /* MainTableViewController.xib in Resources */,
 				84D196901A68F836003E0FDD /* MainTableViewCell.xib in Resources */,
 				845632E31A664FB8004697A3 /* Images.xcassets in Resources */,
@@ -430,17 +426,6 @@
 		};
 /* End PBXTargetDependency section */
 
-/* Begin PBXVariantGroup section */
-		845632E41A664FB8004697A3 /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				845632E51A664FB8004697A3 /* Base */,
-			);
-			name = LaunchScreen.xib;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
-
 /* Begin XCBuildConfiguration section */
 		845632F31A664FB8004697A3 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -523,6 +508,7 @@
 			baseConfigurationReference = 829A2A13CC8F38B76562F67B /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = AniHealth/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -536,6 +522,7 @@
 			baseConfigurationReference = EAB2F2AB6598065B713814C4 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = AniHealth/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;

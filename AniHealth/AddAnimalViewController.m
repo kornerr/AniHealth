@@ -7,6 +7,7 @@
 //
 
 #import "AddAnimalViewController.h"
+#import "MainTableViewController.h"
 
 
 
@@ -16,6 +17,8 @@
 @property (nonatomic, retain) NSManagedObjectContext    *managedObjectContext;
 @property (nonatomic, retain) NSDate                    *selectedDate;
 @property (nonatomic, retain) NSString                  *iconNameAnimal;
+@property (nonatomic, retain) MainTableViewController   *mainTableView;
+
 @end
 
 @implementation AddAnimalViewController
@@ -25,17 +28,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-        self.navigationItem.title = @"AddAnimal"; //Заголовок NC
-        UIBarButtonItem *cancelAddAnimal = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" //Создание первой кнопки для NC и присвоение ей псевдонима
-                                                                            style:UIBarButtonItemStylePlain
-                                                                           target:self
-                                                                           action:@selector(cancelAddAnimalForm)];
-        self.navigationItem.leftBarButtonItems = [[NSArray alloc] initWithObjects:cancelAddAnimal, nil]; //Присвоение двух кнопок к левой стороне NC
-        UIBarButtonItem *saveAnimal = [[UIBarButtonItem alloc] initWithTitle:@"Save" //Создание первой кнопки для NC и присвоение ей псевдонима
-                                                                       style:UIBarButtonItemStylePlain
-                                                                      target:self
-                                                                      action:@selector(saveAddAnimal)];
-        self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:saveAnimal, nil]; //Присвоение двух кнопок к левой стороне NC
+        
     }
     return self;
 }
@@ -70,12 +63,137 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (NSManagedObjectContext *)managedObjectContext
+{
+    NSManagedObjectContext *context = nil;
+    id delegate = [[UIApplication sharedApplication] delegate];
+    if ([delegate performSelector:@selector(managedObjectContext)]) {
+        context = [delegate managedObjectContext];
+    }
+    return context;
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
+    if (self.edit)
+    {
+        NSLog(@"Animals: %i", self.idAnimal);
+        self.navigationItem.title = @"EditAnimal";
+        UIBarButtonItem *reset = [[UIBarButtonItem alloc] initWithTitle:@"Reset"
+                                                                  style:UIBarButtonItemStylePlain
+                                                                 target:self
+                                                                 action:@selector(resetAnimalInfo)];
+        UIBarButtonItem *deleteAnimal = [[UIBarButtonItem alloc] initWithTitle:@"Delete"
+                                                                         style:UIBarButtonItemStylePlain
+                                                                        target:self
+                                                                        action:@selector(daleteAnimal)];
+        self.navigationItem.RightBarButtonItems = [[NSArray alloc] initWithObjects:reset, deleteAnimal, nil];
+        self.mainTableView = [[MainTableViewController alloc]init];
+        
+        NSManagedObjectContext *managedObjectContext = [self managedObjectContext];
+        NSFetchRequest *fetchRequestEditAnimal = [[NSFetchRequest alloc] init];
+        NSEntityDescription *entity = [NSEntityDescription entityForName:@"Animals"
+                                                  inManagedObjectContext:managedObjectContext];
+        [fetchRequestEditAnimal setEntity:entity];
+        [fetchRequestEditAnimal setResultType:NSDictionaryResultType];
+        NSPredicate *predicateAllEvents = [NSPredicate predicateWithFormat:@"idAni == %i", self.idAnimal];
+        [fetchRequestEditAnimal setPredicate:predicateAllEvents];
+        self.animals = [[managedObjectContext executeFetchRequest:fetchRequestEditAnimal error:nil] mutableCopy];
+        NSManagedObject *note = [self.animals objectAtIndex:0];
+        self.addNameAnimal.text = [NSString stringWithFormat:@"%@", [note valueForKey:@"nameAnimal"]];
+        NSLog(@"Имя: %@", [NSString stringWithFormat:@"%@", [note valueForKey:@"nameAnimal"]]);
+        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+        [dateFormat setDateFormat:@"dd MMM yyyy"];
+        self.dateAnimal.text = [dateFormat stringFromDate:[note valueForKey:@"date"]];
+        NSLog(@"Date: %@", [dateFormat stringFromDate:[note valueForKey:@"date"]]);
+        BOOL male = [[note valueForKey:@"male"] boolValue];
+        if (male)
+        {
+            self.maleAnimal.selectedSegmentIndex = 0;
+        }
+        else
+        {
+            self.maleAnimal.selectedSegmentIndex = 1;
+        }
+    }
+    else
+    {
+        self.navigationItem.title = @"AddAnimal"; //Заголовок NC
+        UIBarButtonItem *cancelAddAnimal = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" //Создание первой кнопки для NC и присвоение ей псевдонима
+                                                                            style:UIBarButtonItemStylePlain
+                                                                           target:self
+                                                                           action:@selector(cancelAddAnimalForm)];
+        self.navigationItem.leftBarButtonItems = [[NSArray alloc] initWithObjects:cancelAddAnimal, nil]; //Присвоение двух кнопок к левой стороне NC
+        UIBarButtonItem *saveAnimal = [[UIBarButtonItem alloc] initWithTitle:@"Save" //Создание первой кнопки для NC и присвоение ей псевдонима
+                                                                       style:UIBarButtonItemStylePlain
+                                                                      target:self
+                                                                      action:@selector(saveAddAnimal)];
+        self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:saveAnimal, nil]; //Присвоение двух кнопок к левой стороне NC
+    }
+    
+        AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
     self.managedObjectContext = appDelegate.managedObjectContext;
     self.iconNameAnimal = @"iconAnimal3.png";
+}
+
+-(void)resetAnimalInfo
+{
+    NSManagedObjectContext *managedObjectContext = [self managedObjectContext];
+    NSFetchRequest *fetchRequestEditAnimal = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Animals"
+                                              inManagedObjectContext:managedObjectContext];
+    [fetchRequestEditAnimal setEntity:entity];
+    [fetchRequestEditAnimal setResultType:NSDictionaryResultType];
+    NSPredicate *predicateAllEvents = [NSPredicate predicateWithFormat:@"idAni == %i", self.idAnimal];
+    [fetchRequestEditAnimal setPredicate:predicateAllEvents];
+    self.animals = [[managedObjectContext executeFetchRequest:fetchRequestEditAnimal error:nil] mutableCopy];
+    NSManagedObject *note = [self.animals objectAtIndex:0];
+    self.addNameAnimal.text = [NSString stringWithFormat:@"%@", [note valueForKey:@"nameAnimal"]];
+    NSLog(@"Имя: %@", [NSString stringWithFormat:@"%@", [note valueForKey:@"nameAnimal"]]);
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"dd MMM yyyy"];
+    self.dateAnimal.text = [dateFormat stringFromDate:[note valueForKey:@"date"]];
+    NSLog(@"Date: %@", [dateFormat stringFromDate:[note valueForKey:@"date"]]);
+    BOOL male = [[note valueForKey:@"male"] boolValue];
+    if (male)
+    {
+        self.maleAnimal.selectedSegmentIndex = 0;
+    }
+    else
+    {
+        self.maleAnimal.selectedSegmentIndex = 1;
+    }
+}
+
+-(void)daleteAnimal
+{
+    NSManagedObjectContext *contextAni = [self managedObjectContext];
+    [contextAni deleteObject:[self.animals objectAtIndex:0]];
+    NSError *error = nil;
+    if (![contextAni save:&error])
+    {
+        NSLog(@"Can't Delete! %@ %@", error, [error localizedDescription]);
+        return;
+    }
+    [self.animals removeObjectAtIndex:0];
+    
+    self.events = [[NSMutableArray alloc] init];
+    NSManagedObjectContext *managedObjectContext = [self managedObjectContext];
+    NSFetchRequest *fetchRequestEvents = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Event"
+                                              inManagedObjectContext:managedObjectContext];
+    [fetchRequestEvents setEntity:entity];
+    [fetchRequestEvents setResultType:NSDictionaryResultType];
+    NSPredicate *predicateAllEvents = [NSPredicate predicateWithFormat:@"idAnimal == %i", self.idAnimal];
+    [fetchRequestEvents setPredicate:predicateAllEvents];
+    self.events = [[managedObjectContext executeFetchRequest:fetchRequestEvents error:nil] mutableCopy];
+    for (NSManagedObject * event in self.events)
+    {
+        [managedObjectContext deleteObject:event];
+    }
+    NSError *saveError = nil;
+    [managedObjectContext save:&saveError];
 }
 
 - (void)viewDidLoad

@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"
 #import "Animals.h"
+#import "Event.h"
 
 @interface AddAnimalViewController : UIViewController
 @property (strong, nonatomic) IBOutlet UISegmentedControl   *maleAnimal;
@@ -18,8 +19,11 @@
 @property (strong, nonatomic) IBOutlet UIButton             *iconButton2;
 @property (strong, nonatomic) IBOutlet UIButton             *iconButton3;
 @property (strong, nonatomic) IBOutlet UIButton             *iconButton4;
+@property (retain, nonatomic) NSMutableArray                *animals;
+@property (retain, nonatomic) NSMutableArray                *events;
 
+@property (nonatomic) NSInteger                             idAnimal;
 @property (nonatomic) NSInteger registNuberAnimal;
-@property (nonatomic) BOOL *edit;
+@property (nonatomic) BOOL edit;
 
 @end

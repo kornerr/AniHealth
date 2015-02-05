@@ -40,8 +40,8 @@
 - (void)openAnimalInfo // процедура перехода на другую форму с "Back"
 {
     self.addAnimalForm = [[AddAnimalViewController alloc] init]; // Инициализация псивдонима и формы
-    self.addAnimalForm.title = @"EditInfo"; //Заголовок формы-назначения
-    self.addAnimalForm.edit = (BOOL*)YES;
+    self.addAnimalForm.edit = YES;
+    self.addAnimalForm.idAnimal = self.selectedAnimal;
     [self.navigationController pushViewController:self.addAnimalForm animated:YES]; // способ перехода "puch"
 }
 
@@ -202,7 +202,8 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     NSManagedObjectContext *context = [self managedObjectContext];
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
+    if (editingStyle == UITableViewCellEditingStyleDelete)
+    {
         [context deleteObject:[self.events objectAtIndex:indexPath.row]];
         NSError *error = nil;
         if (![context save:&error]) {
@@ -211,7 +212,6 @@
         }
         [self.events removeObjectAtIndex:indexPath.row];
         [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        //[self saveContext];
         [tableView reloadData]; // tell table to refresh now
     }
 }

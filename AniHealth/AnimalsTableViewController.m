@@ -51,7 +51,7 @@
         self.addAnimal.registNuberAnimal = [[note valueForKey:@"idAni"] integerValue];
         NSLog(@"Номер последнего животного: %li", (long)self.addAnimal.registNuberAnimal);
     }
-    self.addAnimal.edit = (BOOL*)NO;
+    self.addAnimal.edit = NO;
     [self presentViewController:aaf_nc
                        animated:YES
                      completion:nil];

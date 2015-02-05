@@ -101,33 +101,15 @@
     [fetchRequestAllEvents setPredicate:predicateAllEvents];
     self.allEvents = [[managedObjectContext executeFetchRequest:fetchRequestAllEvents error:nil] mutableCopy];
     [self.tableView reloadData];
-   
     NSDate *today = [NSDate date];
     NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-    NSUInteger unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit;
-    
-    if (self.allEvents.count <1)
-    {
-        self.events = self.allEvents;
-    }
-    else
-    {
-        for (int I=0; I<=(self.allEvents.count - 1); I++)
-        {
-            NSDateComponents *components = [gregorian components:unitFlags fromDate:today toDate:endDate options:0];
-            NSInteger months = [components month];
-            NSInteger days = [components day];
-            
-        }
-    }
-    
-/*
+    NSUInteger unitFlags = NSDayCalendarUnit;
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"dd MMM yyyy"];
-    NSDate *today = [NSDate date];
     NSString *stringToday = [dateFormat stringFromDate:today];
     NSDate *currDate = [dateFormat dateFromString:stringToday];
     NSLog(@"Всего записей: %lu и текущая дата: %@", (unsigned long)self.allEvents.count, stringToday);
+
     if (self.allEvents.count <1)
     {
         self.events = self.allEvents;
@@ -136,26 +118,16 @@
     {
         for (int I=0; I<=(self.allEvents.count - 1); I++)
         {
-            NSString *stringActivDate = [dateFormat stringFromDate:[[self.allEvents objectAtIndex:I] objectForKey:@"dateEvent"]];
-            NSLog(@"Дата в записе: %@", stringActivDate);
-            NSDate *activDate = [dateFormat dateFromString:stringActivDate];
-            BOOL check = [currDate isEqualToDate:activDate];
-            if (check)
-            {
-                NSLog(@"Сегодня: yes");
-            }
-            else
-            {
-                NSLog(@"Сегодня: no");
-            }
-            
-            if (check)
+            NSDate *activDate = [dateFormat dateFromString: [dateFormat stringFromDate:[[self.allEvents objectAtIndex:I] objectForKey:@"dateEvent"]]];
+            NSDateComponents *components = [gregorian components:unitFlags fromDate:currDate toDate:activDate options:0];
+            NSInteger days = [components day];
+            NSLog(@"День: %i", days);
+            if (days == 0)
             {
                 [self.events addObject:[self.allEvents objectAtIndex:I]];
                 NSLog(@"Строк в текущем: %i", self.events.count);
-
             }
-            else if (currDate > activDate)
+            else if (days >0)
             {
                 [self.futureEvents addObject:[self.allEvents objectAtIndex:I]];
                 NSLog(@"Строк в будущем:%i", self.futureEvents.count);
@@ -166,9 +138,7 @@
                 NSLog(@"Строк в прошлом: %i", self.pastEvents.count);
             }
         }
-    }*/
-
-//    NSLog(@"Выбранное животное: %i", self.selectedAnimal);
+    }
 }
 
 - (void)didReceiveMemoryWarning

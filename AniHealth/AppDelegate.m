@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "MainTableViewController.h"
 #import "AnimalsTableViewController.h"
+#import "HistoryTableViewController.h"
 
 @interface AppDelegate () <RESideMenuDelegate>
 

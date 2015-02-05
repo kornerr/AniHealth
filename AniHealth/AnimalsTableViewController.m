@@ -40,8 +40,6 @@
     self.addAnimal = [[AddAnimalViewController alloc] init];
     UINavigationController *aaf_nc = [[UINavigationController alloc] initWithRootViewController:self.addAnimal];
     int animalCoutn = (int)[self.animals count];
-    NSLog(@"%i", animalCoutn);
-    
     if (animalCoutn ==0)
     {
         self.addAnimal.registNuberAnimal = 0;
@@ -53,7 +51,7 @@
         self.addAnimal.registNuberAnimal = [[note valueForKey:@"idAni"] integerValue];
         NSLog(@"Номер последнего животного: %li", (long)self.addAnimal.registNuberAnimal);
     }
-//    self.addAnimal.registNuberAnimal = [self.animals count];
+    self.addAnimal.edit = (BOOL*)NO;
     [self presentViewController:aaf_nc
                        animated:YES
                      completion:nil];

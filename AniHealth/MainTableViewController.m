@@ -41,13 +41,15 @@
 {
     self.addAnimalForm = [[AddAnimalViewController alloc] init]; // Инициализация псивдонима и формы
     self.addAnimalForm.title = @"EditInfo"; //Заголовок формы-назначения
+    self.addAnimalForm.edit = (BOOL*)YES;
     [self.navigationController pushViewController:self.addAnimalForm animated:YES]; // способ перехода "puch"
-    
 }
 
 - (void)openHistory
 {
     self.historyForm = [[HistoryTableViewController alloc] init];
+//    [self.historyForm.historyArray addObjectsFromArray:self.pastEvents];
+    self.historyForm.historyArray = self.pastEvents;
     [self.navigationController pushViewController:self.historyForm animated:YES];
 }
 

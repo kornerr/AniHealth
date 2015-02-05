@@ -20,5 +20,6 @@
 @property (strong, nonatomic) IBOutlet UIButton             *iconButton4;
 
 @property (nonatomic) NSInteger registNuberAnimal;
+@property (nonatomic) BOOL *edit;
 
 @end

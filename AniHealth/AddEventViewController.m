@@ -13,7 +13,6 @@
 
 @property (nonatomic, retain) NSManagedObjectContext    *managedObjectContext;
 @property (nonatomic, retain) NSDate                    *selectedDate;
-//@property (nonatomic, retain) MainTableViewController   *mainTableView;
 @end
 
 @implementation AddEventViewController

@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "HistoryTableViewCell.h"
+#import "MainTableViewCell.h"
 
 @interface HistoryTableViewController : UITableViewController
+
+@property (retain, nonatomic) NSMutableArray *historyArray;
+
 
 @end

@@ -7,8 +7,11 @@
 //
 
 #import "HistoryTableViewController.h"
+#import "MainTableViewController.h"
 
 @interface HistoryTableViewController ()
+
+@property (retain, nonatomic) MainTableViewController *mainTableView;
 
 @end
 
@@ -19,6 +22,8 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
+        self.historyArray = [[NSMutableArray alloc] init];
+
         self.navigationItem.title = @"History"; //Заголовок NC
         UIBarButtonItem *delHystory = [[UIBarButtonItem alloc] initWithTitle:@"Delete" //Создание первой кнопки для NC и присвоение ей псевдонима
                                                                       style:UIBarButtonItemStylePlain
@@ -82,9 +87,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self.tableView registerNib:[UINib nibWithNibName:@"HistoryTableViewCell"
+    [self.tableView registerNib:[UINib nibWithNibName:@"MainTableViewCell"
                                                bundle:nil]
-         forCellReuseIdentifier:@"HistoryTableViewCell"];
+         forCellReuseIdentifier:@"MainTableViewCell"];
 }
 
 - (void)didReceiveMemoryWarning
@@ -99,15 +104,27 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 6;
+    return [self.historyArray count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    HistoryTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"HistoryTableViewCell" forIndexPath:indexPath];
-    cell.nameHistory.text = @"History";
+    MainTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MainTableViewCell" forIndexPath:indexPath];
+    NSArray *descriptor = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"dateEvent" ascending:NO]];//Сортировка по полю "dateEvent" по возрастанию "YES"
+    NSArray *sortedHistoryArray = [self.historyArray sortedArrayUsingDescriptors:descriptor]; //Создание сортированного массива из массива events по сортировке descriptor
+    cell.name.text = [NSString stringWithFormat:@"%@", [[sortedHistoryArray objectAtIndex:indexPath.row] valueForKey:@"nameEvent"]];
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"dd MMM hh:mm"];
+    cell.dateEvent.text = [dateFormat stringFromDate:[[sortedHistoryArray objectAtIndex:indexPath.row] valueForKey:@"dateEvent"]];
+    NSLog(@"Таблица истории заполняется!");
     return cell;
 }
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+}
+
 
 /*
 // Override to support conditional editing of the table view.

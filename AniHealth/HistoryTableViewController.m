@@ -116,7 +116,6 @@
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"dd MMM hh:mm"];
     cell.dateEvent.text = [dateFormat stringFromDate:[[sortedHistoryArray objectAtIndex:indexPath.row] valueForKey:@"dateEvent"]];
-    NSLog(@"Таблица истории заполняется!");
     return cell;
 }
 

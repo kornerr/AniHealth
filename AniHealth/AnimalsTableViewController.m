@@ -49,7 +49,6 @@
         animalCoutn = animalCoutn-1;
         NSManagedObject *note = [self.animals objectAtIndex:animalCoutn];
         self.addAnimal.registNuberAnimal = [[note valueForKey:@"idAni"] integerValue];
-        NSLog(@"Номер последнего животного: %li", (long)self.addAnimal.registNuberAnimal);
     }
     self.addAnimal.edit = NO;
     [self presentViewController:aaf_nc

@@ -110,8 +110,6 @@
     [dateFormat setDateFormat:@"dd MMM yyyy"];
     NSString *stringToday = [dateFormat stringFromDate:today];
     NSDate *currDate = [dateFormat dateFromString:stringToday];
-    NSLog(@"Всего записей: %lu и текущая дата: %@", (unsigned long)self.allEvents.count, stringToday);
-
     if (self.allEvents.count <1)
     {
         self.events = self.allEvents;
@@ -123,21 +121,17 @@
             NSDate *activDate = [dateFormat dateFromString: [dateFormat stringFromDate:[[self.allEvents objectAtIndex:I] objectForKey:@"dateEvent"]]];
             NSDateComponents *components = [gregorian components:unitFlags fromDate:currDate toDate:activDate options:0];
             NSInteger days = [components day];
-            NSLog(@"День: %i", days);
             if (days == 0)
             {
                 [self.events addObject:[self.allEvents objectAtIndex:I]];
-                NSLog(@"Строк в текущем: %i", self.events.count);
             }
             else if (days >0)
             {
                 [self.futureEvents addObject:[self.allEvents objectAtIndex:I]];
-                NSLog(@"Строк в будущем:%i", self.futureEvents.count);
             }
             else
             {
                 [self.pastEvents addObject:[self.allEvents objectAtIndex:I]];
-                NSLog(@"Строк в прошлом: %i", self.pastEvents.count);
             }
         }
     }
@@ -152,7 +146,6 @@
 {
     self.selectedAnimal = number;
     [self.tableView reloadData];
-    NSLog(@"Работа getting: %i", self.selectedAnimal);
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

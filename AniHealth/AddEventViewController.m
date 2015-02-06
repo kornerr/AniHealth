@@ -96,7 +96,6 @@
     [super viewWillAppear:animated];
     AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
     self.managedObjectContext = appDelegate.managedObjectContext;
-    NSLog(@"записи для животного: %i", self.idSelectedAnimal);
 }
 
 - (IBAction)selectTextFiledDate:(UITextField *)sender

@@ -135,7 +135,7 @@
         self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:saveAnimal, nil]; //Присвоение двух кнопок к левой стороне NC
     }
     AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
-    self.managedObjectContext = appDelegate.managedObjectContext;
+    self.managedObjectContext = appDelegate.managedObjectContextAnimal;
     self.iconNameAnimal = @"iconAnimal3.png";
 }
 

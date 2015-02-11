@@ -14,6 +14,7 @@
 @property (retain, nonatomic) NSManagedObjectID   *managedObjectID;
 @property (retain, nonatomic) AddAnimalViewController *addAnimal;
 @property (retain, nonatomic) MainTableViewController *mainTableView;
+@property (retain, nonatomic) AppDelegate               *appDelegate;
 
 @end
 
@@ -24,6 +25,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
+        self.appDelegate = [[AppDelegate alloc] init];
         self.navigationItem.title = @"Animals"; //Заголовок NC
         
         UIBarButtonItem *addAninLefBut = [[UIBarButtonItem alloc] initWithTitle:@"AddAnimal" //Создание первой кнопки для NC и присвоение ей псевдонима
@@ -84,9 +86,9 @@
 {
     [super viewWillAppear:animated];
     self.mainTableView = [[MainTableViewController alloc] init];
-    NSManagedObjectContext *managedObjectContext = [self managedObjectContext];
+//    NSManagedObjectContext *managedObjectContext = [self managedObjectContext];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Animals"];
-    self.animals = [[managedObjectContext executeFetchRequest:fetchRequest error:nil] mutableCopy];
+    self.animals = [[self.appDelegate.managedObjectContextAnimal executeFetchRequest:fetchRequest error:nil] mutableCopy];
     [self.tableView reloadData];
 }
 

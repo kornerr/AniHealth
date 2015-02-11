@@ -5,6 +5,8 @@
 
 @interface MainTableViewController ()
 
+@property (nonatomic, retain) AppDelegate *appDelegate;
+
 @end
 
 @implementation MainTableViewController
@@ -14,6 +16,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
+        self.appDelegate = [[AppDelegate alloc] init];
         self.navigationItem.title = @"Main"; //Заголовок NC
         UIBarButtonItem *aniLeftBut = [[UIBarButtonItem alloc] initWithTitle:@"Animals" //Создание первой кнопки для NC и присвоение ей псевдонима
                                                                        style:UIBarButtonItemStylePlain
@@ -94,11 +97,11 @@
     self.events = [[NSMutableArray alloc] init];
     self.pastEvents = [[NSMutableArray alloc] init];
     self.allEvents = [[NSMutableArray alloc] init];
-    NSManagedObjectContext *managedObjectContext = [self managedObjectContext];
+//    NSManagedObjectContext *managedObjectContext = [self managedObjectContext];
     
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Event"];
     [fetchRequest setResultType:NSDictionaryResultType];
-    NSMutableArray *presAellEvents = [[managedObjectContext executeFetchRequest:fetchRequest error:nil] mutableCopy];
+    NSMutableArray *presAellEvents = [[self.appDelegate.managedObjectContextEvent executeFetchRequest:fetchRequest error:nil] mutableCopy];
     
     for (int Y=0; Y<=(presAellEvents.count - 1); Y++)
     {
@@ -224,16 +227,16 @@
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSManagedObjectContext *context = [self managedObjectContext];
+//    NSManagedObjectContext *context = [self managedObjectContext];
     NSLog(@"indexPath: %@", indexPath);
     
     if (editingStyle == UITableViewCellEditingStyleDelete)
     {
         if (indexPath.section == 0)
         {
-            [context deleteObject:[self.sortedTodayArray objectAtIndex:indexPath.row]];
+            [self.appDelegate.managedObjectContextEvent deleteObject:[self.sortedTodayArray objectAtIndex:indexPath.row]];
             NSError *error = nil;
-            if (![context save:&error])
+            if (![self.appDelegate.managedObjectContextEvent save:&error])
             {
                 NSLog(@"Can't Delete! %@ %@", error, [error localizedDescription]);
                 return;
@@ -246,10 +249,10 @@
             NSManagedObject *test = [self.sortedFutureArray objectAtIndex:indexPath.row];
                                                                                                                          
             NSLog(@"Объект на удаление: %@", test);
-            [context deleteObject:test];
+            [self.appDelegate.managedObjectContextEvent deleteObject:test];
 
             NSError *error = nil;
-            if (![context save:&error])
+            if (![self.appDelegate.managedObjectContextEvent save:&error])
             {
                 NSLog(@"Can't Delete! %@ %@", error, [error localizedDescription]);
                 return;

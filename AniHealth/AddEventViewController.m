@@ -116,9 +116,8 @@
         
         self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:saveEvent, nil]; //Присвоение двух кнопок к левой стороне NC
     }
-    
     AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
-    self.managedObjectContext = appDelegate.managedObjectContext;
+    self.managedObjectContext = appDelegate.managedObjectContextEvent;
 }
 
 -(void)resetEvent

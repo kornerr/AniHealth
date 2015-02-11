@@ -18,6 +18,8 @@
 @implementation AppDelegate
 
 @synthesize managedObjectContext = _managedObjectContext;
+@synthesize managedObjectContextEvent = _managedObjectContextEvent;
+@synthesize managedObjectContextAnimal = _managedObjectContextAnimal;
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 
@@ -86,6 +88,38 @@
     }
     
     return _managedObjectContext;
+}
+
+- (NSManagedObjectContext *)managedObjectContextEvent
+{
+    if(_managedObjectContextEvent != nil)
+    {
+        return _managedObjectContextEvent;
+    }
+    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
+    if(coordinator != nil)
+    {
+        _managedObjectContextEvent = [[NSManagedObjectContext alloc] init];
+        [_managedObjectContextEvent setPersistentStoreCoordinator:coordinator];
+    }
+    
+    return _managedObjectContextEvent;
+}
+
+- (NSManagedObjectContext *)managedObjectContextAnimal
+{
+    if(_managedObjectContextAnimal != nil)
+    {
+        return _managedObjectContextAnimal;
+    }
+    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
+    if(coordinator != nil)
+    {
+        _managedObjectContextAnimal = [[NSManagedObjectContext alloc] init];
+        [_managedObjectContextAnimal setPersistentStoreCoordinator:coordinator];
+    }
+    
+    return _managedObjectContextAnimal;
 }
 
 - (NSURL *)applicationDocumentsDirectory

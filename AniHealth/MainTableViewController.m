@@ -48,7 +48,6 @@
 - (void)openHistory
 {
     self.historyForm = [[HistoryTableViewController alloc] init];
-//    [self.historyForm.historyArray addObjectsFromArray:self.pastEvents];
     self.historyForm.historyArray = self.pastEvents;
     [self.navigationController pushViewController:self.historyForm animated:YES];
 }
@@ -58,6 +57,7 @@
     self.addEventForm = [[AddEventViewController alloc] init]; // Инициализация псивдонима и формы
     UINavigationController *aef_nc = [[UINavigationController alloc] initWithRootViewController:self.addEventForm]; // Объявление псевдонима для перехода
     self.addEventForm.idSelectedAnimal = self.selectedAnimal;
+    self.addEventForm.edit = NO;
     [self presentViewController:aef_nc //реализация перехода на форму по заданным псевдонимом
                        animated:YES
                      completion:nil];
@@ -72,7 +72,8 @@
 {
     NSManagedObjectContext *context = nil;
     id delegate = [[UIApplication sharedApplication] delegate];
-    if ([delegate performSelector:@selector(managedObjectContext)]) {
+    if ([delegate performSelector:@selector(managedObjectContext)])
+    {
         context = [delegate managedObjectContext];
     }
     return context;
@@ -128,6 +129,8 @@
             else if (days >0)
             {
                 [self.futureEvents addObject:[self.allEvents objectAtIndex:I]];
+//                NSLog(@"%@", [self.futureEvents objectAtIndex:0]);
+                
             }
             else
             {
@@ -156,29 +159,43 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section == 0)
+    {
         return [self.events count];
+    }
     else
+    {
         return [self.futureEvents count];
+    }
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    if (section == 0)
+        return @"Сегодня:";
+    else
+        return @"Грядущие:";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSArray *descriptor = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"dateEvent" ascending:YES]];//Сортировка по полю "dateEvent" по возрастанию "YES"
-    NSArray *sortedTodayArray = [self.events sortedArrayUsingDescriptors:descriptor]; //Создание сортированного массива из массива events по сортировке descriptor
-    NSArray *sortedFutureArray = [self.futureEvents sortedArrayUsingDescriptors:descriptor];
+//    NSArray *descriptor = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"dateEvent" ascending:YES]];//Сортировка по полю "dateEvent" по возрастанию "YES"
+    NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"dateEvent" ascending:YES];
+    self.sortedTodayArray = [[self.events sortedArrayUsingDescriptors:@[sort]] mutableCopy]; //Создание сортированного массива из массива events по сортировке descriptor
+    self.sortedFutureArray = [[self.futureEvents sortedArrayUsingDescriptors:@[sort]] mutableCopy];
+
     MainTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:(@"MainTableViewCell") forIndexPath:indexPath];
     if (indexPath.section == 0)
     {
-    NSManagedObject *note = [sortedTodayArray objectAtIndex:indexPath.row];
+    NSManagedObject *note = [self.sortedTodayArray objectAtIndex:indexPath.row];
         cell.name.text = [NSString stringWithFormat:@"%@", [note valueForKey:@"nameEvent"]];
         NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-        [dateFormat setDateFormat:@"dd MMM hh:mm"];
+        [dateFormat setDateFormat:@"hh:mm"];
         cell.dateEvent.text = [dateFormat stringFromDate:[note valueForKey:@"dateEvent"]];
         cell.animalNum.text = [NSString stringWithFormat:@"%@", [note valueForKey:@"idAnimal"]];
     }
     else
     {
-        NSManagedObject *note = [sortedFutureArray objectAtIndex:indexPath.row];
+        NSManagedObject *note = [self.sortedFutureArray objectAtIndex:indexPath.row];
         cell.name.text = [NSString stringWithFormat:@"%@", [note valueForKey:@"nameEvent"]];
         NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
         [dateFormat setDateFormat:@"dd MMM hh:mm"];
@@ -195,29 +212,69 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     NSManagedObjectContext *context = [self managedObjectContext];
+    
     if (editingStyle == UITableViewCellEditingStyleDelete)
     {
-        [context deleteObject:[self.events objectAtIndex:indexPath.row]];
-        NSError *error = nil;
-        if (![context save:&error]) {
-            NSLog(@"Can't Delete! %@ %@", error, [error localizedDescription]);
-            return;
+        if (indexPath.section == 0)
+        {
+//            [context deleteObject:[self.managedObjectContext objectWithID: [self.sortedTodayArray objectAtIndex:indexPath.row]]];
+            [context deleteObject:[self.sortedTodayArray objectAtIndex:indexPath.row]];
+            NSError *error = nil;
+            if (![context save:&error])
+            {
+                NSLog(@"Can't Delete! %@ %@", error, [error localizedDescription]);
+                return;
+            }
+            [self.sortedTodayArray removeObjectAtIndex:indexPath.row];
+            [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
         }
-        [self.events removeObjectAtIndex:indexPath.row];
-        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        else
+        {
+//            [contextEventDelete deleteObject:[self.managedObjectContext objectWithID: [self.sortedFutureArray objectAtIndex:indexPath.row]]];
+            NSManagedObject *test = [self.sortedFutureArray objectAtIndex:indexPath.row];
+                                                                                                                         
+            NSLog(@"Объект на удаление: %@", test);
+            [context deleteObject:test];
+
+            NSError *error = nil;
+            if (![context save:&error])
+            {
+                NSLog(@"Can't Delete! %@ %@", error, [error localizedDescription]);
+                return;
+            }
+            [self.sortedFutureArray removeObjectAtIndex:indexPath.row];
+            [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        }
         [tableView reloadData]; // tell table to refresh now
     }
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    self.addEventForm = [[AddEventViewController alloc] init];
+    if (indexPath.section ==0)
+    {
+        self.addEventForm.selectedEvent = [self.sortedTodayArray objectAtIndex:indexPath.row];
+    }
+    else
+    {
+        self.addEventForm.selectedEvent = [self.sortedFutureArray objectAtIndex:indexPath.row];
+    }
+    NSLog(@"%@", self.addEventForm.selectedEvent);
+    self.addEventForm.edit = YES;
+    [self.navigationController pushViewController:self.addEventForm animated:YES];
+}
+/*
 - (void)saveContext
 {
     NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
     NSError *error = nil;
-    
-    if(![context save:&error]){
+    if(![context save:&error])
+    {
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
     }
 }
+*/
 
 @end

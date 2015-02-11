@@ -19,5 +19,7 @@
 @property (strong, nonatomic) IBOutlet UITextField          *dateEvent;
 @property (strong, nonatomic) IBOutlet UISegmentedControl   *teamsEvent;
 @property (nonatomic) NSInteger                             idSelectedAnimal;
+@property (nonatomic) BOOL                                  edit;
+@property (retain, nonatomic) NSObject                      *selectedEvent;
 
 @end

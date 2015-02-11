@@ -13,6 +13,10 @@
 
 @property (nonatomic, retain) NSManagedObjectContext    *managedObjectContext;
 @property (nonatomic, retain) NSDate                    *selectedDate;
+@property (nonatomic, retain) NSString                  *nameEventSave;
+@property (nonatomic, retain) NSString                  *dateEventSave;
+@property (nonatomic, retain) NSString                  *commentSave;
+
 @end
 
 @implementation AddEventViewController
@@ -22,21 +26,6 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-        self.navigationItem.title = @"AddEvent"; //Заголовок NC
-        
-        UIBarButtonItem *cancelAddEvent = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" //Создание первой кнопки для NC и присвоение ей псевдонима
-                                                                       style:UIBarButtonItemStylePlain
-                                                                      target:self
-                                                                      action:@selector(cancelAddEventForm)];
-        
-        self.navigationItem.leftBarButtonItems = [[NSArray alloc] initWithObjects:cancelAddEvent, nil]; //Присвоение двух кнопок к левой стороне NC
-        
-        UIBarButtonItem *saveEvent = [[UIBarButtonItem alloc] initWithTitle:@"Save" //Создание первой кнопки для NC и присвоение ей псевдонима
-                                                                      style:UIBarButtonItemStylePlain
-                                                                     target:self
-                                                                     action:@selector(saveAddEvent)];
-        
-        self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:saveEvent, nil]; //Присвоение двух кнопок к левой стороне NC
         
         
     }
@@ -94,8 +83,50 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    if (self.edit)
+    {
+        self.navigationItem.title = @"EditEvent";
+        self.navigationItem.RightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Reset"
+                                                                  style:UIBarButtonItemStylePlain
+                                                                 target:self
+                                                                 action:@selector(resetEvent)];
+        self.nameEvent.text = [NSString stringWithFormat:@"%@", [self.selectedEvent valueForKey:@"nameEvent"]];
+        self.nameEventSave = self.nameEvent.text;
+        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+        [dateFormat setDateFormat:@"dd MMM yyyy"];
+        self.dateEvent.text = [dateFormat stringFromDate:[self.selectedEvent valueForKey:@"dateEvent"]];
+        self.dateEventSave = self.dateEvent.text;
+        self.comment.text = [NSString stringWithFormat:@"%@", [self.selectedEvent valueForKey:@"comment"]];
+        self.commentSave = self.comment.text;
+    }
+    else
+    {
+        self.navigationItem.title = @"AddEvent"; //Заголовок NC
+        UIBarButtonItem *cancelAddEvent = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" //Создание первой кнопки для NC и присвоение ей псевдонима
+                                                                           style:UIBarButtonItemStylePlain
+                                                                          target:self
+                                                                          action:@selector(cancelAddEventForm)];
+        
+        self.navigationItem.leftBarButtonItems = [[NSArray alloc] initWithObjects:cancelAddEvent, nil]; //Присвоение двух кнопок к левой стороне NC
+        
+        UIBarButtonItem *saveEvent = [[UIBarButtonItem alloc] initWithTitle:@"Save" //Создание первой кнопки для NC и присвоение ей псевдонима
+                                                                      style:UIBarButtonItemStylePlain
+                                                                     target:self
+                                                                     action:@selector(saveAddEvent)];
+        
+        self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:saveEvent, nil]; //Присвоение двух кнопок к левой стороне NC
+    }
+    
     AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
     self.managedObjectContext = appDelegate.managedObjectContext;
+}
+
+-(void)resetEvent
+{
+    self.nameEvent.text = self.nameEventSave;
+    self.dateEvent.text = self.dateEventSave;
+    self.comment.text = self.commentSave;
 }
 
 - (IBAction)selectTextFiledDate:(UITextField *)sender

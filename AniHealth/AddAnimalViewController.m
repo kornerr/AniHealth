@@ -8,16 +8,19 @@
 
 #import "AddAnimalViewController.h"
 #import "MainTableViewController.h"
+#import "AnimalsTableViewController.h"
 
 @interface AddAnimalViewController ()
 
-@property (nonatomic, retain) NSManagedObjectContext    *managedObjectContext;
-@property (nonatomic, retain) NSDate                    *selectedDate;
-@property (nonatomic, retain) NSString                  *iconNameAnimal;
-@property (nonatomic, retain) MainTableViewController   *mainTableView;
-@property (nonatomic, retain) NSString                  *nameAnimalSave;
-@property (nonatomic, retain) NSString                  *dateAnimalSave;
-@property (nonatomic) NSInteger                         maleAnimalSave;
+@property (nonatomic, retain) NSManagedObjectContext        *managedObjectContext;
+@property (nonatomic, retain) NSDate                        *selectedDate;
+@property (nonatomic, retain) NSString                      *iconNameAnimal;
+@property (nonatomic, retain) MainTableViewController       *mainTableView;
+@property (nonatomic, retain) NSString                      *nameAnimalSave;
+@property (nonatomic, retain) NSString                      *dateAnimalSave;
+@property (nonatomic) NSInteger                             maleAnimalSave;
+@property (nonatomic, retain) AnimalsTableViewController    *animalViewController;
+
 
 
 @end
@@ -170,6 +173,8 @@
     UINavigationController *mtvc_nc = [[UINavigationController alloc] initWithRootViewController:self.mainTableView];
     self.sideMenuViewController.contentViewController = mtvc_nc;
     [self.mainTableView.tableView reloadData];
+    [self.animalViewController.tableView reloadData];
+
 }
 
 - (void)viewDidLoad

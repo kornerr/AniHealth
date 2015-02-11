@@ -29,8 +29,10 @@
 @property (retain, nonatomic) NSMutableArray                *events;
 @property (retain, nonatomic) NSMutableArray                *pastEvents;
 @property (nonatomic) NSInteger                             selectedAnimal;
+@property (nonatomic, retain) NSMutableArray                *sortedTodayArray;
+@property (nonatomic, retain) NSMutableArray                *sortedFutureArray;
 
 -(IBAction)gettingDataFromAnimalList: (NSInteger)number;
-- (void)saveContext;
+//- (void)saveContext;
 
 @end

@@ -84,9 +84,9 @@
 {
     [super viewWillAppear:animated];
     self.mainTableView = [[MainTableViewController alloc] init];
-    NSManagedObjectContext *managedObjectContext1 = [self managedObjectContext];
+    NSManagedObjectContext *managedObjectContext = [self managedObjectContext];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Animals"];
-    self.animals = [[managedObjectContext1 executeFetchRequest:fetchRequest error:nil] mutableCopy];
+    self.animals = [[managedObjectContext executeFetchRequest:fetchRequest error:nil] mutableCopy];
     [self.tableView reloadData];
 }
 

@@ -11,7 +11,6 @@
 
 @interface AddEventViewController ()
 
-@property (nonatomic, retain) NSManagedObjectContext    *managedObjectContext;
 @property (nonatomic, retain) NSDate                    *selectedDate;
 @property (nonatomic, retain) NSString                  *nameEventSave;
 @property (nonatomic, retain) NSString                  *dateEventSave;

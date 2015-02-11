@@ -95,15 +95,28 @@
     self.pastEvents = [[NSMutableArray alloc] init];
     self.allEvents = [[NSMutableArray alloc] init];
     NSManagedObjectContext *managedObjectContext = [self managedObjectContext];
-    NSFetchRequest *fetchRequestAllEvents = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Event"
-                                              inManagedObjectContext:managedObjectContext];
-    [fetchRequestAllEvents setEntity:entity];
-    [fetchRequestAllEvents setResultType:NSDictionaryResultType];
-        NSPredicate *predicateAllEvents = [NSPredicate predicateWithFormat:@"idAnimal == %i", self.selectedAnimal];
-    [fetchRequestAllEvents setPredicate:predicateAllEvents];
-    self.allEvents = [[managedObjectContext executeFetchRequest:fetchRequestAllEvents error:nil] mutableCopy];
-    [self.tableView reloadData];
+    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Event"];
+    [fetchRequest setResultType:NSDictionaryResultType];
+    NSMutableArray *presAellEvents = [[managedObjectContext executeFetchRequest:fetchRequest error:nil] mutableCopy];
+    
+    for (int Y=0; Y<=(presAellEvents.count - 1); Y++)
+    {
+        if ([[[presAellEvents objectAtIndex:Y] objectForKey:@"idAnimal"] integerValue] == self.selectedAnimal)
+        {
+        [self.allEvents addObject:[presAellEvents objectAtIndex:Y]];
+        }
+    }
+    
+//    NSFetchRequest *fetchRequestAllEvents = [[NSFetchRequest alloc] init];
+//    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Event"
+//                                              inManagedObjectContext:managedObjectContext];
+//    [fetchRequestAllEvents setEntity:entity];
+//    [fetchRequestAllEvents setResultType:NSDictionaryResultType];
+//        NSPredicate *predicateAllEvents = [NSPredicate predicateWithFormat:@"idAnimal == %i", self.selectedAnimal];
+//    [fetchRequestAllEvents setPredicate:predicateAllEvents];
+//    self.allEvents = [[managedObjectContext executeFetchRequest:fetchRequestAllEvents error:nil] mutableCopy];
+
     NSDate *today = [NSDate date];
     NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSUInteger unitFlags = NSDayCalendarUnit;
@@ -129,7 +142,6 @@
             else if (days >0)
             {
                 [self.futureEvents addObject:[self.allEvents objectAtIndex:I]];
-//                NSLog(@"%@", [self.futureEvents objectAtIndex:0]);
                 
             }
             else
@@ -138,6 +150,7 @@
             }
         }
     }
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -212,12 +225,12 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     NSManagedObjectContext *context = [self managedObjectContext];
+    NSLog(@"indexPath: %@", indexPath);
     
     if (editingStyle == UITableViewCellEditingStyleDelete)
     {
         if (indexPath.section == 0)
         {
-//            [context deleteObject:[self.managedObjectContext objectWithID: [self.sortedTodayArray objectAtIndex:indexPath.row]]];
             [context deleteObject:[self.sortedTodayArray objectAtIndex:indexPath.row]];
             NSError *error = nil;
             if (![context save:&error])
@@ -230,7 +243,6 @@
         }
         else
         {
-//            [contextEventDelete deleteObject:[self.managedObjectContext objectWithID: [self.sortedFutureArray objectAtIndex:indexPath.row]]];
             NSManagedObject *test = [self.sortedFutureArray objectAtIndex:indexPath.row];
                                                                                                                          
             NSLog(@"Объект на удаление: %@", test);
@@ -264,17 +276,5 @@
     self.addEventForm.edit = YES;
     [self.navigationController pushViewController:self.addEventForm animated:YES];
 }
-/*
-- (void)saveContext
-{
-    NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
-    NSError *error = nil;
-    if(![context save:&error])
-    {
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        abort();
-    }
-}
-*/
 
 @end

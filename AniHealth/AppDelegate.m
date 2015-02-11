@@ -96,7 +96,7 @@
 - (void)saveContext
 {
     NSError *error = nil;
-    NSManagedObjectContext *managedObjectContext = [self managedObjectContext];
+    NSManagedObjectContext *managedObjectContext = self.managedObjectContext;
     if(managedObjectContext != nil)
     {
         if([managedObjectContext hasChanges] && ![managedObjectContext save:&error])

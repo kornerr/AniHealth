@@ -23,7 +23,7 @@
 @property (retain, nonatomic) NSMutableArray                *events;
 
 @property (nonatomic) NSInteger                             idAnimal;
-@property (nonatomic) NSInteger registNuberAnimal;
+@property (nonatomic) NSInteger                             registNuberAnimal;
 @property (nonatomic) BOOL edit;
 
 @end

@@ -9,6 +9,7 @@
 #import "AddAnimalViewController.h"
 #import "MainTableViewController.h"
 #import "AnimalsTableViewController.h"
+#import "AppDelegate.h"
 
 @interface AddAnimalViewController ()
 
@@ -20,6 +21,7 @@
 @property (nonatomic, retain) NSString                      *dateAnimalSave;
 @property (nonatomic) NSInteger                             maleAnimalSave;
 @property (nonatomic, retain) AnimalsTableViewController    *animalViewController;
+@property (nonatomic, retain) AppDelegate                   *appDelegate;
 
 
 
@@ -32,7 +34,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-        
+        self.appDelegate = [[AppDelegate alloc] init];
     }
     return self;
 }
@@ -45,7 +47,7 @@
 -(void) saveAddAnimal
 {
     NSError * error = nil;
-    NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:@"Animals" inManagedObjectContext:self.managedObjectContext];
+    NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:@"Animals" inManagedObjectContext:self.appDelegate.managedObjectContextAnimal];
     self.registNuberAnimal = self.registNuberAnimal + 1;
     NSNumber *registrNumberNewAnimal = [NSNumber numberWithInt: (int)[self registNuberAnimal]];
     [object setValue:self.addNameAnimal.text forKey:@"nameAnimal"];
@@ -60,13 +62,13 @@
     {
         [object setValue:[NSNumber numberWithBool:NO] forKey:@"male"];
     }
-    if (![self.managedObjectContext save:&error])
+    if (![self.appDelegate.managedObjectContextAnimal save:&error])
     {
         NSLog(@"Failed to save - error: %@", [error localizedDescription]);
     }
     [self dismissViewControllerAnimated:YES completion:nil];
 }
-
+/*
 - (NSManagedObjectContext *)managedObjectContext
 {
     NSManagedObjectContext *context = nil;
@@ -76,7 +78,7 @@
     }
     return context;
 }
-
+*/
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -93,15 +95,15 @@
                                                                         action:@selector(daleteAnimal)];
         self.navigationItem.RightBarButtonItems = [[NSArray alloc] initWithObjects:reset, deleteAnimal, nil];
         self.mainTableView = [[MainTableViewController alloc]init];
-        NSManagedObjectContext *managedObjectContext = [self managedObjectContext];
+//        NSManagedObjectContext *managedObjectContext = [self managedObjectContext];
         NSFetchRequest *fetchRequestEditAnimal = [[NSFetchRequest alloc] init];
         NSEntityDescription *entity = [NSEntityDescription entityForName:@"Animals"
-                                                  inManagedObjectContext:managedObjectContext];
+                                                  inManagedObjectContext:self.appDelegate.managedObjectContextAnimal];
         [fetchRequestEditAnimal setEntity:entity];
         [fetchRequestEditAnimal setResultType:NSDictionaryResultType];
         NSPredicate *predicateAllEvents = [NSPredicate predicateWithFormat:@"idAni == %i", self.idAnimal];
         [fetchRequestEditAnimal setPredicate:predicateAllEvents];
-        self.animals = [[managedObjectContext executeFetchRequest:fetchRequestEditAnimal error:nil] mutableCopy];
+        self.animals = [[self.appDelegate.managedObjectContextAnimal executeFetchRequest:fetchRequestEditAnimal error:nil] mutableCopy];
         NSManagedObject *note = [self.animals objectAtIndex:0];
         self.addNameAnimal.text = [NSString stringWithFormat:@"%@", [note valueForKey:@"nameAnimal"]];
         self.nameAnimalSave = self.addNameAnimal.text;
@@ -134,8 +136,8 @@
                                                                       action:@selector(saveAddAnimal)];
         self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:saveAnimal, nil]; //Присвоение двух кнопок к левой стороне NC
     }
-    AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
-    self.managedObjectContext = appDelegate.managedObjectContextAnimal;
+//    AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
+//    self.managedObjectContext = appDelegate.managedObjectContextAnimal;
     self.iconNameAnimal = @"iconAnimal3.png";
 }
 
@@ -148,27 +150,27 @@
 
 -(void)daleteAnimal
 {
-    NSManagedObjectContext *contextAni = [self managedObjectContext];
+//    NSManagedObjectContext *contextAni = [self managedObjectContext];
     NSFetchRequest *fetchRequestAnimal = [[NSFetchRequest alloc] init];
-    [fetchRequestAnimal setEntity:[NSEntityDescription entityForName:@"Animals" inManagedObjectContext:contextAni]];
+    [fetchRequestAnimal setEntity:[NSEntityDescription entityForName:@"Animals" inManagedObjectContext:self.appDelegate.managedObjectContextAnimal]];
     [fetchRequestAnimal setPredicate:[NSPredicate predicateWithFormat:@"idAni == %i", self.idAnimal]];
-    NSArray* resultsAnimals = [contextAni executeFetchRequest:fetchRequestAnimal error:nil];
+    NSArray* resultsAnimals = [self.appDelegate.managedObjectContextAnimal executeFetchRequest:fetchRequestAnimal error:nil];
     for (NSManagedObject * currentObj in resultsAnimals)
     {
-        [contextAni deleteObject:currentObj];
+        [self.appDelegate.managedObjectContextAnimal deleteObject:currentObj];
     }
-    NSManagedObjectContext *contextEvent = [self managedObjectContext];
+//    NSManagedObjectContext *contextEvent = [self managedObjectContext];
     NSFetchRequest *fetchRequestEvent = [[NSFetchRequest alloc] init];
-    [fetchRequestEvent setEntity:[NSEntityDescription entityForName:@"Event" inManagedObjectContext:contextEvent]];
+    [fetchRequestEvent setEntity:[NSEntityDescription entityForName:@"Event" inManagedObjectContext:self.appDelegate.managedObjectContextEvent]];
     [fetchRequestEvent setPredicate:[NSPredicate predicateWithFormat:@"idAnimal == %i", self.idAnimal]];
-    NSArray* resultsEvents = [contextEvent executeFetchRequest:fetchRequestEvent error:nil];
+    NSArray* resultsEvents = [self.appDelegate.managedObjectContextEvent executeFetchRequest:fetchRequestEvent error:nil];
     for (NSManagedObject * currentObj in resultsEvents)
     {
-        [contextEvent deleteObject:currentObj];
+        [self.appDelegate.managedObjectContextEvent deleteObject:currentObj];
     }
     NSError* error = nil;
-    [contextAni save:&error];
-    [contextEvent save:&error];
+    [self.appDelegate.managedObjectContextAnimal save:&error];
+    [self.appDelegate.managedObjectContextEvent save:&error];
     [self.sideMenuViewController hideMenuViewController];
     UINavigationController *mtvc_nc = [[UINavigationController alloc] initWithRootViewController:self.mainTableView];
     self.sideMenuViewController.contentViewController = mtvc_nc;

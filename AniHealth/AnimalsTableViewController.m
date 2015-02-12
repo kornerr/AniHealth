@@ -11,7 +11,7 @@
 
 @interface AnimalsTableViewController ()
 @property (retain,nonatomic) NSMutableArray         *animals;
-@property (retain, nonatomic) NSManagedObjectID   *managedObjectID;
+//@property (retain, nonatomic) NSManagedObjectID   *managedObjectID;
 @property (retain, nonatomic) AddAnimalViewController *addAnimal;
 @property (retain, nonatomic) MainTableViewController *mainTableView;
 @property (retain, nonatomic) AppDelegate               *appDelegate;
@@ -57,7 +57,7 @@
                        animated:YES
                      completion:nil];
 }
-
+/*
 - (NSManagedObjectContext *)managedObjectContext
 {
     NSManagedObjectContext *context = nil;
@@ -68,7 +68,7 @@
     }
     return context;
 }
-
+*/
 - (void)viewDidLoad
 {
     [super viewDidLoad];

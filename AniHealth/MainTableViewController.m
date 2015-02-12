@@ -93,67 +93,85 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.futureEvents = [[NSMutableArray alloc] init];
-    self.events = [[NSMutableArray alloc] init];
-    self.pastEvents = [[NSMutableArray alloc] init];
-    self.allEvents = [[NSMutableArray alloc] init];
-//    NSManagedObjectContext *managedObjectContext = [self managedObjectContext];
     
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Event"];
-    [fetchRequest setResultType:NSDictionaryResultType];
-    NSMutableArray *presAellEvents = [[self.appDelegate.managedObjectContextEvent executeFetchRequest:fetchRequest error:nil] mutableCopy];
-    
-    for (int Y=0; Y<=(presAellEvents.count - 1); Y++)
+    NSFetchRequest *fetchRequestAnimal = [[NSFetchRequest alloc] init];
+    [fetchRequestAnimal setEntity:[NSEntityDescription entityForName:@"Animals" inManagedObjectContext:self.appDelegate.managedObjectContextAnimal]];
+    NSArray* resultsAnimals = [self.appDelegate.managedObjectContextAnimal executeFetchRequest:fetchRequestAnimal error:nil];
+    if (resultsAnimals.count == 0)
     {
-        if ([[[presAellEvents objectAtIndex:Y] objectForKey:@"idAnimal"] integerValue] == self.selectedAnimal)
-        {
-        [self.allEvents addObject:[presAellEvents objectAtIndex:Y]];
-        }
-    }
-    
-//    NSFetchRequest *fetchRequestAllEvents = [[NSFetchRequest alloc] init];
-//    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Event"
-//                                              inManagedObjectContext:managedObjectContext];
-//    [fetchRequestAllEvents setEntity:entity];
-//    [fetchRequestAllEvents setResultType:NSDictionaryResultType];
-//        NSPredicate *predicateAllEvents = [NSPredicate predicateWithFormat:@"idAnimal == %i", self.selectedAnimal];
-//    [fetchRequestAllEvents setPredicate:predicateAllEvents];
-//    self.allEvents = [[managedObjectContext executeFetchRequest:fetchRequestAllEvents error:nil] mutableCopy];
-
-    NSDate *today = [NSDate date];
-    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-    NSUInteger unitFlags = NSDayCalendarUnit;
-    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateFormat:@"dd MMM yyyy"];
-    NSString *stringToday = [dateFormat stringFromDate:today];
-    NSDate *currDate = [dateFormat dateFromString:stringToday];
-    if (self.allEvents.count <1)
-    {
-        self.events = self.allEvents;
+        self.addAnimalForm = [[AddAnimalViewController alloc] init];
+        UINavigationController *aaf_nc = [[UINavigationController alloc] initWithRootViewController:self.addAnimalForm];
+        self.addAnimalForm.registNuberAnimal = 0;
+        self.addAnimalForm.edit = NO;
+        [self presentViewController:aaf_nc
+                           animated:YES
+                         completion:nil];
     }
     else
     {
-        for (int I=0; I<=(self.allEvents.count - 1); I++)
-        {
-            NSDate *activDate = [dateFormat dateFromString: [dateFormat stringFromDate:[[self.allEvents objectAtIndex:I] objectForKey:@"dateEvent"]]];
-            NSDateComponents *components = [gregorian components:unitFlags fromDate:currDate toDate:activDate options:0];
-            NSInteger days = [components day];
-            if (days == 0)
+        self.futureEvents = [[NSMutableArray alloc] init];
+        self.events = [[NSMutableArray alloc] init];
+        self.pastEvents = [[NSMutableArray alloc] init];
+        self.allEvents = [[NSMutableArray alloc] init];
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Event"];
+        [fetchRequest setResultType:NSDictionaryResultType];
+        NSMutableArray *presAllEvents = [[self.appDelegate.managedObjectContextEvent executeFetchRequest:fetchRequest error:nil] mutableCopy];
+        
+        if (presAllEvents.count == 0) {
+            if (self.selectedAnimal == 0)
             {
-                [self.events addObject:[self.allEvents objectAtIndex:I]];
-            }
-            else if (days >0)
-            {
-                [self.futureEvents addObject:[self.allEvents objectAtIndex:I]];
-                
+                [self.sideMenuViewController presentLeftMenuViewController];
             }
             else
             {
-                [self.pastEvents addObject:[self.allEvents objectAtIndex:I]];
+                [self openAddEvent];
             }
         }
+        else
+        {
+        
+            for (int Y=0; Y<=(presAllEvents.count - 1); Y++)
+            {
+                if ([[[presAllEvents objectAtIndex:Y] objectForKey:@"idAnimal"] integerValue] == self.selectedAnimal)
+                {
+                    [self.allEvents addObject:[presAllEvents objectAtIndex:Y]];
+                }
+            }
+            NSDate *today = [NSDate date];
+            NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+            NSUInteger unitFlags = NSDayCalendarUnit;
+            NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+            [dateFormat setDateFormat:@"dd MMM yyyy"];
+            NSString *stringToday = [dateFormat stringFromDate:today];
+            NSDate *currDate = [dateFormat dateFromString:stringToday];
+            if (self.allEvents.count <1)
+            {
+                self.events = self.allEvents;
+            }
+            else
+            {
+                for (int I=0; I<=(self.allEvents.count - 1); I++)
+                {
+                    NSDate *activDate = [dateFormat dateFromString: [dateFormat stringFromDate:[[self.allEvents objectAtIndex:I] objectForKey:@"dateEvent"]]];
+                    NSDateComponents *components = [gregorian components:unitFlags fromDate:currDate toDate:activDate options:0];
+                    NSInteger days = [components day];
+                    if (days == 0)
+                    {
+                        [self.events addObject:[self.allEvents objectAtIndex:I]];
+                    }
+                    else if (days >0)
+                    {
+                        [self.futureEvents addObject:[self.allEvents objectAtIndex:I]];
+                    }
+                    else
+                    {
+                        [self.pastEvents addObject:[self.allEvents objectAtIndex:I]];
+                    }
+                }
+            }
+            [self.tableView reloadData];
+        }
     }
-    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -194,7 +212,6 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    NSArray *descriptor = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"dateEvent" ascending:YES]];//Сортировка по полю "dateEvent" по возрастанию "YES"
     NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"dateEvent" ascending:YES];
     self.sortedTodayArray = [[self.events sortedArrayUsingDescriptors:@[sort]] mutableCopy]; //Создание сортированного массива из массива events по сортировке descriptor
     self.sortedFutureArray = [[self.futureEvents sortedArrayUsingDescriptors:@[sort]] mutableCopy];

@@ -15,6 +15,7 @@
 @property (nonatomic, retain) NSString                  *nameEventSave;
 @property (nonatomic, retain) NSString                  *dateEventSave;
 @property (nonatomic, retain) NSString                  *commentSave;
+@property (nonatomic, retain) AppDelegate               *appDelegate;
 
 @end
 
@@ -25,7 +26,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-        
+        self.appDelegate = [[AppDelegate alloc] init];
         
     }
     return self;
@@ -43,12 +44,12 @@
     if (self.teamsEvent.selectedSegmentIndex == 0)
     {
         NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:@"Event"
-                                                                inManagedObjectContext:self.managedObjectContext]; // Инициализируем object после IF по причине, описанной ниже
+                                                                inManagedObjectContext:self.appDelegate.managedObjectContextEvent]; // Инициализируем object после IF по причине, описанной ниже
         [object setValue:self.nameEvent.text forKey:@"nameEvent"];
         [object setValue:self.comment.text forKey:@"comment"];
         [object setValue:self.selectedDate forKey:@"dateEvent"];
         [object setValue:animalID forKey:@"idAnimal"];
-        if (![self.managedObjectContext save:&error])
+        if (![self.appDelegate.managedObjectContextEvent save:&error])
         {
             NSLog(@"Failed to save - error: %@", [error localizedDescription]);
         }
@@ -63,14 +64,14 @@
         for (int forI=0; forI<=days; forI++)
         {
             NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:@"Event"
-                                                                    inManagedObjectContext:self.managedObjectContext]; // Инициализация object реализованва в цикле по причине того, что запись его содержимого в базу происходит (предположительно) после завершения куска кода, в которой он инициализируется, иначе будет записан только последний прогон цикла
+                                                                    inManagedObjectContext:self.appDelegate.managedObjectContextEvent]; // Инициализация object реализованва в цикле по причине того, что запись его содержимого в базу происходит (предположительно) после завершения куска кода, в которой он инициализируется, иначе будет записан только последний прогон цикла
             [object setValue:self.nameEvent.text forKey:@"nameEvent"];
             [object setValue:self.comment.text forKey:@"comment"];
             int daysToAdd = (-1)*forI;
             NSDate *newDate = [self.selectedDate dateByAddingTimeInterval:60*60*24*daysToAdd];
             [object setValue:newDate forKey:@"dateEvent"];
             [object setValue:animalID forKey:@"idAnimal"];
-            if (![self.managedObjectContext save:&error])
+            if (![self.appDelegate.managedObjectContextEvent save:&error])
             {
                 NSLog(@"Failed to save - error: %@", [error localizedDescription]);
             }
@@ -116,8 +117,8 @@
         
         self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:saveEvent, nil]; //Присвоение двух кнопок к левой стороне NC
     }
-    AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
-    self.managedObjectContext = appDelegate.managedObjectContextEvent;
+//    AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
+//    self.managedObjectContext = appDelegate.managedObjectContextEvent;
 }
 
 -(void)resetEvent

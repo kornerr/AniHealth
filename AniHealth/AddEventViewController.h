@@ -21,7 +21,7 @@
 @property (nonatomic) NSInteger                             idSelectedAnimal;
 @property (nonatomic) BOOL                                  edit;
 @property (retain, nonatomic) NSObject                      *selectedEvent;
-@property (nonatomic, retain) NSManagedObjectContext        *managedObjectContext;
+//@property (nonatomic, retain) NSManagedObjectContext        *managedObjectContext;
 
 
 @end

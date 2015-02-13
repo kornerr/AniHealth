@@ -116,25 +116,32 @@
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Event"];
         [fetchRequest setResultType:NSDictionaryResultType];
         NSMutableArray *presAllEvents = [[self.appDelegate.managedObjectContextEvent executeFetchRequest:fetchRequest error:nil] mutableCopy];
+        NSLog(@"----%@",self.allEvents);
+//        NSArray *presAllEvents = [self.appDelegate.managedObjectContextEvent executeFetchRequest:fetchRequest error:nil];
         
-        if (presAllEvents.count == 0) {
-            if (self.selectedAnimal == 0)
-            {
-                [self.sideMenuViewController presentLeftMenuViewController];
-            }
-            else
-            {
-                [self openAddEvent];
-            }
+        if (self.selectedAnimal == 0)
+        {
+            [self.sideMenuViewController presentLeftMenuViewController];
         }
         else
         {
+            if (presAllEvents.count == 0)
+            {
+                [self openAddEvent];
+            }
+            else
+            {
         
             for (int Y=0; Y<=(presAllEvents.count - 1); Y++)
             {
                 if ([[[presAllEvents objectAtIndex:Y] objectForKey:@"idAnimal"] integerValue] == self.selectedAnimal)
                 {
+//                    [presAllEvents insertObject:@{@"2" : @"1"} atIndex:Y];
+//                    [self.allEvents addObject:[[presAllEvents objectAtIndex:Y]];
+//                    [self.allEvents addObject:[presAllEvents insertObject:@{@"id":[NSString stringWithFormat:@"%d",Y]} atIndex:Y]];
                     [self.allEvents addObject:[presAllEvents objectAtIndex:Y]];
+//                    [self.allEvents insertObject:@{@"id" : @"123"} atIndex:Y];
+                    NSLog(@"----%@",self.allEvents);
                 }
             }
             NSDate *today = [NSDate date];
@@ -167,11 +174,12 @@
                     {
                         [self.pastEvents addObject:[self.allEvents objectAtIndex:I]];
                     }
+                    }
                 }
             }
-            [self.tableView reloadData];
         }
     }
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -264,9 +272,13 @@
         else
         {
             NSManagedObject *test = [self.sortedFutureArray objectAtIndex:indexPath.row];
+            
+            NSManagedObjectID *oid = [self.sortedFutureArray valueForKey:@"idAnimal"];
+            NSManagedObject *o = [self.appDelegate.managedObjectContextEvent objectWithID:oid];
                                                                                                                          
             NSLog(@"Объект на удаление: %@", test);
-            [self.appDelegate.managedObjectContextEvent deleteObject:test];
+//            [self.appDelegate.managedObjectContextEvent deleteObject:test];
+            [self.appDelegate.managedObjectContextEvent deleteObject:o];
 
             NSError *error = nil;
             if (![self.appDelegate.managedObjectContextEvent save:&error])
@@ -277,7 +289,7 @@
             [self.sortedFutureArray removeObjectAtIndex:indexPath.row];
             [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
         }
-        [tableView reloadData]; // tell table to refresh now
+        [tableView reloadData];  //tell table to refresh now
     }
 }
 
@@ -292,7 +304,6 @@
     {
         self.addEventForm.selectedEvent = [self.sortedFutureArray objectAtIndex:indexPath.row];
     }
-    NSLog(@"%@", self.addEventForm.selectedEvent);
     self.addEventForm.edit = YES;
     [self.navigationController pushViewController:self.addEventForm animated:YES];
 }

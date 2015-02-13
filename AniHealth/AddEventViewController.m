@@ -80,6 +80,15 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+-(void)saveEditEvent
+{
+    [self.selectedEvent setValue:self.nameEvent.text forKey:@"nameEvent"];
+    [self.selectedEvent setValue:self.comment.text forKey:@"comment"];
+    [self.selectedEvent setValue:self.selectedDate forKey:@"dateEvent"];
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -91,6 +100,10 @@
                                                                   style:UIBarButtonItemStylePlain
                                                                  target:self
                                                                  action:@selector(resetEvent)];
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save"
+                                                                                 style:UIBarButtonItemStylePlain
+                                                                                target:self
+                                                                                action:@selector(saveEditEvent)];
         self.nameEvent.text = [NSString stringWithFormat:@"%@", [self.selectedEvent valueForKey:@"nameEvent"]];
         self.nameEventSave = self.nameEvent.text;
         NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];

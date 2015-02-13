@@ -68,6 +68,25 @@
     }
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+
+-(void) saveEditAnimal
+{
+    NSManagedObject *note = [self.animals objectAtIndex:0];
+    [note setValue:self.addNameAnimal.text forKey:@"nameAnimal"];
+    [note setValue:self.iconNameAnimal forKey:@"iconAnimal"];
+    [note setValue:self.selectedDate forKey:@"date"];
+    if (self.maleAnimal.selectedSegmentIndex == 0)
+    {
+        [note setValue:[NSNumber numberWithBool:YES] forKey:@"male"];
+    }
+    else
+    {
+        [note setValue:[NSNumber numberWithBool:NO] forKey:@"male"];
+    }
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+
 /*
 - (NSManagedObjectContext *)managedObjectContext
 {
@@ -94,6 +113,10 @@
                                                                         target:self
                                                                         action:@selector(daleteAnimal)];
         self.navigationItem.RightBarButtonItems = [[NSArray alloc] initWithObjects:reset, deleteAnimal, nil];
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save"
+                                                                                 style:UIBarButtonItemStylePlain
+                                                                                target:self
+                                                                                action:@selector(saveEditAnimal)];
         self.mainTableView = [[MainTableViewController alloc]init];
 //        NSManagedObjectContext *managedObjectContext = [self managedObjectContext];
         NSFetchRequest *fetchRequestEditAnimal = [[NSFetchRequest alloc] init];

@@ -20,7 +20,7 @@
 @property (strong, nonatomic) IBOutlet UISegmentedControl   *teamsEvent;
 @property (nonatomic) NSInteger                             idSelectedAnimal;
 @property (nonatomic) BOOL                                  edit;
-@property (retain, nonatomic) NSObject                      *selectedEvent;
+@property (strong) NSManagedObject                          *selectedEvent;
 //@property (nonatomic, retain) NSManagedObjectContext        *managedObjectContext;
 
 

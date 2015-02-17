@@ -10,22 +10,19 @@
 #import "Animals.h"
 
 @interface AnimalsTableViewController ()
-@property (retain,nonatomic) NSMutableArray         *animals;
-//@property (retain, nonatomic) NSManagedObjectID   *managedObjectID;
-@property (retain, nonatomic) AddAnimalViewController *addAnimal;
-@property (retain, nonatomic) MainTableViewController *mainTableView;
-@property (retain, nonatomic) AppDelegate               *appDelegate;
+@property (retain,nonatomic) NSMutableArray             *animals;
+@property (retain, nonatomic) AddAnimalViewController   *addAnimal;
+@property (retain, nonatomic) MainTableViewController   *mainTableView;
 
 @end
 
 @implementation AnimalsTableViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil //Процедура, реализуемая в самом начале работы "Вперёд батьки"
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-        self.appDelegate = [[AppDelegate alloc] init];
         self.navigationItem.title = @"Animals"; //Заголовок NC
         
         UIBarButtonItem *addAninLefBut = [[UIBarButtonItem alloc] initWithTitle:@"AddAnimal" //Создание первой кнопки для NC и присвоение ей псевдонима
@@ -41,7 +38,7 @@
 {
     self.addAnimal = [[AddAnimalViewController alloc] init];
     UINavigationController *aaf_nc = [[UINavigationController alloc] initWithRootViewController:self.addAnimal];
-    int animalCoutn = (int)[self.animals count];
+    int animalCoutn = (int)[self.mainTableView.animals count];
     if (animalCoutn ==0)
     {
         self.addAnimal.registNuberAnimal = 0;
@@ -49,7 +46,7 @@
     else
     {
         animalCoutn = animalCoutn-1;
-        NSManagedObject *note = [self.animals objectAtIndex:animalCoutn];
+        NSManagedObject *note = [self.mainTableView.animals objectAtIndex:animalCoutn];
         self.addAnimal.registNuberAnimal = [[note valueForKey:@"idAni"] integerValue];
     }
     self.addAnimal.edit = NO;
@@ -57,18 +54,7 @@
                        animated:YES
                      completion:nil];
 }
-/*
-- (NSManagedObjectContext *)managedObjectContext
-{
-    NSManagedObjectContext *context = nil;
-    id delegate = [[UIApplication sharedApplication] delegate];
-    if ([delegate performSelector:@selector(managedObjectContext)])
-    {
-        context = [delegate managedObjectContext];
-    }
-    return context;
-}
-*/
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -85,10 +71,9 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.mainTableView = [[MainTableViewController alloc] init];
-//    NSManagedObjectContext *managedObjectContext = [self managedObjectContext];
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Animals"];
-    self.animals = [[self.appDelegate.managedObjectContextAnimal executeFetchRequest:fetchRequest error:nil] mutableCopy];
+    self.animals = [self.moca SelectAll:@"Animals"];
+//    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Animals"];
+//    self.animals = [[self.mainTableView.managedObjectContextAnimals executeFetchRequest:fetchRequest error:nil] mutableCopy];
     [self.tableView reloadData];
 }
 
@@ -115,7 +100,6 @@
 {
     NSManagedObject *note = [self.animals objectAtIndex:indexPath.row];
     self.mainTableView.selectedAnimal = [[NSString stringWithFormat:@"%@", [note valueForKey:@"idAni"]] integerValue];
-    NSLog(@"Нажалось: %i", self.mainTableView.selectedAnimal);
     [self.sideMenuViewController hideMenuViewController];
     UINavigationController *mtvc_nc = [[UINavigationController alloc] initWithRootViewController:self.mainTableView];
     self.sideMenuViewController.contentViewController = mtvc_nc;

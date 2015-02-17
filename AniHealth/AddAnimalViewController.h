@@ -21,6 +21,7 @@
 @property (strong, nonatomic) IBOutlet UIButton             *iconButton4;
 @property (retain, nonatomic) NSMutableArray                *animals;
 @property (retain, nonatomic) NSMutableArray                *events;
+@property (nonatomic, retain) NSManagedObjectContext        *managedObjectContext;
 
 @property (nonatomic) NSInteger                             idAnimal;
 @property (nonatomic) NSInteger                             registNuberAnimal;

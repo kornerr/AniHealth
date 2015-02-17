@@ -3,20 +3,23 @@
 #import "Event.h"
 #import "Animals.h"
 
+
 @interface MainTableViewController ()
 
-@property (nonatomic, retain) AppDelegate *appDelegate;
+//@property (nonatomic, retain) AppDelegate *appDelegate;
+
+@property (retain, nonatomic) AnimalsTableViewController        *animalTableView;
 
 @end
 
 @implementation MainTableViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil //Процедура, реализуемая в самом начале работы "Вперёд батьки"
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil 
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-        self.appDelegate = [[AppDelegate alloc] init];
+//        self.appDelegate = [[AppDelegate alloc] init];
         self.navigationItem.title = @"Main"; //Заголовок NC
         UIBarButtonItem *aniLeftBut = [[UIBarButtonItem alloc] initWithTitle:@"Animals" //Создание первой кнопки для NC и присвоение ей псевдонима
                                                                        style:UIBarButtonItemStylePlain
@@ -71,17 +74,6 @@
     [self.sideMenuViewController presentLeftMenuViewController]; //вызов бокового меню, реализованного в библиотеки RESideMenu
 }
 
-- (NSManagedObjectContext *)managedObjectContext
-{
-    NSManagedObjectContext *context = nil;
-    id delegate = [[UIApplication sharedApplication] delegate];
-    if ([delegate performSelector:@selector(managedObjectContext)])
-    {
-        context = [delegate managedObjectContext];
-    }
-    return context;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -93,14 +85,20 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+//    AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
+//    self.managedObjectContextAll = appDelegate.managedObjectContext;
+
+    NSMutableArray *allAnimal = [self.moca SelectAll:@"Animals"];
     
-    NSFetchRequest *fetchRequestAnimal = [[NSFetchRequest alloc] init];
-    [fetchRequestAnimal setEntity:[NSEntityDescription entityForName:@"Animals" inManagedObjectContext:self.appDelegate.managedObjectContextAnimal]];
-    NSArray* resultsAnimals = [self.appDelegate.managedObjectContextAnimal executeFetchRequest:fetchRequestAnimal error:nil];
-    if (resultsAnimals.count == 0)
+    
+//    NSFetchRequest *fetchRequestAnimal = [[NSFetchRequest alloc] init];
+//    [fetchRequestAnimal setEntity:[NSEntityDescription entityForName:@"Animals" inManagedObjectContext:self.managedObjectContextAll]];
+//    self.animals = [self.managedObjectContextAll executeFetchRequest:fetchRequestAnimal error:nil];
+    if (allAnimal.count == 0)
     {
         self.addAnimalForm = [[AddAnimalViewController alloc] init];
         UINavigationController *aaf_nc = [[UINavigationController alloc] initWithRootViewController:self.addAnimalForm];
+//        self.addAnimalForm.managedObjectContext = self.managedObjectContextAll;
         self.addAnimalForm.registNuberAnimal = 0;
         self.addAnimalForm.edit = NO;
         [self presentViewController:aaf_nc
@@ -113,11 +111,11 @@
         self.events = [[NSMutableArray alloc] init];
         self.pastEvents = [[NSMutableArray alloc] init];
         self.allEvents = [[NSMutableArray alloc] init];
-        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Event"];
-        [fetchRequest setResultType:NSDictionaryResultType];
-        NSMutableArray *presAllEvents = [[self.appDelegate.managedObjectContextEvent executeFetchRequest:fetchRequest error:nil] mutableCopy];
+//        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Event"];
+//        [fetchRequest setResultType:NSDictionaryResultType];
+        NSMutableArray *presAllEvents = [self.moca SelectAll:@"Event"];
+        
         NSLog(@"----%@",self.allEvents);
-//        NSArray *presAllEvents = [self.appDelegate.managedObjectContextEvent executeFetchRequest:fetchRequest error:nil];
         
         if (self.selectedAnimal == 0)
         {
@@ -136,11 +134,7 @@
             {
                 if ([[[presAllEvents objectAtIndex:Y] objectForKey:@"idAnimal"] integerValue] == self.selectedAnimal)
                 {
-//                    [presAllEvents insertObject:@{@"2" : @"1"} atIndex:Y];
-//                    [self.allEvents addObject:[[presAllEvents objectAtIndex:Y]];
-//                    [self.allEvents addObject:[presAllEvents insertObject:@{@"id":[NSString stringWithFormat:@"%d",Y]} atIndex:Y]];
                     [self.allEvents addObject:[presAllEvents objectAtIndex:Y]];
-//                    [self.allEvents insertObject:@{@"id" : @"123"} atIndex:Y];
                     NSLog(@"----%@",self.allEvents);
                 }
             }
@@ -151,31 +145,24 @@
             [dateFormat setDateFormat:@"dd MMM yyyy"];
             NSString *stringToday = [dateFormat stringFromDate:today];
             NSDate *currDate = [dateFormat dateFromString:stringToday];
-            if (self.allEvents.count <1)
+            for (int I=0; I<=(self.allEvents.count - 1); I++)
             {
-                self.events = self.allEvents;
-            }
-            else
-            {
-                for (int I=0; I<=(self.allEvents.count - 1); I++)
+                NSDate *activDate = [dateFormat dateFromString: [dateFormat stringFromDate:[[self.allEvents objectAtIndex:I] objectForKey:@"dateEvent"]]];
+                NSDateComponents *components = [gregorian components:unitFlags fromDate:currDate toDate:activDate options:0];
+                NSInteger days = [components day];
+                if (days == 0)
                 {
-                    NSDate *activDate = [dateFormat dateFromString: [dateFormat stringFromDate:[[self.allEvents objectAtIndex:I] objectForKey:@"dateEvent"]]];
-                    NSDateComponents *components = [gregorian components:unitFlags fromDate:currDate toDate:activDate options:0];
-                    NSInteger days = [components day];
-                    if (days == 0)
-                    {
-                        [self.events addObject:[self.allEvents objectAtIndex:I]];
-                    }
-                    else if (days >0)
-                    {
-                        [self.futureEvents addObject:[self.allEvents objectAtIndex:I]];
-                    }
-                    else
-                    {
-                        [self.pastEvents addObject:[self.allEvents objectAtIndex:I]];
-                    }
-                    }
+                    [self.events addObject:[self.allEvents objectAtIndex:I]];
                 }
+                else if (days >0)
+                {
+                    [self.futureEvents addObject:[self.allEvents objectAtIndex:I]];
+                }
+                else
+                {
+                    [self.pastEvents addObject:[self.allEvents objectAtIndex:I]];
+                }
+            }
             }
         }
     }
@@ -259,34 +246,37 @@
     {
         if (indexPath.section == 0)
         {
-            [self.appDelegate.managedObjectContextEvent deleteObject:[self.sortedTodayArray objectAtIndex:indexPath.row]];
-            NSError *error = nil;
-            if (![self.appDelegate.managedObjectContextEvent save:&error])
-            {
-                NSLog(@"Can't Delete! %@ %@", error, [error localizedDescription]);
-                return;
-            }
-            [self.sortedTodayArray removeObjectAtIndex:indexPath.row];
+            
+            [self.moca DeleteForIndexPath:indexPath Array:self.sortedTodayArray];
+//            [self.managedObjectContextAll deleteObject:[self.sortedTodayArray objectAtIndex:indexPath.row]];
+//            NSError *error = nil;
+//            if (![self.managedObjectContextAll save:&error])
+//            {
+//                NSLog(@"Can't Delete! %@ %@", error, [error localizedDescription]);
+//                return;
+//            }
+//            [self.sortedTodayArray removeObjectAtIndex:indexPath.row];
             [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
         }
         else
         {
-            NSManagedObject *test = [self.sortedFutureArray objectAtIndex:indexPath.row];
-            
-            NSManagedObjectID *oid = [self.sortedFutureArray valueForKey:@"idAnimal"];
-            NSManagedObject *o = [self.appDelegate.managedObjectContextEvent objectWithID:oid];
-                                                                                                                         
-            NSLog(@"Объект на удаление: %@", test);
-//            [self.appDelegate.managedObjectContextEvent deleteObject:test];
-            [self.appDelegate.managedObjectContextEvent deleteObject:o];
-
-            NSError *error = nil;
-            if (![self.appDelegate.managedObjectContextEvent save:&error])
-            {
-                NSLog(@"Can't Delete! %@ %@", error, [error localizedDescription]);
-                return;
-            }
-            [self.sortedFutureArray removeObjectAtIndex:indexPath.row];
+            [self.moca DeleteForIndexPath:indexPath Array:self.sortedFutureArray];
+//            NSManagedObject *test = [self.sortedFutureArray objectAtIndex:indexPath.row];
+//            
+//            NSManagedObjectID *oid = [self.sortedFutureArray valueForKey:@"idAnimal"];
+//            NSManagedObject *o = [self.managedObjectContextAll objectWithID:oid];
+//                                                                                                                         
+//            NSLog(@"Объект на удаление: %@", test);
+////            [self.appDelegate.managedObjectContextEvent deleteObject:test];
+//            [self.managedObjectContextAll deleteObject:o];
+//
+//            NSError *error = nil;
+//            if (![self.managedObjectContextAll save:&error])
+//            {
+//                NSLog(@"Can't Delete! %@ %@", error, [error localizedDescription]);
+//                return;
+//            }
+//            [self.sortedFutureArray removeObjectAtIndex:indexPath.row];
             [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
         }
         [tableView reloadData];  //tell table to refresh now

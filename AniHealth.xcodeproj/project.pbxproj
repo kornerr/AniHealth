@@ -19,6 +19,7 @@
 		845632DB1A664FB8004697A3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 845632DA1A664FB8004697A3 /* AppDelegate.m */; };
 		845632E31A664FB8004697A3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 845632E21A664FB8004697A3 /* Images.xcassets */; };
 		845632F21A664FB8004697A3 /* AniHealthTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 845632F11A664FB8004697A3 /* AniHealthTests.m */; };
+		84CC45511A92272800BB9492 /* UniversalClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CC45501A92272800BB9492 /* UniversalClass.m */; };
 		84CECA591A777DEA00F99C2B /* iconAnimal1.png in Resources */ = {isa = PBXBuildFile; fileRef = 84CECA551A777DEA00F99C2B /* iconAnimal1.png */; };
 		84CECA5A1A777DEA00F99C2B /* iconAnimal2.png in Resources */ = {isa = PBXBuildFile; fileRef = 84CECA561A777DEA00F99C2B /* iconAnimal2.png */; };
 		84CECA5B1A777DEA00F99C2B /* iconAnimal3.png in Resources */ = {isa = PBXBuildFile; fileRef = 84CECA571A777DEA00F99C2B /* iconAnimal3.png */; };
@@ -72,6 +73,8 @@
 		845632EB1A664FB8004697A3 /* AniHealthTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AniHealthTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		845632F01A664FB8004697A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		845632F11A664FB8004697A3 /* AniHealthTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AniHealthTests.m; sourceTree = "<group>"; };
+		84CC454F1A92272800BB9492 /* UniversalClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UniversalClass.h; sourceTree = "<group>"; };
+		84CC45501A92272800BB9492 /* UniversalClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UniversalClass.m; sourceTree = "<group>"; };
 		84CECA551A777DEA00F99C2B /* iconAnimal1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iconAnimal1.png; sourceTree = "<group>"; };
 		84CECA561A777DEA00F99C2B /* iconAnimal2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iconAnimal2.png; sourceTree = "<group>"; };
 		84CECA571A777DEA00F99C2B /* iconAnimal3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iconAnimal3.png; sourceTree = "<group>"; };
@@ -179,6 +182,8 @@
 				844DECA91A67ABBB0026B7B2 /* HistoryTableViewController.h */,
 				844DECAA1A67ABBB0026B7B2 /* HistoryTableViewController.m */,
 				844DECAB1A67ABBB0026B7B2 /* HistoryTableViewController.xib */,
+				84CC454F1A92272800BB9492 /* UniversalClass.h */,
+				84CC45501A92272800BB9492 /* UniversalClass.m */,
 				845632E21A664FB8004697A3 /* Images.xcassets */,
 				84D0EC481A6CE91100C82EF4 /* DBAniHea.xcdatamodeld */,
 				84D50D491A7FB313002CFF42 /* Animals.h */,
@@ -388,6 +393,7 @@
 				845632DB1A664FB8004697A3 /* AppDelegate.m in Sources */,
 				84D50D4B1A7FB313002CFF42 /* Animals.m in Sources */,
 				845632D81A664FB8004697A3 /* main.m in Sources */,
+				84CC45511A92272800BB9492 /* UniversalClass.m in Sources */,
 				84D1FFEA1A6927C1007EAF9E /* AddAnimalViewController.m in Sources */,
 				84D1968F1A68F836003E0FDD /* MainTableViewCell.m in Sources */,
 				84326A9E1A6679DA00B62549 /* MainTableViewController.m in Sources */,

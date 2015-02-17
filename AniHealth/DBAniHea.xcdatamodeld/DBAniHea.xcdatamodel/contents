@@ -18,6 +18,6 @@
     </entity>
     <elements>
         <element name="Animals" positionX="-281" positionY="53" width="128" height="135"/>
-        <element name="Event" positionX="-56" positionY="53" width="128" height="135"/>
+        <element name="Event" positionX="-56" positionY="53" width="128" height="133"/>
     </elements>
 </model>

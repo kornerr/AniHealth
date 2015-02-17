@@ -10,26 +10,39 @@
 #import "MainTableViewController.h"
 #import "AnimalsTableViewController.h"
 #import "HistoryTableViewController.h"
+#import "UniversalClass.h"
 
 @interface AppDelegate () <RESideMenuDelegate>
+
+@property (nonatomic, retain) UniversalClass *universalClass;
 
 @end
 
 @implementation AppDelegate
 
 @synthesize managedObjectContext = _managedObjectContext;
-@synthesize managedObjectContextEvent = _managedObjectContextEvent;
-@synthesize managedObjectContextAnimal = _managedObjectContextAnimal;
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    self.managedObjectContext = [[NSManagedObjectContext alloc] init];
+    self.universalClass = [[UniversalClass alloc] init];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]]; //Обозначаем область действия на всю площать экрана
+    
     MainTableViewController *mtvc = [[MainTableViewController alloc]init]; //Объявление формы и присваевание ей псевдонима
+    mtvc.moca = self.universalClass;
+    
     UINavigationController *mtvc_nc = [[UINavigationController alloc] initWithRootViewController:mtvc]; //Наложение NC поверх формы
     AnimalsTableViewController *atvc = [[AnimalsTableViewController alloc]init];
+    atvc.moca = self.universalClass;
+    
     UINavigationController *atvc_nc = [[UINavigationController alloc] initWithRootViewController:atvc];
+    AddEventViewController *aevc = [[AddEventViewController alloc] init];
+    aevc.moca = self.universalClass;
+    
+    AddAnimalViewController *aavc = [[AddAnimalViewController alloc] init];
+//    aavc.moca = self.managedObjectContextAll;
     RESideMenu *sideMenuViewController = [[RESideMenu alloc] initWithContentViewController:mtvc_nc
                                                                     leftMenuViewController:atvc_nc
                                                                    rightMenuViewController:nil];
@@ -41,9 +54,11 @@
     sideMenuViewController.contentViewShadowEnabled = YES;
     self.window.rootViewController = sideMenuViewController;
     [self.window makeKeyAndVisible];
+    self.universalClass.managedObjectContextAll = self.managedObjectContext;
     
     return YES;
 }
+
 //Объявление базы - Начало
 - (NSManagedObjectModel *)managedObjectModel
 {
@@ -76,50 +91,17 @@
 
 - (NSManagedObjectContext *)managedObjectContext
 {
-    if(_managedObjectContext != nil)
-    {
+    if (_managedObjectContext != nil)
         return _managedObjectContext;
-    }
+    
     NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
-    if(coordinator != nil)
+    if (coordinator != nil)
     {
         _managedObjectContext = [[NSManagedObjectContext alloc] init];
         [_managedObjectContext setPersistentStoreCoordinator:coordinator];
     }
     
     return _managedObjectContext;
-}
-
-- (NSManagedObjectContext *)managedObjectContextEvent
-{
-    if(_managedObjectContextEvent != nil)
-    {
-        return _managedObjectContextEvent;
-    }
-    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
-    if(coordinator != nil)
-    {
-        _managedObjectContextEvent = [[NSManagedObjectContext alloc] init];
-        [_managedObjectContextEvent setPersistentStoreCoordinator:coordinator];
-    }
-    
-    return _managedObjectContextEvent;
-}
-
-- (NSManagedObjectContext *)managedObjectContextAnimal
-{
-    if(_managedObjectContextAnimal != nil)
-    {
-        return _managedObjectContextAnimal;
-    }
-    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
-    if(coordinator != nil)
-    {
-        _managedObjectContextAnimal = [[NSManagedObjectContext alloc] init];
-        [_managedObjectContextAnimal setPersistentStoreCoordinator:coordinator];
-    }
-    
-    return _managedObjectContextAnimal;
 }
 
 - (NSURL *)applicationDocumentsDirectory

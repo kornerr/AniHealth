@@ -10,8 +10,12 @@
 #import "AddAnimalViewController.h"
 #import "AnimalTableViewCell.h"
 #import "MainTableViewController.h"
+#import "UniversalClass.h"
 
 
 @interface AnimalsTableViewController : UITableViewController 
+@property (retain, nonatomic) UniversalClass           *moca;
+
+//@property (strong, nonatomic) NSManagedObjectContext *managedObjectContextAnimals;
 
 @end

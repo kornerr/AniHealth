@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Event.h"
 #import "AppDelegate.h"
+#import "UniversalClass.h"
 
 
 
@@ -21,6 +22,8 @@
 @property (nonatomic) NSInteger                             idSelectedAnimal;
 @property (nonatomic) BOOL                                  edit;
 @property (strong) NSManagedObject                          *selectedEvent;
+@property (retain, nonatomic) UniversalClass      *moca;
+
 //@property (nonatomic, retain) NSManagedObjectContext        *managedObjectContext;
 
 

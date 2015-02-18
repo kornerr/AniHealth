@@ -7,7 +7,6 @@
 //
 
 #import "UniversalClass.h"
-#import "AppDelegate.h"
 
 @implementation UniversalClass
 
@@ -25,9 +24,8 @@
 - (NSMutableArray *)SelectAll:(NSString *)entity
 {
     
-//    AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
-//    self.managedObjectContextAll = appDelegate.managedObjectContext;
-    self.managedObjectContextAll = [self managedObjectContext];
+    AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
+    self.managedObjectContextAll = appDelegate.managedObjectContext;
 
     NSLog(@"------%@", entity);
    

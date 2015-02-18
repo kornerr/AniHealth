@@ -23,7 +23,6 @@
 @property (retain, nonatomic) AddEventViewController            *addEventForm;
 @property (retain, nonatomic) AddAnimalViewController           *addAnimalForm;
 @property (nonatomic, strong) NSFetchedResultsController        *fetchedResultsController;
-@property (nonatomic, retain) Animals                           *animal;
 @property (retain, nonatomic) NSMutableArray                    *allEvents;
 @property (retain, nonatomic) NSMutableArray                    *futureEvents;
 @property (retain, nonatomic) NSMutableArray                    *events;

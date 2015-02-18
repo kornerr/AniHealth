@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"
-#import "Animals.h"
-#import "Event.h"
 
 @interface AddAnimalViewController : UIViewController
 @property (strong, nonatomic) IBOutlet UISegmentedControl   *maleAnimal;

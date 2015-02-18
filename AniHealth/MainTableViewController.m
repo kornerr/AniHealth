@@ -1,8 +1,5 @@
 #import "MainTableViewController.h"
 #import <RESideMenu.h>
-#import "Event.h"
-#import "Animals.h"
-
 
 @interface MainTableViewController ()
 

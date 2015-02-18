@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Event.h"
 #import "AppDelegate.h"
 #import "UniversalClass.h"
 

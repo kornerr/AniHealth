@@ -7,7 +7,6 @@
 //
 
 #import "AnimalsTableViewController.h"
-#import "Animals.h"
 
 @interface AnimalsTableViewController ()
 @property (retain,nonatomic) NSMutableArray             *animals;

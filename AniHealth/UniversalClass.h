@@ -8,12 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
+#import "AppDelegate.h"
 
 @interface UniversalClass : NSObject
 
 @property (nonatomic, retain) NSManagedObjectContext    *managedObjectContextAll;
 @property (nonatomic) id                                target;
 @property (nonatomic) SEL                               action;
+@property (nonatomic, retain) AppDelegate               *appDelegate;
 
 - (NSMutableArray *)SelectAll:(NSString *)entity;
 

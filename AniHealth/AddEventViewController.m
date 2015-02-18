@@ -45,9 +45,10 @@
 
 -(void)saveEditEvent
 {
-    [self.selectedEvent setValue:self.nameEvent.text forKey:@"name"];
-    [self.selectedEvent setValue:self.comment.text forKey:@"comment"];
-    [self.selectedEvent setValue:self.selectedDate forKey:@"date"];
+    [self.moca SaveEditEventName:self.nameEvent.text DateEvent:self.selectedDate Comment:self.comment.text Event:self.selectedEvent];
+//    [self.selectedEvent setValue:self.nameEvent.text forKey:@"name"];
+//    [self.selectedEvent setValue:self.comment.text forKey:@"comment"];
+//    [self.selectedEvent setValue:self.selectedDate forKey:@"date"];
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 

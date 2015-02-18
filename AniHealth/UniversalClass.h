@@ -44,4 +44,9 @@
              SelectiontMale:(NSInteger)selectiontMale
                    AnimalID:(NSInteger)animalID;
 
+- (void) SaveEditEventName:(NSString *)name
+                 DateEvent:(NSDate *)date
+                   Comment:(NSString *)comment
+                     Event:(NSManagedObject *)event;
+
 @end

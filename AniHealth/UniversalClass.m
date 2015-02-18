@@ -89,11 +89,7 @@
     }
 }
 
-- (void) SaveAddAnimalName:(NSString *)animalName
-           AnimalBirthdate:(NSDate *)animalBirthdate
-                  IconName:(NSString *)animalIcon
-           AnimalRegistrID:(NSNumber *)animalID
-            SelectiontMale:(NSInteger )selectiontMale
+- (void) SaveAddAnimalName:(NSString *)animalName AnimalBirthdate:(NSDate *)animalBirthdate IconName:(NSString *)animalIcon AnimalRegistrID:(NSNumber *)animalID SelectiontMale:(NSInteger )selectiontMale
 {
     [self getAppDelegateMOC];
     
@@ -121,8 +117,6 @@
 
 - (void) SaveEditAnimalName:(NSString *)animalName AnimalBirthdate:(NSDate *)animalBirthdate IconName:(NSString *)animalIcon SelectiontMale:(NSInteger )selectiontMale AnimalID:(NSInteger)animalID
 {
-    AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
-    self.managedObjectContextAll = appDelegate.managedObjectContext;
     
     NSMutableArray *animal = [self GetAnimalForEditToID:animalID];
     NSManagedObject *note = [animal objectAtIndex:0];
@@ -137,7 +131,17 @@
     {
         [note setValue:[NSNumber numberWithBool:NO] forKey:@"animalMale"];
     }
+    NSError *error;
+    [self.managedObjectContextAll save:&error];
+}
 
+- (void) SaveEditEventName:(NSString *)name DateEvent:(NSDate *)date Comment:(NSString *)comment Event:(NSManagedObject *)event
+{
+    [event setValue:name forKey:@"name"];
+    [event setValue:comment forKey:@"comment"];
+    [event setValue:date forKey:@"date"];
+    NSError *error;
+    [self.managedObjectContextAll save:&error];
 }
 
 - (NSMutableArray *)GetAnimalForEditToID:(NSInteger )animalID
@@ -149,7 +153,7 @@
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Animals"
                                               inManagedObjectContext:self.managedObjectContextAll];
     [fetchRequestEditAnimal setEntity:entity];
-    [fetchRequestEditAnimal setResultType:NSDictionaryResultType];
+//    [fetchRequestEditAnimal setResultType:NSDictionaryResultType];
     NSPredicate *predicateAllEvents = [NSPredicate predicateWithFormat:@"animalID == %i", animalID];
     [fetchRequestEditAnimal setPredicate:predicateAllEvents];
     NSMutableArray *animal = [[self.managedObjectContextAll executeFetchRequest:fetchRequestEditAnimal error:nil] mutableCopy];

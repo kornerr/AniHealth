@@ -22,6 +22,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
+        self.mainTableView = [[MainTableViewController alloc] init];
         self.navigationItem.title = @"Animals"; //Заголовок NC
         
         UIBarButtonItem *addAninLefBut = [[UIBarButtonItem alloc] initWithTitle:@"AddAnimal" //Создание первой кнопки для NC и присвоение ей псевдонима
@@ -46,7 +47,7 @@
     {
         animalCoutn = animalCoutn-1;
         NSManagedObject *note = [self.mainTableView.animals objectAtIndex:animalCoutn];
-        self.addAnimal.registNuberAnimal = [[note valueForKey:@"idAni"] integerValue];
+        self.addAnimal.registNuberAnimal = [[note valueForKey:@"animalID"] integerValue];
     }
     self.addAnimal.edit = NO;
     [self presentViewController:aaf_nc
@@ -71,8 +72,6 @@
 {
     [super viewWillAppear:animated];
     self.animals = [self.moca SelectAll:@"Animals"];
-//    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Animals"];
-//    self.animals = [[self.mainTableView.managedObjectContextAnimals executeFetchRequest:fetchRequest error:nil] mutableCopy];
     [self.tableView reloadData];
 }
 
@@ -90,19 +89,19 @@
 {
     AnimalTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AnimalTableViewCell" forIndexPath:indexPath];
     NSManagedObject *note = [self.animals objectAtIndex:indexPath.row];
-    cell.nameAnimal.text = [NSString stringWithFormat:@"%@", [note valueForKey:@"nameAnimal"]];
-    cell.iconAnimalCell.image = [UIImage imageNamed: [note valueForKey:@"iconAnimal"]];
+    cell.nameAnimal.text = [NSString stringWithFormat:@"%@", [note valueForKey:@"animalName"]];
+    cell.iconAnimalCell.image = [UIImage imageNamed: [note valueForKey:@"animalIcon"]];
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSManagedObject *note = [self.animals objectAtIndex:indexPath.row];
-    self.mainTableView.selectedAnimal = [[NSString stringWithFormat:@"%@", [note valueForKey:@"idAni"]] integerValue];
+    self.mainTableView.selectedAnimal = [[NSString stringWithFormat:@"%@", [note valueForKey:@"animalID"]] integerValue];
     [self.sideMenuViewController hideMenuViewController];
     UINavigationController *mtvc_nc = [[UINavigationController alloc] initWithRootViewController:self.mainTableView];
     self.sideMenuViewController.contentViewController = mtvc_nc;
-    [self.mainTableView gettingDataFromAnimalList:[[NSString stringWithFormat:@"%@", [note valueForKey:@"idAni"]] integerValue]];
+    [self.mainTableView gettingDataFromAnimalList:[[NSString stringWithFormat:@"%@", [note valueForKey:@"animalID"]] integerValue]];
     [self.mainTableView.tableView reloadData];
 }
 

@@ -26,7 +26,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-        
+        self.moca = [[UniversalClass alloc]init];
     }
     return self;
 }
@@ -38,53 +38,16 @@
 
 -(void) saveAddEvent
 {
-//    NSError * error = nil;
     NSNumber *animalID = [NSNumber numberWithInt: (int)self.idSelectedAnimal];
     [self.moca SaveAddEvent_SegmentIndex:self.teamsEvent.selectedSegmentIndex AnimalID:animalID NameEvent:self.nameEvent.text Comment:self.comment.text Date:self.selectedDate];
-//    if (self.teamsEvent.selectedSegmentIndex == 0)
-//    {
-//        NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:@"Event"
-//                                                                inManagedObjectContext:self.mainTableView.managedObjectContextAll]; // Инициализируем object после IF по причине, описанной ниже
-//        [object setValue:self.nameEvent.text forKey:@"nameEvent"];
-//        [object setValue:self.comment.text forKey:@"comment"];
-//        [object setValue:self.selectedDate forKey:@"dateEvent"];
-//        [object setValue:animalID forKey:@"idAnimal"];
-//        if (![self.mainTableView.managedObjectContextAll save:&error])
-//        {
-//            NSLog(@"Failed to save - error: %@", [error localizedDescription]);
-//        }
-//    }
-//    else
-//    {
-//        NSDate *today = [NSDate date];
-//        NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-//        NSUInteger unitFlags = NSDayCalendarUnit;
-//        NSDateComponents *components = [gregorian components:unitFlags fromDate:today toDate:self.selectedDate options:0];
-//        NSInteger days = [components day];
-//        for (int forI=0; forI<=days; forI++)
-//        {
-//            NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:@"Event"
-//                                                                    inManagedObjectContext:self.mainTableView.managedObjectContextAll]; // Инициализация object реализованва в цикле по причине того, что запись его содержимого в базу происходит (предположительно) после завершения куска кода, в которой он инициализируется, иначе будет записан только последний прогон цикла
-//            [object setValue:self.nameEvent.text forKey:@"nameEvent"];
-//            [object setValue:self.comment.text forKey:@"comment"];
-//            int daysToAdd = (-1)*forI;
-//            NSDate *newDate = [self.selectedDate dateByAddingTimeInterval:60*60*24*daysToAdd];
-//            [object setValue:newDate forKey:@"dateEvent"];
-//            [object setValue:animalID forKey:@"idAnimal"];
-//            if (![self.mainTableView.managedObjectContextAll save:&error])
-//            {
-//                NSLog(@"Failed to save - error: %@", [error localizedDescription]);
-//            }
-//        }
-//    }
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void)saveEditEvent
 {
-    [self.selectedEvent setValue:self.nameEvent.text forKey:@"nameEvent"];
+    [self.selectedEvent setValue:self.nameEvent.text forKey:@"name"];
     [self.selectedEvent setValue:self.comment.text forKey:@"comment"];
-    [self.selectedEvent setValue:self.selectedDate forKey:@"dateEvent"];
+    [self.selectedEvent setValue:self.selectedDate forKey:@"date"];
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
@@ -104,11 +67,11 @@
                                                                                  style:UIBarButtonItemStylePlain
                                                                                 target:self
                                                                                 action:@selector(saveEditEvent)];
-        self.nameEvent.text = [NSString stringWithFormat:@"%@", [self.selectedEvent valueForKey:@"nameEvent"]];
+        self.nameEvent.text = [NSString stringWithFormat:@"%@", [self.selectedEvent valueForKey:@"name"]];
         self.nameEventSave = self.nameEvent.text;
         NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
         [dateFormat setDateFormat:@"dd MMM yyyy"];
-        self.dateEvent.text = [dateFormat stringFromDate:[self.selectedEvent valueForKey:@"dateEvent"]];
+        self.dateEvent.text = [dateFormat stringFromDate:[self.selectedEvent valueForKey:@"date"]];
         self.dateEventSave = self.dateEvent.text;
         self.comment.text = [NSString stringWithFormat:@"%@", [self.selectedEvent valueForKey:@"comment"]];
         self.commentSave = self.comment.text;

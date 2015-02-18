@@ -12,10 +12,10 @@
 
 @interface Animals : NSManagedObject
 
-@property (nonatomic, retain) NSString * animalName;
-@property (nonatomic, retain) NSNumber * animalID;
-@property (nonatomic, retain) NSString * animalIcon;
-@property (nonatomic, retain) NSDate * animalBirthdate;
-@property (nonatomic, retain) NSNumber * animalMale;
+@property (nonatomic, retain) NSString  * animalName;
+@property (nonatomic, retain) NSNumber  * animalID;
+@property (nonatomic, retain) NSString  * animalIcon;
+@property (nonatomic, retain) NSDate    * animalBirthdate;
+@property (nonatomic, retain) NSNumber  * animalMale;
 
 @end

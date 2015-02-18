@@ -32,7 +32,7 @@
 @property (nonatomic, retain) NSMutableArray                    *sortedFutureArray;
 @property (strong, nonatomic) NSManagedObjectContext            *managedObjectContextAll;
 @property (retain, nonatomic) NSArray                           *animals;
-@property (retain, nonatomic) UniversalClass           *moca;
+@property (retain, nonatomic) UniversalClass                    *moca;
 
 
 -(IBAction)gettingDataFromAnimalList: (NSInteger)number;

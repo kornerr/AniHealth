@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"
+#import "UniversalClass.h"
 
 @interface AddAnimalViewController : UIViewController
 @property (strong, nonatomic) IBOutlet UISegmentedControl   *maleAnimal;
@@ -19,7 +20,7 @@
 @property (strong, nonatomic) IBOutlet UIButton             *iconButton4;
 @property (retain, nonatomic) NSMutableArray                *animals;
 @property (retain, nonatomic) NSMutableArray                *events;
-@property (nonatomic, retain) NSManagedObjectContext        *managedObjectContext;
+@property (retain, nonatomic) UniversalClass                *moca;
 
 @property (nonatomic) NSInteger                             idAnimal;
 @property (nonatomic) NSInteger                             registNuberAnimal;

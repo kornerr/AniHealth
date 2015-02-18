@@ -29,19 +29,20 @@
     self.universalClass = [[UniversalClass alloc] init];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]]; //Обозначаем область действия на всю площать экрана
     
-    MainTableViewController *mtvc = [[MainTableViewController alloc]init]; //Объявление формы и присваевание ей псевдонима
-    mtvc.moca = self.universalClass;
+    AddAnimalViewController *aavc = [[AddAnimalViewController alloc] init];
+    aavc.moca = self.universalClass;
     
-    UINavigationController *mtvc_nc = [[UINavigationController alloc] initWithRootViewController:mtvc]; //Наложение NC поверх формы
-    AnimalsTableViewController *atvc = [[AnimalsTableViewController alloc]init];
-    atvc.moca = self.universalClass;
-    
-    UINavigationController *atvc_nc = [[UINavigationController alloc] initWithRootViewController:atvc];
     AddEventViewController *aevc = [[AddEventViewController alloc] init];
     aevc.moca = self.universalClass;
     
-    AddAnimalViewController *aavc = [[AddAnimalViewController alloc] init];
-//    aavc.moca = self.managedObjectContextAll;
+    MainTableViewController *mtvc = [[MainTableViewController alloc]init]; //Объявление формы и присваевание ей псевдонима
+    mtvc.moca = self.universalClass;
+    UINavigationController *mtvc_nc = [[UINavigationController alloc] initWithRootViewController:mtvc]; //Наложение NC поверх формы
+    
+    AnimalsTableViewController *atvc = [[AnimalsTableViewController alloc]init];
+    atvc.moca = self.universalClass;
+    UINavigationController *atvc_nc = [[UINavigationController alloc] initWithRootViewController:atvc];
+    
     RESideMenu *sideMenuViewController = [[RESideMenu alloc] initWithContentViewController:mtvc_nc
                                                                     leftMenuViewController:atvc_nc
                                                                    rightMenuViewController:nil];

@@ -110,12 +110,12 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     MainTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MainTableViewCell" forIndexPath:indexPath];
-    NSArray *descriptor = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"dateEvent" ascending:NO]];//Сортировка по полю "dateEvent" по возрастанию "YES"
+    NSArray *descriptor = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:NO]];//Сортировка по полю "dateEvent" по возрастанию "YES"
     NSArray *sortedHistoryArray = [self.historyArray sortedArrayUsingDescriptors:descriptor]; //Создание сортированного массива из массива events по сортировке descriptor
-    cell.name.text = [NSString stringWithFormat:@"%@", [[sortedHistoryArray objectAtIndex:indexPath.row] valueForKey:@"nameEvent"]];
+    cell.name.text = [NSString stringWithFormat:@"%@", [[sortedHistoryArray objectAtIndex:indexPath.row] valueForKey:@"name"]];
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"dd MMM hh:mm"];
-    cell.dateEvent.text = [dateFormat stringFromDate:[[sortedHistoryArray objectAtIndex:indexPath.row] valueForKey:@"dateEvent"]];
+    cell.dateEvent.text = [dateFormat stringFromDate:[[sortedHistoryArray objectAtIndex:indexPath.row] valueForKey:@"date"]];
     return cell;
 }
 

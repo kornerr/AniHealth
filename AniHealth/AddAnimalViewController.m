@@ -9,6 +9,7 @@
 #import "AddAnimalViewController.h"
 #import "MainTableViewController.h"
 #import "AnimalsTableViewController.h"
+#import "UniversalClass.h"
 #import "AppDelegate.h"
 
 @interface AddAnimalViewController ()
@@ -33,7 +34,8 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-
+        self.mainTableView = [[MainTableViewController alloc]init];
+        self.moca = [[UniversalClass alloc] init];
     }
     return self;
 }
@@ -45,60 +47,26 @@
 
 -(void) saveAddAnimal
 {
-    NSError * error = nil;
-    
-//    NSLog(@"-------%@", self.mainTableView.managedObjectContextAll);
-    NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:@"Animals" inManagedObjectContext:self.mainTableView.managedObjectContextAll];
     self.registNuberAnimal = self.registNuberAnimal + 1;
-    NSNumber *registrNumberNewAnimal = [NSNumber numberWithInt: (int)[self registNuberAnimal]];
-    [object setValue:self.addNameAnimal.text forKey:@"nameAnimal"];
-    [object setValue:self.selectedDate forKey:@"date"];
-    [object setValue:self.iconNameAnimal forKey:@"iconAnimal"];
-    [object setValue:registrNumberNewAnimal forKey:@"idAni"];
-    if (self.maleAnimal.selectedSegmentIndex == 0)
-    {
-        [object setValue:[NSNumber numberWithBool:YES] forKey:@"male"];
-    }
-    else
-    {
-        [object setValue:[NSNumber numberWithBool:NO] forKey:@"male"];
-    }
-    if (![self.mainTableView.managedObjectContextAll save:&error])
-    {
-        NSLog(@"Failed to save - error: %@", [error localizedDescription]);
-    }
+    NSNumber *animalRegistrID = [NSNumber numberWithInt: (int)[self registNuberAnimal]];
+    [self.moca SaveAddAnimalName:self.addNameAnimal.text
+                 AnimalBirthdate:self.selectedDate
+                        IconName:self.iconNameAnimal
+                 AnimalRegistrID:animalRegistrID
+                  SelectiontMale:self.maleAnimal.selectedSegmentIndex];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void) saveEditAnimal
 {
-    NSManagedObject *note = [self.animals objectAtIndex:0];
-    [note setValue:self.addNameAnimal.text forKey:@"nameAnimal"];
-    [note setValue:self.iconNameAnimal forKey:@"iconAnimal"];
-    [note setValue:self.selectedDate forKey:@"date"];
-    if (self.maleAnimal.selectedSegmentIndex == 0)
-    {
-        [note setValue:[NSNumber numberWithBool:YES] forKey:@"male"];
-    }
-    else
-    {
-        [note setValue:[NSNumber numberWithBool:NO] forKey:@"male"];
-    }
+    [self.moca SaveEditAnimalName:self.addNameAnimal.text
+                  AnimalBirthdate:self.selectedDate
+                         IconName:self.iconNameAnimal
+                   SelectiontMale:self.maleAnimal.selectedSegmentIndex
+                         AnimalID:self.idAnimal];
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
-
-/*
-- (NSManagedObjectContext *)managedObjectContext
-{
-    NSManagedObjectContext *context = nil;
-    id delegate = [[UIApplication sharedApplication] delegate];
-    if ([delegate performSelector:@selector(managedObjectContext)]) {
-        context = [delegate managedObjectContext];
-    }
-    return context;
-}
-*/
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -119,23 +87,15 @@
                                                                                  style:UIBarButtonItemStylePlain
                                                                                 target:self
                                                                                 action:@selector(saveEditAnimal)];
-        self.mainTableView = [[MainTableViewController alloc]init];
-        NSFetchRequest *fetchRequestEditAnimal = [[NSFetchRequest alloc] init];
-        NSEntityDescription *entity = [NSEntityDescription entityForName:@"Animals"
-                                                  inManagedObjectContext:self.mainTableView.managedObjectContextAll];
-        [fetchRequestEditAnimal setEntity:entity];
-        [fetchRequestEditAnimal setResultType:NSDictionaryResultType];
-        NSPredicate *predicateAllEvents = [NSPredicate predicateWithFormat:@"idAni == %i", self.idAnimal];
-        [fetchRequestEditAnimal setPredicate:predicateAllEvents];
-        self.animals = [[self.mainTableView.managedObjectContextAll executeFetchRequest:fetchRequestEditAnimal error:nil] mutableCopy];
+        self.animals = [self.moca GetAnimalForEditToID:self.idAnimal];
         NSManagedObject *note = [self.animals objectAtIndex:0];
-        self.addNameAnimal.text = [NSString stringWithFormat:@"%@", [note valueForKey:@"nameAnimal"]];
+        self.addNameAnimal.text = [NSString stringWithFormat:@"%@", [note valueForKey:@"animalName"]];
         self.nameAnimalSave = self.addNameAnimal.text;
         NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
         [dateFormat setDateFormat:@"dd MMM yyyy"];
-        self.dateAnimal.text = [dateFormat stringFromDate:[note valueForKey:@"date"]];
+        self.dateAnimal.text = [dateFormat stringFromDate:[note valueForKey:@"animalBirthdate"]];
         self.dateAnimalSave = self.dateAnimal.text;
-        BOOL male = [[note valueForKey:@"male"] boolValue];
+        BOOL male = [[note valueForKey:@"animalMale"] boolValue];
         if (male)
         {
             self.maleAnimal.selectedSegmentIndex = 0;
@@ -160,8 +120,6 @@
                                                                       action:@selector(saveAddAnimal)];
         self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:saveAnimal, nil]; //Присвоение двух кнопок к левой стороне NC
     }
-//    AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
-//    self.managedObjectContext = appDelegate.managedObjectContext;
     self.iconNameAnimal = @"iconAnimal3.png";
 }
 
@@ -174,32 +132,12 @@
 
 -(void)daleteAnimal
 {
-//    NSManagedObjectContext *contextAni = [self managedObjectContext];
-    NSFetchRequest *fetchRequestAnimal = [[NSFetchRequest alloc] init];
-    [fetchRequestAnimal setEntity:[NSEntityDescription entityForName:@"Animals" inManagedObjectContext:self.mainTableView.managedObjectContextAll]];
-    [fetchRequestAnimal setPredicate:[NSPredicate predicateWithFormat:@"idAni == %i", self.idAnimal]];
-    NSArray* resultsAnimals = [self.mainTableView.managedObjectContextAll executeFetchRequest:fetchRequestAnimal error:nil];
-    for (NSManagedObject * currentObj in resultsAnimals)
-    {
-        [self.mainTableView.managedObjectContextAll deleteObject:currentObj];
-    }
-//    NSManagedObjectContext *contextEvent = [self managedObjectContext];
-    NSFetchRequest *fetchRequestEvent = [[NSFetchRequest alloc] init];
-    [fetchRequestEvent setEntity:[NSEntityDescription entityForName:@"Event" inManagedObjectContext:self.mainTableView.managedObjectContextAll]];
-    [fetchRequestEvent setPredicate:[NSPredicate predicateWithFormat:@"idAnimal == %i", self.idAnimal]];
-    NSArray* resultsEvents = [self.mainTableView.managedObjectContextAll executeFetchRequest:fetchRequestEvent error:nil];
-    for (NSManagedObject * currentObj in resultsEvents)
-    {
-//        [self.mainTableView.managedObjectContextAll deleteObject:currentObj];
-    }
-    NSError* error = nil;
-//    [self.mainTableView.managedObjectContextAll save:&error];
+    [self.moca DeleteAnimalToID:self.idAnimal];
     [self.sideMenuViewController hideMenuViewController];
     UINavigationController *mtvc_nc = [[UINavigationController alloc] initWithRootViewController:self.mainTableView];
     self.sideMenuViewController.contentViewController = mtvc_nc;
     [self.mainTableView.tableView reloadData];
     [self.animalTableView.tableView reloadData];
-
 }
 
 - (void)viewDidLoad

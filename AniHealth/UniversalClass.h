@@ -19,6 +19,10 @@
 
 - (NSMutableArray *)SelectAll:(NSString *)entity;
 
+- (NSMutableArray *)GetAnimalForEditToID:(NSInteger )animalID;
+
+-(void)DeleteAnimalToID:(NSInteger)animalID;
+
 - (void)DeleteForIndexPath: (NSIndexPath *)indexPath
                      Array: (NSMutableArray *)array;
 
@@ -27,4 +31,17 @@
                         NameEvent:(NSString *)nameEvent
                           Comment:(NSString *)comment
                              Date:(NSDate *)selectedDate;
+
+- (void) SaveAddAnimalName:(NSString *)animalName
+           AnimalBirthdate:(NSDate *)animalBirthdate
+                  IconName:(NSString *)animalIcon
+           AnimalRegistrID:(NSNumber *)animalID
+            SelectiontMale:(NSInteger )selectiontMale;
+
+- (void) SaveEditAnimalName:(NSString *)animalName
+            AnimalBirthdate:(NSDate *)animalBirthdate
+                   IconName:(NSString *)animalIcon
+             SelectiontMale:(NSInteger)selectiontMale
+                   AnimalID:(NSInteger)animalID;
+
 @end

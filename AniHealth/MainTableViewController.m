@@ -16,7 +16,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-//        self.appDelegate = [[AppDelegate alloc] init];
+        self.moca = [[UniversalClass alloc] init];
         self.navigationItem.title = @"Main"; //Заголовок NC
         UIBarButtonItem *aniLeftBut = [[UIBarButtonItem alloc] initWithTitle:@"Animals" //Создание первой кнопки для NC и присвоение ей псевдонима
                                                                        style:UIBarButtonItemStylePlain
@@ -82,20 +82,13 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-//    AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
-//    self.managedObjectContextAll = appDelegate.managedObjectContext;
-
+    
     NSMutableArray *allAnimal = [self.moca SelectAll:@"Animals"];
     
-    
-//    NSFetchRequest *fetchRequestAnimal = [[NSFetchRequest alloc] init];
-//    [fetchRequestAnimal setEntity:[NSEntityDescription entityForName:@"Animals" inManagedObjectContext:self.managedObjectContextAll]];
-//    self.animals = [self.managedObjectContextAll executeFetchRequest:fetchRequestAnimal error:nil];
     if (allAnimal.count == 0)
     {
         self.addAnimalForm = [[AddAnimalViewController alloc] init];
         UINavigationController *aaf_nc = [[UINavigationController alloc] initWithRootViewController:self.addAnimalForm];
-//        self.addAnimalForm.managedObjectContext = self.managedObjectContextAll;
         self.addAnimalForm.registNuberAnimal = 0;
         self.addAnimalForm.edit = NO;
         [self presentViewController:aaf_nc
@@ -108,12 +101,8 @@
         self.events = [[NSMutableArray alloc] init];
         self.pastEvents = [[NSMutableArray alloc] init];
         self.allEvents = [[NSMutableArray alloc] init];
-//        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Event"];
-//        [fetchRequest setResultType:NSDictionaryResultType];
         NSMutableArray *presAllEvents = [self.moca SelectAll:@"Event"];
-        
-        NSLog(@"----%@",self.allEvents);
-        
+                
         if (self.selectedAnimal == 0)
         {
             [self.sideMenuViewController presentLeftMenuViewController];
@@ -126,40 +115,39 @@
             }
             else
             {
-        
-            for (int Y=0; Y<=(presAllEvents.count - 1); Y++)
-            {
-                if ([[[presAllEvents objectAtIndex:Y] objectForKey:@"idAnimal"] integerValue] == self.selectedAnimal)
+                for (int Y=0; Y<=(presAllEvents.count - 1); Y++)
                 {
-                    [self.allEvents addObject:[presAllEvents objectAtIndex:Y]];
-                    NSLog(@"----%@",self.allEvents);
+                    if ([[[presAllEvents objectAtIndex:Y] objectForKey:@"animalID"] integerValue] == self.selectedAnimal)
+                    {
+                        [self.allEvents addObject:[presAllEvents objectAtIndex:Y]];
+                        NSLog(@"----%@",self.allEvents);
+                    }
                 }
-            }
-            NSDate *today = [NSDate date];
-            NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-            NSUInteger unitFlags = NSDayCalendarUnit;
-            NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-            [dateFormat setDateFormat:@"dd MMM yyyy"];
-            NSString *stringToday = [dateFormat stringFromDate:today];
-            NSDate *currDate = [dateFormat dateFromString:stringToday];
-            for (int I=0; I<=(self.allEvents.count - 1); I++)
-            {
-                NSDate *activDate = [dateFormat dateFromString: [dateFormat stringFromDate:[[self.allEvents objectAtIndex:I] objectForKey:@"dateEvent"]]];
-                NSDateComponents *components = [gregorian components:unitFlags fromDate:currDate toDate:activDate options:0];
-                NSInteger days = [components day];
-                if (days == 0)
+                NSDate *today = [NSDate date];
+                NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+                NSUInteger unitFlags = NSDayCalendarUnit;
+                NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+                [dateFormat setDateFormat:@"dd MMM yyyy"];
+                NSString *stringToday = [dateFormat stringFromDate:today];
+                NSDate *currDate = [dateFormat dateFromString:stringToday];
+                for (int I=0; I<=(self.allEvents.count - 1); I++)
                 {
-                    [self.events addObject:[self.allEvents objectAtIndex:I]];
+                    NSDate *activDate = [dateFormat dateFromString: [dateFormat stringFromDate:[[self.allEvents objectAtIndex:I] objectForKey:@"date"]]];
+                    NSDateComponents *components = [gregorian components:unitFlags fromDate:currDate toDate:activDate options:0];
+                    NSInteger days = [components day];
+                    if (days == 0)
+                    {
+                        [self.events addObject:[self.allEvents objectAtIndex:I]];
+                    }
+                    else if (days >0)
+                    {
+                        [self.futureEvents addObject:[self.allEvents objectAtIndex:I]];
+                    }
+                    else
+                    {
+                        [self.pastEvents addObject:[self.allEvents objectAtIndex:I]];
+                    }
                 }
-                else if (days >0)
-                {
-                    [self.futureEvents addObject:[self.allEvents objectAtIndex:I]];
-                }
-                else
-                {
-                    [self.pastEvents addObject:[self.allEvents objectAtIndex:I]];
-                }
-            }
             }
         }
     }
@@ -204,7 +192,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"dateEvent" ascending:YES];
+    NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:YES];
     self.sortedTodayArray = [[self.events sortedArrayUsingDescriptors:@[sort]] mutableCopy]; //Создание сортированного массива из массива events по сортировке descriptor
     self.sortedFutureArray = [[self.futureEvents sortedArrayUsingDescriptors:@[sort]] mutableCopy];
 
@@ -212,20 +200,20 @@
     if (indexPath.section == 0)
     {
     NSManagedObject *note = [self.sortedTodayArray objectAtIndex:indexPath.row];
-        cell.name.text = [NSString stringWithFormat:@"%@", [note valueForKey:@"nameEvent"]];
+        cell.name.text = [NSString stringWithFormat:@"%@", [note valueForKey:@"name"]];
         NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
         [dateFormat setDateFormat:@"hh:mm"];
-        cell.dateEvent.text = [dateFormat stringFromDate:[note valueForKey:@"dateEvent"]];
-        cell.animalNum.text = [NSString stringWithFormat:@"%@", [note valueForKey:@"idAnimal"]];
+        cell.dateEvent.text = [dateFormat stringFromDate:[note valueForKey:@"date"]];
+        cell.animalNum.text = [NSString stringWithFormat:@"%@", [note valueForKey:@"animalID"]];
     }
     else
     {
         NSManagedObject *note = [self.sortedFutureArray objectAtIndex:indexPath.row];
-        cell.name.text = [NSString stringWithFormat:@"%@", [note valueForKey:@"nameEvent"]];
+        cell.name.text = [NSString stringWithFormat:@"%@", [note valueForKey:@"name"]];
         NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
         [dateFormat setDateFormat:@"dd MMM hh:mm"];
-        cell.dateEvent.text = [dateFormat stringFromDate:[note valueForKey:@"dateEvent"]];
-        cell.animalNum.text = [NSString stringWithFormat:@"%@", [note valueForKey:@"idAnimal"]];
+        cell.dateEvent.text = [dateFormat stringFromDate:[note valueForKey:@"date"]];
+        cell.animalNum.text = [NSString stringWithFormat:@"%@", [note valueForKey:@"animalID"]];
     }
     return cell;
 }
@@ -236,7 +224,6 @@
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-//    NSManagedObjectContext *context = [self managedObjectContext];
     NSLog(@"indexPath: %@", indexPath);
     
     if (editingStyle == UITableViewCellEditingStyleDelete)
@@ -245,38 +232,16 @@
         {
             
             [self.moca DeleteForIndexPath:indexPath Array:self.sortedTodayArray];
-//            [self.managedObjectContextAll deleteObject:[self.sortedTodayArray objectAtIndex:indexPath.row]];
-//            NSError *error = nil;
-//            if (![self.managedObjectContextAll save:&error])
-//            {
-//                NSLog(@"Can't Delete! %@ %@", error, [error localizedDescription]);
-//                return;
-//            }
-//            [self.sortedTodayArray removeObjectAtIndex:indexPath.row];
+
             [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
         }
         else
         {
             [self.moca DeleteForIndexPath:indexPath Array:self.sortedFutureArray];
-//            NSManagedObject *test = [self.sortedFutureArray objectAtIndex:indexPath.row];
-//            
-//            NSManagedObjectID *oid = [self.sortedFutureArray valueForKey:@"idAnimal"];
-//            NSManagedObject *o = [self.managedObjectContextAll objectWithID:oid];
-//                                                                                                                         
-//            NSLog(@"Объект на удаление: %@", test);
-////            [self.appDelegate.managedObjectContextEvent deleteObject:test];
-//            [self.managedObjectContextAll deleteObject:o];
-//
-//            NSError *error = nil;
-//            if (![self.managedObjectContextAll save:&error])
-//            {
-//                NSLog(@"Can't Delete! %@ %@", error, [error localizedDescription]);
-//                return;
-//            }
-//            [self.sortedFutureArray removeObjectAtIndex:indexPath.row];
+
             [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
         }
-        [tableView reloadData];  //tell table to refresh now
+        [tableView reloadData];
     }
 }
 

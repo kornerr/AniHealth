@@ -23,15 +23,16 @@
 @property (nonatomic) NSInteger                             maleAnimalSave;
 @property (nonatomic, retain) AnimalsTableViewController    *animalTableView;
 
-
-
 @end
 
 @implementation AddAnimalViewController
 
+#pragma mark - Private methods
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    self = [super initWithNibName:nibNameOrNil
+                           bundle:nibBundleOrNil];
     if (self)
     {
         self.mainTableView = [[MainTableViewController alloc]init];
@@ -97,28 +98,24 @@
         self.dateAnimalSave = self.dateAnimal.text;
         BOOL male = [[note valueForKey:@"animalMale"] boolValue];
         if (male)
-        {
             self.maleAnimal.selectedSegmentIndex = 0;
-        }
         else
-        {
             self.maleAnimal.selectedSegmentIndex = 1;
-        }
         self.maleAnimalSave = self.maleAnimal.selectedSegmentIndex;
     }
     else
     {
-        self.navigationItem.title = @"AddAnimal"; //Заголовок NC
-        UIBarButtonItem *cancelAddAnimal = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" //Создание первой кнопки для NC и присвоение ей псевдонима
+        self.navigationItem.title = @"AddAnimal";
+        UIBarButtonItem *cancelAddAnimal = [[UIBarButtonItem alloc] initWithTitle:@"Cancel"
                                                                             style:UIBarButtonItemStylePlain
                                                                            target:self
                                                                            action:@selector(cancelAddAnimalForm)];
-        self.navigationItem.leftBarButtonItems = [[NSArray alloc] initWithObjects:cancelAddAnimal, nil]; //Присвоение двух кнопок к левой стороне NC
-        UIBarButtonItem *saveAnimal = [[UIBarButtonItem alloc] initWithTitle:@"Save" //Создание первой кнопки для NC и присвоение ей псевдонима
+        self.navigationItem.leftBarButtonItems = [[NSArray alloc] initWithObjects:cancelAddAnimal, nil];
+        UIBarButtonItem *saveAnimal = [[UIBarButtonItem alloc] initWithTitle:@"Save"
                                                                        style:UIBarButtonItemStylePlain
                                                                       target:self
                                                                       action:@selector(saveAddAnimal)];
-        self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:saveAnimal, nil]; //Присвоение двух кнопок к левой стороне NC
+        self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:saveAnimal, nil]; 
     }
     self.iconNameAnimal = @"iconAnimal3.png";
 }
@@ -156,7 +153,8 @@
     {
         UIDatePicker *datePicker = [[UIDatePicker alloc] init];
         datePicker.datePickerMode = UIDatePickerModeDate;
-        [datePicker addTarget:self action:@selector(updateTextField:)
+        [datePicker addTarget:self
+                       action:@selector(updateTextField:)
              forControlEvents:UIControlEventValueChanged];
         [self.dateAnimal setInputView:datePicker];
     }
@@ -172,7 +170,8 @@
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    [super touchesBegan:touches withEvent:event];
+    [super touchesBegan:touches
+              withEvent:event];
     [self.view endEditing:YES];
 }
 

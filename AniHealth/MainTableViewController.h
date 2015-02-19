@@ -30,12 +30,10 @@
 @property (nonatomic) NSInteger                                 selectedAnimal;
 @property (nonatomic, retain) NSMutableArray                    *sortedTodayArray;
 @property (nonatomic, retain) NSMutableArray                    *sortedFutureArray;
-@property (strong, nonatomic) NSManagedObjectContext            *managedObjectContextAll;
 @property (retain, nonatomic) NSArray                           *animals;
 @property (retain, nonatomic) UniversalClass                    *moca;
 
 
 -(IBAction)gettingDataFromAnimalList: (NSInteger)number;
-//- (void)saveContext;
 
 @end

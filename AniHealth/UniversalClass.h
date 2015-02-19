@@ -17,6 +17,8 @@
 @property (nonatomic) SEL                               action;
 @property (nonatomic, retain) AppDelegate               *appDelegate;
 
+- (void) CreatedLastID;
+
 - (NSMutableArray *)SelectAll:(NSString *)entity;
 
 - (NSMutableArray *)GetAnimalForEditToID:(NSInteger )animalID;

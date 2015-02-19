@@ -16,6 +16,4 @@
 @interface AnimalsTableViewController : UITableViewController 
 @property (retain, nonatomic) UniversalClass           *moca;
 
-//@property (strong, nonatomic) NSManagedObjectContext *managedObjectContextAnimals;
-
 @end

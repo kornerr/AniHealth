@@ -11,10 +11,16 @@
         <attribute name="animalID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="comment" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="eventID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="System" representedClassName="System" syncable="YES">
+        <attribute name="firstLaunch" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="lastID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
     </entity>
     <elements>
         <element name="Animals" positionX="-63" positionY="-18" width="128" height="120"/>
-        <element name="Event" positionX="-54" positionY="-9" width="128" height="105"/>
+        <element name="Event" positionX="-54" positionY="-9" width="128" height="120"/>
+        <element name="System" positionX="-54" positionY="27" width="128" height="73"/>
     </elements>
 </model>

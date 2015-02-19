@@ -2,7 +2,7 @@
 //  Event.h
 //  AniHealth
 //
-//  Created by Admin on 18.02.15.
+//  Created by Admin on 19.02.15.
 //  Copyright (c) 2015 Admin. All rights reserved.
 //
 
@@ -15,6 +15,7 @@
 @property (nonatomic, retain) NSNumber * animalID;
 @property (nonatomic, retain) NSString * comment;
 @property (nonatomic, retain) NSDate * date;
+@property (nonatomic, retain) NSNumber * eventID;
 @property (nonatomic, retain) NSString * name;
 
 @end

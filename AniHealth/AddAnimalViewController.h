@@ -21,9 +21,8 @@
 @property (retain, nonatomic) NSMutableArray                *animals;
 @property (retain, nonatomic) NSMutableArray                *events;
 @property (retain, nonatomic) UniversalClass                *moca;
-
 @property (nonatomic) NSInteger                             idAnimal;
 @property (nonatomic) NSInteger                             registNuberAnimal;
-@property (nonatomic) BOOL edit;
+@property (nonatomic) BOOL                                  edit;
 
 @end

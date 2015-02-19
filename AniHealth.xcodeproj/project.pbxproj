@@ -19,8 +19,9 @@
 		845632DB1A664FB8004697A3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 845632DA1A664FB8004697A3 /* AppDelegate.m */; };
 		845632E31A664FB8004697A3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 845632E21A664FB8004697A3 /* Images.xcassets */; };
 		845632F21A664FB8004697A3 /* AniHealthTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 845632F11A664FB8004697A3 /* AniHealthTests.m */; };
-		8488384D1A9474A400007149 /* Animals.m in Sources */ = {isa = PBXBuildFile; fileRef = 8488384C1A9474A400007149 /* Animals.m */; };
-		848838501A9474A500007149 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = 8488384F1A9474A500007149 /* Event.m */; };
+		84C9B48F1A960B0C0010B20A /* System.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C9B48E1A960B0C0010B20A /* System.m */; };
+		84C9B4921A960B0D0010B20A /* Animals.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C9B4911A960B0D0010B20A /* Animals.m */; };
+		84C9B4951A960B0D0010B20A /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C9B4941A960B0D0010B20A /* Event.m */; };
 		84CC45511A92272800BB9492 /* UniversalClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CC45501A92272800BB9492 /* UniversalClass.m */; };
 		84CECA591A777DEA00F99C2B /* iconAnimal1.png in Resources */ = {isa = PBXBuildFile; fileRef = 84CECA551A777DEA00F99C2B /* iconAnimal1.png */; };
 		84CECA5A1A777DEA00F99C2B /* iconAnimal2.png in Resources */ = {isa = PBXBuildFile; fileRef = 84CECA561A777DEA00F99C2B /* iconAnimal2.png */; };
@@ -73,10 +74,12 @@
 		845632EB1A664FB8004697A3 /* AniHealthTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AniHealthTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		845632F01A664FB8004697A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		845632F11A664FB8004697A3 /* AniHealthTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AniHealthTests.m; sourceTree = "<group>"; };
-		8488384B1A9474A400007149 /* Animals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Animals.h; sourceTree = "<group>"; };
-		8488384C1A9474A400007149 /* Animals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Animals.m; sourceTree = "<group>"; };
-		8488384E1A9474A500007149 /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
-		8488384F1A9474A500007149 /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Event.m; sourceTree = "<group>"; };
+		84C9B48D1A960B0C0010B20A /* System.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = System.h; sourceTree = "<group>"; };
+		84C9B48E1A960B0C0010B20A /* System.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = System.m; sourceTree = "<group>"; };
+		84C9B4901A960B0D0010B20A /* Animals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Animals.h; sourceTree = "<group>"; };
+		84C9B4911A960B0D0010B20A /* Animals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Animals.m; sourceTree = "<group>"; };
+		84C9B4931A960B0D0010B20A /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
+		84C9B4941A960B0D0010B20A /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Event.m; sourceTree = "<group>"; };
 		84CC454F1A92272800BB9492 /* UniversalClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UniversalClass.h; sourceTree = "<group>"; };
 		84CC45501A92272800BB9492 /* UniversalClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UniversalClass.m; sourceTree = "<group>"; };
 		84CECA551A777DEA00F99C2B /* iconAnimal1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iconAnimal1.png; sourceTree = "<group>"; };
@@ -185,10 +188,12 @@
 				84CC454F1A92272800BB9492 /* UniversalClass.h */,
 				84CC45501A92272800BB9492 /* UniversalClass.m */,
 				84D206211A9471DE005D6E39 /* AnimalsDB.xcdatamodeld */,
-				8488384E1A9474A500007149 /* Event.h */,
-				8488384F1A9474A500007149 /* Event.m */,
-				8488384B1A9474A400007149 /* Animals.h */,
-				8488384C1A9474A400007149 /* Animals.m */,
+				84C9B4931A960B0D0010B20A /* Event.h */,
+				84C9B4941A960B0D0010B20A /* Event.m */,
+				84C9B4901A960B0D0010B20A /* Animals.h */,
+				84C9B4911A960B0D0010B20A /* Animals.m */,
+				84C9B48D1A960B0C0010B20A /* System.h */,
+				84C9B48E1A960B0C0010B20A /* System.m */,
 				845632E21A664FB8004697A3 /* Images.xcassets */,
 				84CECA4C1A777BCE00F99C2B /* icon */,
 				845632D51A664FB8004697A3 /* Supporting Files */,
@@ -388,17 +393,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84C9B48F1A960B0C0010B20A /* System.m in Sources */,
 				844DECAC1A67ABBB0026B7B2 /* HistoryTableViewController.m in Sources */,
 				845632DB1A664FB8004697A3 /* AppDelegate.m in Sources */,
 				845632D81A664FB8004697A3 /* main.m in Sources */,
-				848838501A9474A500007149 /* Event.m in Sources */,
+				84C9B4921A960B0D0010B20A /* Animals.m in Sources */,
 				84CC45511A92272800BB9492 /* UniversalClass.m in Sources */,
+				84C9B4951A960B0D0010B20A /* Event.m in Sources */,
 				84D1FFEA1A6927C1007EAF9E /* AddAnimalViewController.m in Sources */,
 				84D206231A9471DE005D6E39 /* AnimalsDB.xcdatamodeld in Sources */,
 				84D1968F1A68F836003E0FDD /* MainTableViewCell.m in Sources */,
 				84326A9E1A6679DA00B62549 /* MainTableViewController.m in Sources */,
 				844DECB61A67C52D0026B7B2 /* AddEventViewController.m in Sources */,
-				8488384D1A9474A400007149 /* Animals.m in Sources */,
 				84326AA31A667A0B00B62549 /* AnimalsTableViewController.m in Sources */,
 				84D196991A690178003E0FDD /* AnimalTableViewCell.m in Sources */,
 			);

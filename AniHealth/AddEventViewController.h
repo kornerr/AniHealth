@@ -23,7 +23,4 @@
 @property (strong) NSManagedObject                          *selectedEvent;
 @property (retain, nonatomic) UniversalClass                *moca;
 
-//@property (nonatomic, retain) NSManagedObjectContext        *managedObjectContext;
-
-
 @end

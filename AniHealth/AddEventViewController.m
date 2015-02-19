@@ -15,75 +15,51 @@
 @property (nonatomic, retain) NSString                  *nameEventSave;
 @property (nonatomic, retain) NSString                  *dateEventSave;
 @property (nonatomic, retain) NSString                  *commentSave;
-@property (nonatomic, retain) AppDelegate               *appDelegate;
+@property (nonatomic, retain) MainTableViewController   *mainTableView;
 
 @end
 
 @implementation AddEventViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil //Процедура, реализуемая в самом начале работы "Вперёд батьки"
+#pragma mark - Private methods
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
-    {
-        self.appDelegate = [[AppDelegate alloc] init];
-        
-    }
+        self.moca = [[UniversalClass alloc]init];
+    
     return self;
 }
 
 - (void) cancelAddEventForm
 {
-[self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void) saveAddEvent
 {
-    NSError * error = nil;
     NSNumber *animalID = [NSNumber numberWithInt: (int)self.idSelectedAnimal];
-    if (self.teamsEvent.selectedSegmentIndex == 0)
-    {
-        NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:@"Event"
-                                                                inManagedObjectContext:self.appDelegate.managedObjectContextEvent]; // Инициализируем object после IF по причине, описанной ниже
-        [object setValue:self.nameEvent.text forKey:@"nameEvent"];
-        [object setValue:self.comment.text forKey:@"comment"];
-        [object setValue:self.selectedDate forKey:@"dateEvent"];
-        [object setValue:animalID forKey:@"idAnimal"];
-        if (![self.appDelegate.managedObjectContextEvent save:&error])
-        {
-            NSLog(@"Failed to save - error: %@", [error localizedDescription]);
-        }
-    }
-    else
-    {
-        NSDate *today = [NSDate date];
-        NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-        NSUInteger unitFlags = NSDayCalendarUnit;
-        NSDateComponents *components = [gregorian components:unitFlags fromDate:today toDate:self.selectedDate options:0];
-        NSInteger days = [components day];
-        for (int forI=0; forI<=days; forI++)
-        {
-            NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:@"Event"
-                                                                    inManagedObjectContext:self.appDelegate.managedObjectContextEvent]; // Инициализация object реализованва в цикле по причине того, что запись его содержимого в базу происходит (предположительно) после завершения куска кода, в которой он инициализируется, иначе будет записан только последний прогон цикла
-            [object setValue:self.nameEvent.text forKey:@"nameEvent"];
-            [object setValue:self.comment.text forKey:@"comment"];
-            int daysToAdd = (-1)*forI;
-            NSDate *newDate = [self.selectedDate dateByAddingTimeInterval:60*60*24*daysToAdd];
-            [object setValue:newDate forKey:@"dateEvent"];
-            [object setValue:animalID forKey:@"idAnimal"];
-            if (![self.appDelegate.managedObjectContextEvent save:&error])
-            {
-                NSLog(@"Failed to save - error: %@", [error localizedDescription]);
-            }
-        }
-    }
+    [self.moca SaveAddEvent_SegmentIndex:self.teamsEvent.selectedSegmentIndex
+                                AnimalID:animalID
+                               NameEvent:self.nameEvent.text
+                                 Comment:self.comment.text
+                                    Date:self.selectedDate];
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+-(void)saveEditEvent
+{
+    [self.moca SaveEditEventName:self.nameEvent.text
+                       DateEvent:self.selectedDate
+                         Comment:self.comment.text
+                           Event:self.selectedEvent];
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
     if (self.edit)
     {
         self.navigationItem.title = @"EditEvent";
@@ -91,34 +67,33 @@
                                                                   style:UIBarButtonItemStylePlain
                                                                  target:self
                                                                  action:@selector(resetEvent)];
-        self.nameEvent.text = [NSString stringWithFormat:@"%@", [self.selectedEvent valueForKey:@"nameEvent"]];
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save"
+                                                                                 style:UIBarButtonItemStylePlain
+                                                                                target:self
+                                                                                action:@selector(saveEditEvent)];
+        self.nameEvent.text = [NSString stringWithFormat:@"%@", [self.selectedEvent valueForKey:@"name"]];
         self.nameEventSave = self.nameEvent.text;
         NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
         [dateFormat setDateFormat:@"dd MMM yyyy"];
-        self.dateEvent.text = [dateFormat stringFromDate:[self.selectedEvent valueForKey:@"dateEvent"]];
+        self.dateEvent.text = [dateFormat stringFromDate:[self.selectedEvent valueForKey:@"date"]];
         self.dateEventSave = self.dateEvent.text;
         self.comment.text = [NSString stringWithFormat:@"%@", [self.selectedEvent valueForKey:@"comment"]];
         self.commentSave = self.comment.text;
     }
     else
     {
-        self.navigationItem.title = @"AddEvent"; //Заголовок NC
-        UIBarButtonItem *cancelAddEvent = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" //Создание первой кнопки для NC и присвоение ей псевдонима
+        self.navigationItem.title = @"AddEvent";
+        UIBarButtonItem *cancelAddEvent = [[UIBarButtonItem alloc] initWithTitle:@"Cancel"
                                                                            style:UIBarButtonItemStylePlain
                                                                           target:self
                                                                           action:@selector(cancelAddEventForm)];
-        
-        self.navigationItem.leftBarButtonItems = [[NSArray alloc] initWithObjects:cancelAddEvent, nil]; //Присвоение двух кнопок к левой стороне NC
-        
-        UIBarButtonItem *saveEvent = [[UIBarButtonItem alloc] initWithTitle:@"Save" //Создание первой кнопки для NC и присвоение ей псевдонима
+        self.navigationItem.leftBarButtonItems = [[NSArray alloc] initWithObjects:cancelAddEvent, nil];
+        UIBarButtonItem *saveEvent = [[UIBarButtonItem alloc] initWithTitle:@"Save"
                                                                       style:UIBarButtonItemStylePlain
                                                                      target:self
                                                                      action:@selector(saveAddEvent)];
-        
-        self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:saveEvent, nil]; //Присвоение двух кнопок к левой стороне NC
+        self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:saveEvent, nil];
     }
-//    AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
-//    self.managedObjectContext = appDelegate.managedObjectContextEvent;
 }
 
 -(void)resetEvent
@@ -134,7 +109,8 @@
     {
         UIDatePicker *datePicker = [[UIDatePicker alloc] init];
         datePicker.datePickerMode = UIDatePickerModeDateAndTime;
-        [datePicker addTarget:self action:@selector(updateTextField:)
+        [datePicker addTarget:self
+                       action:@selector(updateTextField:)
              forControlEvents:UIControlEventValueChanged];
         [self.dateEvent setInputView:datePicker];
     }
@@ -163,15 +139,5 @@
 {
     [super didReceiveMemoryWarning];
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

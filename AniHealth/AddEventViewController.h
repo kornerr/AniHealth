@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Event.h"
 #import "AppDelegate.h"
+#import "UniversalClass.h"
 
 
 
@@ -20,8 +20,7 @@
 @property (strong, nonatomic) IBOutlet UISegmentedControl   *teamsEvent;
 @property (nonatomic) NSInteger                             idSelectedAnimal;
 @property (nonatomic) BOOL                                  edit;
-@property (retain, nonatomic) NSObject                      *selectedEvent;
-//@property (nonatomic, retain) NSManagedObjectContext        *managedObjectContext;
-
+@property (strong) NSManagedObject                          *selectedEvent;
+@property (retain, nonatomic) UniversalClass                *moca;
 
 @end

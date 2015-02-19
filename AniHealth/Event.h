@@ -2,22 +2,20 @@
 //  Event.h
 //  AniHealth
 //
-//  Created by Admin on 02.02.15.
+//  Created by Admin on 19.02.15.
 //  Copyright (c) 2015 Admin. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class Animals;
 
 @interface Event : NSManagedObject
 
+@property (nonatomic, retain) NSNumber * animalID;
 @property (nonatomic, retain) NSString * comment;
-@property (nonatomic, retain) NSDate * dateEvent;
-@property (nonatomic, retain) NSNumber * history;
-@property (nonatomic, retain) NSNumber * idAnimal;
-@property (nonatomic, retain) NSString * nameEvent;
-@property (nonatomic, retain) Animals *animal;
+@property (nonatomic, retain) NSDate * date;
+@property (nonatomic, retain) NSNumber * eventID;
+@property (nonatomic, retain) NSString * name;
 
 @end

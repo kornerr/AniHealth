@@ -2,21 +2,19 @@
 //  Event.m
 //  AniHealth
 //
-//  Created by Admin on 02.02.15.
+//  Created by Admin on 19.02.15.
 //  Copyright (c) 2015 Admin. All rights reserved.
 //
 
 #import "Event.h"
-#import "Animals.h"
 
 
 @implementation Event
 
+@dynamic animalID;
 @dynamic comment;
-@dynamic dateEvent;
-@dynamic history;
-@dynamic idAnimal;
-@dynamic nameEvent;
-@dynamic animal;
+@dynamic date;
+@dynamic eventID;
+@dynamic name;
 
 @end

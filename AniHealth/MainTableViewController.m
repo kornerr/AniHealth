@@ -1,51 +1,51 @@
 #import "MainTableViewController.h"
 #import <RESideMenu.h>
-#import "Event.h"
-#import "Animals.h"
 
 @interface MainTableViewController ()
 
-@property (nonatomic, retain) AppDelegate *appDelegate;
+@property (retain, nonatomic) AnimalsTableViewController *animalTableView;
 
 @end
 
 @implementation MainTableViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil //Процедура, реализуемая в самом начале работы "Вперёд батьки"
+#pragma mark - Private methods
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil 
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-        self.appDelegate = [[AppDelegate alloc] init];
-        self.navigationItem.title = @"Main"; //Заголовок NC
-        UIBarButtonItem *aniLeftBut = [[UIBarButtonItem alloc] initWithTitle:@"Animals" //Создание первой кнопки для NC и присвоение ей псевдонима
+        self.moca = [[UniversalClass alloc] init];
+        self.navigationItem.title = @"Main";
+        UIBarButtonItem *aniLeftBut = [[UIBarButtonItem alloc] initWithTitle:@"Animals"
                                                                        style:UIBarButtonItemStylePlain
                                                                       target:self
                                                                       action:@selector(openLeftMenu)];
-        UIBarButtonItem *infLeftBut = [[UIBarButtonItem alloc] initWithTitle:@"Info"//Создание второй кнопки для NC и присвоение ей псевдонима
+        UIBarButtonItem *infLeftBut = [[UIBarButtonItem alloc] initWithTitle:@"Info"
                                                                        style:UIBarButtonItemStylePlain
                                                                       target:self
                                                                       action:@selector(openAnimalInfo)];
-        self.navigationItem.leftBarButtonItems = [[NSArray alloc] initWithObjects:aniLeftBut, infLeftBut, nil]; //Присвоение двух кнопок к левой стороне NC
-        UIBarButtonItem *hisRigBut = [[UIBarButtonItem alloc] initWithTitle:@"History" //Создание первой кнопки для NC и присвоение ей псевдонима
+        self.navigationItem.leftBarButtonItems = [[NSArray alloc] initWithObjects:aniLeftBut, infLeftBut, nil];
+        UIBarButtonItem *hisRigBut = [[UIBarButtonItem alloc] initWithTitle:@"History"
                                                                       style:UIBarButtonItemStylePlain
                                                                      target:self
                                                                      action:@selector(openHistory)];
-        UIBarButtonItem *addRigBut = [[UIBarButtonItem alloc] initWithTitle:@"Add"//Создание второй кнопки для NC и присвоение ей псевдонима
+        UIBarButtonItem *addRigBut = [[UIBarButtonItem alloc] initWithTitle:@"Add"
                                                                       style:UIBarButtonItemStylePlain
                                                                      target:self
                                                                      action:@selector(openAddEvent)];
-        self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:addRigBut, hisRigBut, nil]; //Присвоение двух кнопок к левой стороне NC
+        self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:addRigBut, hisRigBut, nil];
     }
     return self;
 }
 
-- (void)openAnimalInfo // процедура перехода на другую форму с "Back"
+- (void)openAnimalInfo
 {
-    self.addAnimalForm = [[AddAnimalViewController alloc] init]; // Инициализация псивдонима и формы
+    self.addAnimalForm = [[AddAnimalViewController alloc] init];
     self.addAnimalForm.edit = YES;
     self.addAnimalForm.idAnimal = self.selectedAnimal;
-    [self.navigationController pushViewController:self.addAnimalForm animated:YES]; // способ перехода "puch"
+    [self.navigationController pushViewController:self.addAnimalForm animated:YES];
 }
 
 - (void)openHistory
@@ -55,31 +55,20 @@
     [self.navigationController pushViewController:self.historyForm animated:YES];
 }
 
-- (void)openAddEvent // процедура перехода на другую форму с "Cancel"
+- (void)openAddEvent
 {
-    self.addEventForm = [[AddEventViewController alloc] init]; // Инициализация псивдонима и формы
-    UINavigationController *aef_nc = [[UINavigationController alloc] initWithRootViewController:self.addEventForm]; // Объявление псевдонима для перехода
+    self.addEventForm = [[AddEventViewController alloc] init];
+    UINavigationController *aef_nc = [[UINavigationController alloc] initWithRootViewController:self.addEventForm];
     self.addEventForm.idSelectedAnimal = self.selectedAnimal;
     self.addEventForm.edit = NO;
-    [self presentViewController:aef_nc //реализация перехода на форму по заданным псевдонимом
+    [self presentViewController:aef_nc
                        animated:YES
                      completion:nil];
 }
 
-- (void)openLeftMenu // процедура, вызываемая нажатием кнопки на NC
+- (void)openLeftMenu
 {
-    [self.sideMenuViewController presentLeftMenuViewController]; //вызов бокового меню, реализованного в библиотеки RESideMenu
-}
-
-- (NSManagedObjectContext *)managedObjectContext
-{
-    NSManagedObjectContext *context = nil;
-    id delegate = [[UIApplication sharedApplication] delegate];
-    if ([delegate performSelector:@selector(managedObjectContext)])
-    {
-        context = [delegate managedObjectContext];
-    }
-    return context;
+    [self.sideMenuViewController presentLeftMenuViewController];
 }
 
 - (void)viewDidLoad
@@ -94,10 +83,13 @@
 {
     [super viewWillAppear:animated];
     
-    NSFetchRequest *fetchRequestAnimal = [[NSFetchRequest alloc] init];
-    [fetchRequestAnimal setEntity:[NSEntityDescription entityForName:@"Animals" inManagedObjectContext:self.appDelegate.managedObjectContextAnimal]];
-    NSArray* resultsAnimals = [self.appDelegate.managedObjectContextAnimal executeFetchRequest:fetchRequestAnimal error:nil];
-    if (resultsAnimals.count == 0)
+    NSMutableArray *allAnimal = [self.moca SelectAll:@"Animals"];
+    NSMutableArray *sis = [self.moca SelectAll:@"System"];
+    if (sis.count == 0)
+    {
+        [self.moca CreatedLastID];
+    }    
+    if (allAnimal.count == 0)
     {
         self.addAnimalForm = [[AddAnimalViewController alloc] init];
         UINavigationController *aaf_nc = [[UINavigationController alloc] initWithRootViewController:self.addAnimalForm];
@@ -113,46 +105,38 @@
         self.events = [[NSMutableArray alloc] init];
         self.pastEvents = [[NSMutableArray alloc] init];
         self.allEvents = [[NSMutableArray alloc] init];
-        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Event"];
-        [fetchRequest setResultType:NSDictionaryResultType];
-        NSMutableArray *presAllEvents = [[self.appDelegate.managedObjectContextEvent executeFetchRequest:fetchRequest error:nil] mutableCopy];
-        
-        if (presAllEvents.count == 0) {
-            if (self.selectedAnimal == 0)
-            {
-                [self.sideMenuViewController presentLeftMenuViewController];
-            }
-            else
-            {
-                [self openAddEvent];
-            }
+        NSMutableArray *presAllEvents = [self.moca SelectAll:@"Event"];
+                
+        if (self.selectedAnimal == 0)
+        {
+            [self.sideMenuViewController presentLeftMenuViewController];
         }
         else
         {
-        
-            for (int Y=0; Y<=(presAllEvents.count - 1); Y++)
+            if (presAllEvents.count == 0)
             {
-                if ([[[presAllEvents objectAtIndex:Y] objectForKey:@"idAnimal"] integerValue] == self.selectedAnimal)
-                {
-                    [self.allEvents addObject:[presAllEvents objectAtIndex:Y]];
-                }
-            }
-            NSDate *today = [NSDate date];
-            NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-            NSUInteger unitFlags = NSDayCalendarUnit;
-            NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-            [dateFormat setDateFormat:@"dd MMM yyyy"];
-            NSString *stringToday = [dateFormat stringFromDate:today];
-            NSDate *currDate = [dateFormat dateFromString:stringToday];
-            if (self.allEvents.count <1)
-            {
-                self.events = self.allEvents;
+                [self openAddEvent];
             }
             else
             {
+                for (int Y=0; Y<=(presAllEvents.count - 1); Y++)
+                {
+                    if ([[[presAllEvents objectAtIndex:Y] objectForKey:@"animalID"] integerValue] == self.selectedAnimal)
+                    {
+                        [self.allEvents addObject:[presAllEvents objectAtIndex:Y]];
+                        NSLog(@"----%@",self.allEvents);
+                    }
+                }
+                NSDate *today = [NSDate date];
+                NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+                NSUInteger unitFlags = NSDayCalendarUnit;
+                NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+                [dateFormat setDateFormat:@"dd MMM yyyy"];
+                NSString *stringToday = [dateFormat stringFromDate:today];
+                NSDate *currDate = [dateFormat dateFromString:stringToday];
                 for (int I=0; I<=(self.allEvents.count - 1); I++)
                 {
-                    NSDate *activDate = [dateFormat dateFromString: [dateFormat stringFromDate:[[self.allEvents objectAtIndex:I] objectForKey:@"dateEvent"]]];
+                    NSDate *activDate = [dateFormat dateFromString: [dateFormat stringFromDate:[[self.allEvents objectAtIndex:I] objectForKey:@"date"]]];
                     NSDateComponents *components = [gregorian components:unitFlags fromDate:currDate toDate:activDate options:0];
                     NSInteger days = [components day];
                     if (days == 0)
@@ -169,9 +153,9 @@
                     }
                 }
             }
-            [self.tableView reloadData];
         }
     }
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -193,13 +177,9 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section == 0)
-    {
         return [self.events count];
-    }
     else
-    {
         return [self.futureEvents count];
-    }
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
@@ -212,28 +192,28 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"dateEvent" ascending:YES];
-    self.sortedTodayArray = [[self.events sortedArrayUsingDescriptors:@[sort]] mutableCopy]; //Создание сортированного массива из массива events по сортировке descriptor
+    NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:YES];
+    self.sortedTodayArray = [[self.events sortedArrayUsingDescriptors:@[sort]] mutableCopy];
     self.sortedFutureArray = [[self.futureEvents sortedArrayUsingDescriptors:@[sort]] mutableCopy];
 
     MainTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:(@"MainTableViewCell") forIndexPath:indexPath];
     if (indexPath.section == 0)
     {
-    NSManagedObject *note = [self.sortedTodayArray objectAtIndex:indexPath.row];
-        cell.name.text = [NSString stringWithFormat:@"%@", [note valueForKey:@"nameEvent"]];
+        NSManagedObject *note = [self.sortedTodayArray objectAtIndex:indexPath.row];
+        cell.name.text = [NSString stringWithFormat:@"%@", [note valueForKey:@"name"]];
         NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
         [dateFormat setDateFormat:@"hh:mm"];
-        cell.dateEvent.text = [dateFormat stringFromDate:[note valueForKey:@"dateEvent"]];
-        cell.animalNum.text = [NSString stringWithFormat:@"%@", [note valueForKey:@"idAnimal"]];
+        cell.dateEvent.text = [dateFormat stringFromDate:[note valueForKey:@"date"]];
+        cell.animalNum.text = [NSString stringWithFormat:@"%@", [note valueForKey:@"animalID"]];
     }
     else
     {
         NSManagedObject *note = [self.sortedFutureArray objectAtIndex:indexPath.row];
-        cell.name.text = [NSString stringWithFormat:@"%@", [note valueForKey:@"nameEvent"]];
+        cell.name.text = [NSString stringWithFormat:@"%@", [note valueForKey:@"name"]];
         NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
         [dateFormat setDateFormat:@"dd MMM hh:mm"];
-        cell.dateEvent.text = [dateFormat stringFromDate:[note valueForKey:@"dateEvent"]];
-        cell.animalNum.text = [NSString stringWithFormat:@"%@", [note valueForKey:@"idAnimal"]];
+        cell.dateEvent.text = [dateFormat stringFromDate:[note valueForKey:@"date"]];
+        cell.animalNum.text = [NSString stringWithFormat:@"%@", [note valueForKey:@"animalID"]];
     }
     return cell;
 }
@@ -244,40 +224,21 @@
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-//    NSManagedObjectContext *context = [self managedObjectContext];
     NSLog(@"indexPath: %@", indexPath);
     
     if (editingStyle == UITableViewCellEditingStyleDelete)
     {
         if (indexPath.section == 0)
         {
-            [self.appDelegate.managedObjectContextEvent deleteObject:[self.sortedTodayArray objectAtIndex:indexPath.row]];
-            NSError *error = nil;
-            if (![self.appDelegate.managedObjectContextEvent save:&error])
-            {
-                NSLog(@"Can't Delete! %@ %@", error, [error localizedDescription]);
-                return;
-            }
-            [self.sortedTodayArray removeObjectAtIndex:indexPath.row];
+            [self.moca DeleteForIndexPath:indexPath Array:self.sortedTodayArray];
             [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
         }
         else
         {
-            NSManagedObject *test = [self.sortedFutureArray objectAtIndex:indexPath.row];
-                                                                                                                         
-            NSLog(@"Объект на удаление: %@", test);
-            [self.appDelegate.managedObjectContextEvent deleteObject:test];
-
-            NSError *error = nil;
-            if (![self.appDelegate.managedObjectContextEvent save:&error])
-            {
-                NSLog(@"Can't Delete! %@ %@", error, [error localizedDescription]);
-                return;
-            }
-            [self.sortedFutureArray removeObjectAtIndex:indexPath.row];
+            [self.moca DeleteForIndexPath:indexPath Array:self.sortedFutureArray];
             [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
         }
-        [tableView reloadData]; // tell table to refresh now
+        [tableView reloadData];
     }
 }
 
@@ -285,14 +246,9 @@
 {
     self.addEventForm = [[AddEventViewController alloc] init];
     if (indexPath.section ==0)
-    {
-        self.addEventForm.selectedEvent = [self.sortedTodayArray objectAtIndex:indexPath.row];
-    }
+    self.addEventForm.selectedEvent = [self.sortedTodayArray objectAtIndex:indexPath.row];
     else
-    {
         self.addEventForm.selectedEvent = [self.sortedFutureArray objectAtIndex:indexPath.row];
-    }
-    NSLog(@"%@", self.addEventForm.selectedEvent);
     self.addEventForm.edit = YES;
     [self.navigationController pushViewController:self.addEventForm animated:YES];
 }

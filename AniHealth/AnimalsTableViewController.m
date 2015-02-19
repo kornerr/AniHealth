@@ -7,32 +7,32 @@
 //
 
 #import "AnimalsTableViewController.h"
-#import "Animals.h"
 
 @interface AnimalsTableViewController ()
-@property (retain,nonatomic) NSMutableArray         *animals;
-//@property (retain, nonatomic) NSManagedObjectID   *managedObjectID;
-@property (retain, nonatomic) AddAnimalViewController *addAnimal;
-@property (retain, nonatomic) MainTableViewController *mainTableView;
-@property (retain, nonatomic) AppDelegate               *appDelegate;
+@property (retain,nonatomic) NSMutableArray             *animals;
+@property (retain, nonatomic) AddAnimalViewController   *addAnimal;
+@property (retain, nonatomic) MainTableViewController   *mainTableView;
 
 @end
 
 @implementation AnimalsTableViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil //Процедура, реализуемая в самом начале работы "Вперёд батьки"
+#pragma mark - Private methods
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    self = [super initWithNibName:nibNameOrNil
+                           bundle:nibBundleOrNil];
     if (self)
     {
-        self.appDelegate = [[AppDelegate alloc] init];
-        self.navigationItem.title = @"Animals"; //Заголовок NC
+        self.mainTableView = [[MainTableViewController alloc] init];
+        self.navigationItem.title = @"Animals"; 
         
-        UIBarButtonItem *addAninLefBut = [[UIBarButtonItem alloc] initWithTitle:@"AddAnimal" //Создание первой кнопки для NC и присвоение ей псевдонима
+        UIBarButtonItem *addAninLefBut = [[UIBarButtonItem alloc] initWithTitle:@"AddAnimal"
                                                                        style:UIBarButtonItemStylePlain
                                                                       target:self
                                                                       action:@selector(openAddAnimalForm)];
-        self.navigationItem.leftBarButtonItems = [[NSArray alloc] initWithObjects:addAninLefBut, nil]; //Присвоение кнопок к левой стороне NC
+        self.navigationItem.leftBarButtonItems = [[NSArray alloc] initWithObjects:addAninLefBut, nil];
     }
     return self;
 }
@@ -41,34 +41,21 @@
 {
     self.addAnimal = [[AddAnimalViewController alloc] init];
     UINavigationController *aaf_nc = [[UINavigationController alloc] initWithRootViewController:self.addAnimal];
-    int animalCoutn = (int)[self.animals count];
+    int animalCoutn = (int)[self.mainTableView.animals count];
     if (animalCoutn ==0)
-    {
         self.addAnimal.registNuberAnimal = 0;
-    }
     else
     {
         animalCoutn = animalCoutn-1;
-        NSManagedObject *note = [self.animals objectAtIndex:animalCoutn];
-        self.addAnimal.registNuberAnimal = [[note valueForKey:@"idAni"] integerValue];
+        NSManagedObject *note = [self.mainTableView.animals objectAtIndex:animalCoutn];
+        self.addAnimal.registNuberAnimal = [[note valueForKey:@"animalID"] integerValue];
     }
     self.addAnimal.edit = NO;
     [self presentViewController:aaf_nc
                        animated:YES
                      completion:nil];
 }
-/*
-- (NSManagedObjectContext *)managedObjectContext
-{
-    NSManagedObjectContext *context = nil;
-    id delegate = [[UIApplication sharedApplication] delegate];
-    if ([delegate performSelector:@selector(managedObjectContext)])
-    {
-        context = [delegate managedObjectContext];
-    }
-    return context;
-}
-*/
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -85,10 +72,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.mainTableView = [[MainTableViewController alloc] init];
-//    NSManagedObjectContext *managedObjectContext = [self managedObjectContext];
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Animals"];
-    self.animals = [[self.appDelegate.managedObjectContextAnimal executeFetchRequest:fetchRequest error:nil] mutableCopy];
+    self.animals = [self.moca SelectAll:@"Animals"];
     [self.tableView reloadData];
 }
 
@@ -104,67 +88,23 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    AnimalTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AnimalTableViewCell" forIndexPath:indexPath];
+    AnimalTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AnimalTableViewCell"
+                                                                forIndexPath:indexPath];
     NSManagedObject *note = [self.animals objectAtIndex:indexPath.row];
-    cell.nameAnimal.text = [NSString stringWithFormat:@"%@", [note valueForKey:@"nameAnimal"]];
-    cell.iconAnimalCell.image = [UIImage imageNamed: [note valueForKey:@"iconAnimal"]];
+    cell.nameAnimal.text = [NSString stringWithFormat:@"%@", [note valueForKey:@"animalName"]];
+    cell.iconAnimalCell.image = [UIImage imageNamed: [note valueForKey:@"animalIcon"]];
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSManagedObject *note = [self.animals objectAtIndex:indexPath.row];
-    self.mainTableView.selectedAnimal = [[NSString stringWithFormat:@"%@", [note valueForKey:@"idAni"]] integerValue];
-    NSLog(@"Нажалось: %i", self.mainTableView.selectedAnimal);
+    self.mainTableView.selectedAnimal = [[NSString stringWithFormat:@"%@", [note valueForKey:@"animalID"]] integerValue];
     [self.sideMenuViewController hideMenuViewController];
     UINavigationController *mtvc_nc = [[UINavigationController alloc] initWithRootViewController:self.mainTableView];
     self.sideMenuViewController.contentViewController = mtvc_nc;
-    [self.mainTableView gettingDataFromAnimalList:[[NSString stringWithFormat:@"%@", [note valueForKey:@"idAni"]] integerValue]];
+    [self.mainTableView gettingDataFromAnimalList:[[NSString stringWithFormat:@"%@", [note valueForKey:@"animalID"]] integerValue]];
     [self.mainTableView.tableView reloadData];
 }
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

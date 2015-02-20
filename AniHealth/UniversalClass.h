@@ -25,7 +25,7 @@
 
 -(void)DeleteAnimalToID:(NSInteger)animalID;
 
-- (void)DeleteForIndexPath: (NSIndexPath *)indexPath
+- (NSMutableArray *)DeleteForIndexPath: (NSIndexPath *)indexPath
                      Array: (NSMutableArray *)array;
 
 - (void)SaveAddEvent_SegmentIndex:(NSInteger)segmentIndex

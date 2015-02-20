@@ -74,7 +74,7 @@
         self.nameEvent.text = [NSString stringWithFormat:@"%@", [self.selectedEvent valueForKey:@"name"]];
         self.nameEventSave = self.nameEvent.text;
         NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-        [dateFormat setDateFormat:@"dd MMM yyyy"];
+        [dateFormat setDateFormat:@"dd MMMM yyyy hh:mm"];
         self.dateEvent.text = [dateFormat stringFromDate:[self.selectedEvent valueForKey:@"date"]];
         self.dateEventSave = self.dateEvent.text;
         self.comment.text = [NSString stringWithFormat:@"%@", [self.selectedEvent valueForKey:@"comment"]];
@@ -83,6 +83,10 @@
     else
     {
         self.navigationItem.title = @"AddEvent";
+        self.selectedDate = [NSDate date];
+        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+        [dateFormat setDateFormat:@"dd MMMM yyyy hh:mm"];
+        self.dateEvent.text = [dateFormat stringFromDate:self.selectedDate];
         UIBarButtonItem *cancelAddEvent = [[UIBarButtonItem alloc] initWithTitle:@"Cancel"
                                                                            style:UIBarButtonItemStylePlain
                                                                           target:self
@@ -119,7 +123,7 @@
 -(void)updateTextField:(UIDatePicker *)sender
 {
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateFormat:@"dd MMMM yyyy hh mm"];
+    [dateFormat setDateFormat:@"dd MMMM yyyy hh:mm"];
     self.dateEvent.text = [dateFormat stringFromDate:sender.date];
     self.selectedDate = sender.date;
 }

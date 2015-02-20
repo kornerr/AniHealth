@@ -37,18 +37,32 @@
     return array;
 }
 
-- (void)DeleteForIndexPath: (NSIndexPath *)indexPath Array: (NSMutableArray *)array
+- (NSMutableArray *)DeleteForIndexPath: (NSIndexPath *)indexPath Array: (NSMutableArray *)array
 {
-    AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
-    self.managedObjectContextAll = appDelegate.managedObjectContext;
-    [self.managedObjectContextAll deleteObject:[array objectAtIndex:indexPath.row]];
-    NSError *error = nil;
-    if (![self.managedObjectContextAll save:&error])
-        NSLog(@"Can't Delete! %@ %@", error, [error localizedDescription]);
-    [array removeObjectAtIndex:indexPath.row];
-    
-    return;
+    [self getAppDelegateMOC];
+    NSManagedObject *nout = [array objectAtIndex:indexPath.row];
+    NSInteger delID = [[NSString stringWithFormat:@"%@", [nout valueForKey:@"eventID"]] integerValue];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    [fetchRequest setEntity:[NSEntityDescription entityForName:@"Event"
+                                        inManagedObjectContext:self.managedObjectContextAll]];
+    NSMutableArray *events = [[self.managedObjectContextAll executeFetchRequest:fetchRequest
+                                                                         error:nil] mutableCopy];
+
+    for (NSManagedObject *object in events )
+    {
+        if ([[object valueForKey:@"eventID"] integerValue] == delID)
+        {
+            [self.managedObjectContextAll deleteObject:object];
+            NSError *error = nil;
+            if (![self.managedObjectContextAll save:&error])
+                NSLog(@"Can't Delete! %@ %@", error, [error localizedDescription]);
+            [array removeObjectAtIndex:indexPath.row];
+            [self DeletedNotifications:object];
+        }
+    }
+    return array;
 }
+
 
 - (void)SaveAddEvent_SegmentIndex:(NSInteger)segmentIndex AnimalID:(NSNumber *)animalID NameEvent:(NSString *)nameEvent Comment:(NSString *)comment Date:(NSDate *)selectedDate
 {
@@ -75,6 +89,7 @@
                   forKey:@"eventID"];
         if (![self.managedObjectContextAll save:&error])
             NSLog(@"Failed to save - error: %@", [error localizedDescription]);
+        [self NotificationForEvent:nameEvent Date:selectedDate];
     }
     else
     {
@@ -109,6 +124,7 @@
                       forKey:@"eventID"];
             if (![self.managedObjectContextAll save:&error])
                 NSLog(@"Failed to save - error: %@", [error localizedDescription]);
+            [self NotificationForEvent:nameEvent Date:selectedDate];
         }
     }
 }
@@ -159,14 +175,30 @@
 
 - (void) SaveEditEventName:(NSString *)name DateEvent:(NSDate *)date Comment:(NSString *)comment Event:(NSManagedObject *)event
 {
-    [event setValue:name
-             forKey:@"name"];
-    [event setValue:comment
-             forKey:@"comment"];
-    [event setValue:date
-             forKey:@"date"];
-    NSError *error;
-    [self.managedObjectContextAll save:&error];
+    [self getAppDelegateMOC];
+    [self DeletedNotifications:event];
+    NSInteger delID = [[NSString stringWithFormat:@"%@", [event valueForKey:@"eventID"]] integerValue];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    [fetchRequest setEntity:[NSEntityDescription entityForName:@"Event"
+                                        inManagedObjectContext:self.managedObjectContextAll]];
+    NSMutableArray *events = [[self.managedObjectContextAll executeFetchRequest:fetchRequest
+                                                                          error:nil] mutableCopy];
+    for (NSManagedObject *object in events )
+    {
+        if ([[object valueForKey:@"eventID"] integerValue] == delID)
+        {
+            [object setValue:name
+                     forKey:@"name"];
+            [object setValue:comment
+                     forKey:@"comment"];
+            if (date !=nil)
+                [object setValue:date
+                          forKey:@"date"];
+            NSError *error;
+            [self.managedObjectContextAll save:&error];
+        }
+    }
+    [self NotificationForEvent:name Date:date];
 }
 
 - (NSMutableArray *)GetAnimalForEditToID:(NSInteger )animalID
@@ -216,6 +248,22 @@
     self.managedObjectContextAll = appDelegate.managedObjectContext;
 }
 
+-(void) NotificationForEvent:(NSString *)nameEvent Date:(NSDate *)dateEvent
+{
+    UIUserNotificationType types = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
+    UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
+    [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
+    UILocalNotification* localNotification = [[UILocalNotification alloc] init];
+    localNotification.fireDate = dateEvent;
+    localNotification.alertBody = nameEvent;
+    localNotification.alertAction = @"More info";
+    localNotification.soundName = UILocalNotificationDefaultSoundName;
+    localNotification.timeZone = [NSTimeZone defaultTimeZone];
+    localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber] + 1;
+    localNotification.repeatInterval = 0;
+    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+}
+
 - (void) UpdatingLastID: (NSInteger)lastID
 {
     [self getAppDelegateMOC];
@@ -240,8 +288,19 @@
               forKey:@"lastID"];
     [object setValue:[NSNumber numberWithBool:YES]
               forKey:@"firstLaunch"];
-
     if (![self.managedObjectContextAll save:&error])
         NSLog(@"Failed to save - error: %@", [error localizedDescription]);
 }
+
+-(void)DeletedNotifications:(NSManagedObject *)object
+{
+    NSArray *localNotifications = [[UIApplication sharedApplication]  scheduledLocalNotifications];
+    for(UILocalNotification *localNotification in localNotifications)
+    {
+        if ([localNotification.fireDate isEqualToDate:[object valueForKey:@"date"]])
+            [[UIApplication sharedApplication] cancelLocalNotification:localNotification];
+    }
+
+}
+
 @end

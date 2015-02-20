@@ -124,7 +124,6 @@
                     if ([[[presAllEvents objectAtIndex:Y] objectForKey:@"animalID"] integerValue] == self.selectedAnimal)
                     {
                         [self.allEvents addObject:[presAllEvents objectAtIndex:Y]];
-                        NSLog(@"----%@",self.allEvents);
                     }
                 }
                 NSDate *today = [NSDate date];
@@ -225,20 +224,14 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     NSLog(@"indexPath: %@", indexPath);
-    
     if (editingStyle == UITableViewCellEditingStyleDelete)
     {
         if (indexPath.section == 0)
-        {
-            [self.moca DeleteForIndexPath:indexPath Array:self.sortedTodayArray];
-            [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        }
+            self.sortedTodayArray = [self.moca DeleteForIndexPath:indexPath Array:self.sortedTodayArray];
         else
-        {
-            [self.moca DeleteForIndexPath:indexPath Array:self.sortedFutureArray];
-            [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        }
+            self.sortedFutureArray = [self.moca DeleteForIndexPath:indexPath Array:self.sortedFutureArray];
         [tableView reloadData];
+        [self viewWillAppear:YES];
     }
 }
 
@@ -246,7 +239,7 @@
 {
     self.addEventForm = [[AddEventViewController alloc] init];
     if (indexPath.section ==0)
-    self.addEventForm.selectedEvent = [self.sortedTodayArray objectAtIndex:indexPath.row];
+        self.addEventForm.selectedEvent = [self.sortedTodayArray objectAtIndex:indexPath.row];
     else
         self.addEventForm.selectedEvent = [self.sortedFutureArray objectAtIndex:indexPath.row];
     self.addEventForm.edit = YES;

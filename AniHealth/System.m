@@ -13,5 +13,6 @@
 
 @dynamic firstLaunch;
 @dynamic lastID;
+// REVIEW Зачем?
 
 @end

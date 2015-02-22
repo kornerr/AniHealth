@@ -21,6 +21,7 @@
     [object setValue:[NSNumber numberWithBool:YES]
               forKey:@"firstLaunch"];
     NSError * error = nil;
+    // REVIEW Лишний пробел.
     if (![self.managedObjectContextAll save:&error])
         NSLog(@"Failed to save - error: %@", [error localizedDescription]);
 }
@@ -34,6 +35,7 @@
     [fetchRequest setResultType:NSDictionaryResultType];
     NSMutableArray *array = [[self.managedObjectContextAll executeFetchRequest:fetchRequest
                                                                          error:nil] mutableCopy];
+    // REVIEW Почему нет обработки ошибок?
     return array;
 }
 
@@ -243,8 +245,12 @@
 #pragma mark - Private methods
 
 - (void)getAppDelegateMOC
+// REVIEW Некорректное название метода. Это же get, а возвращаемый тип void.
 {
     AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
+    // REVIEW Ни в коем случае нельзя неявно использовать Application.
+    // REVIEW Заменить на присвоение контекста сразу в AppDelegate
+    // REVIEW этому классу.
     self.managedObjectContextAll = appDelegate.managedObjectContext;
 }
 

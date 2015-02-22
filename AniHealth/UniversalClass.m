@@ -44,12 +44,13 @@
     [self getAppDelegateMOC];
     NSManagedObject *nout = [array objectAtIndex:indexPath.row];
     NSInteger delID = [[NSString stringWithFormat:@"%@", [nout valueForKey:@"eventID"]] integerValue];
+    // REVIEW У нас ведь в [nout valueForKey:] уже NSString. Зачем ещё stringWithFormat?
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     [fetchRequest setEntity:[NSEntityDescription entityForName:@"Event"
                                         inManagedObjectContext:self.managedObjectContextAll]];
     NSMutableArray *events = [[self.managedObjectContextAll executeFetchRequest:fetchRequest
                                                                          error:nil] mutableCopy];
-
+    // REVIEW Почему не используется SelectAll?
     for (NSManagedObject *object in events )
     {
         if ([[object valueForKey:@"eventID"] integerValue] == delID)
@@ -58,15 +59,19 @@
             NSError *error = nil;
             if (![self.managedObjectContextAll save:&error])
                 NSLog(@"Can't Delete! %@ %@", error, [error localizedDescription]);
+            // REVIEW Зачем продолжать что-то делать, если ошибка произошла?
+            // REVIEW Ведь не будет полного удаления. Где-то что-то останется.
             [array removeObjectAtIndex:indexPath.row];
             [self DeletedNotifications:object];
         }
     }
     return array;
+    // REVIEW Зачем?
 }
 
 
 - (void)SaveAddEvent_SegmentIndex:(NSInteger)segmentIndex AnimalID:(NSNumber *)animalID NameEvent:(NSString *)nameEvent Comment:(NSString *)comment Date:(NSDate *)selectedDate
+// REVIEW Разбить по строкам.
 {
     [self getAppDelegateMOC];
     NSError * error = nil;
@@ -299,8 +304,14 @@
 }
 
 -(void)DeletedNotifications:(NSManagedObject *)object
+// REVIEW Почему прошедшее время?
+// REVIEW Передавать конечную дату. Нет никакого смысла в NSManagedObject тут.
 {
     NSArray *localNotifications = [[UIApplication sharedApplication]  scheduledLocalNotifications];
+    // REVIEW Нельзя использовать НЕЯВНО Application.
+    // REVIEW Application использовать лишь в AppDelegate.
+    // REVIEW Тут нужен протокол для работы с уведомлениями, который реализует
+    // REVIEW AppDelegate.
     for(UILocalNotification *localNotification in localNotifications)
     {
         if ([localNotification.fireDate isEqualToDate:[object valueForKey:@"date"]])

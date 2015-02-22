@@ -50,6 +50,12 @@
 // REVIEW Нет никакого смысла передавать NSIndexPath, если внутри идёт
 // REVIEW работа лишь с NSIndexPath.row, ведь для этого метода
 // REVIEW не существует понятия NSIndexPath, для него существует лишь ID записи.
+// REVIEW В методе намешана работа с 3 вещами
+// REVIEW 1) элемент передаваемого массива
+// REVIEW 2) запись в БД на основе этого элемента
+// REVIEW 3) запись в уведомлениях на основе этого элемента
+// REVIEW Необходимо убрать отсюда работу с 1) и 2). Тут должна быть
+// REVIEW работа лишь с БД.
 
 - (void)SaveAddEvent_SegmentIndex:(NSInteger)segmentIndex
                          AnimalID:(NSNumber *)animalID

@@ -22,5 +22,7 @@
 @property (nonatomic) BOOL                                  edit;
 @property (strong) NSManagedObject                          *selectedEvent;
 @property (retain, nonatomic) UniversalClass                *moca;
+// REVIEW Все свойства, что нужны лишь этому классу, нужно
+// REVIEW поместить в файл реализации.
 
 @end

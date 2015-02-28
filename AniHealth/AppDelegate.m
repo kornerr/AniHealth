@@ -15,6 +15,8 @@
 @interface AppDelegate () <RESideMenuDelegate>
 
 @property (nonatomic, retain) UniversalClass *universalClass;
+// REVIEW Почему retain? В чём разница от strong?
+// REVIEW Что нужно тут ставить на самом деле? Почему?
 
 @end
 
@@ -40,12 +42,16 @@
     aevc.moca = self.universalClass;
     
     MainTableViewController *mtvc = [[MainTableViewController alloc]init];
+    // REVIEW Пропущен пробел.
     mtvc.moca = self.universalClass;
     UINavigationController *mtvc_nc = [[UINavigationController alloc] initWithRootViewController:mtvc];
+    // REVIEW Нужно использовать camelCase, подчёркивания не используются.
     
     AnimalsTableViewController *atvc = [[AnimalsTableViewController alloc]init];
+    // REVIEW Пропущен пробел.
     atvc.moca = self.universalClass;
     UINavigationController *atvc_nc = [[UINavigationController alloc] initWithRootViewController:atvc];
+    // REVIEW Нужно использовать camelCase, подчёркивания не используются.
     
     RESideMenu *sideMenuViewController = [[RESideMenu alloc] initWithContentViewController:mtvc_nc
                                                                     leftMenuViewController:atvc_nc
@@ -74,10 +80,12 @@
                     withObject:nil
                     afterDelay:5.0];
         [alert show];
+        // REVIEW Заменить на Toast.
     }
     
     // Request to reload table view data
     [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadData" object:self];
+    // REVIEW Что это? Где это используется? Зачем?
     
     // Set icon badge number to zero
     application.applicationIconBadgeNumber = 0;

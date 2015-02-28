@@ -76,6 +76,8 @@
     [self getAppDelegateMOC];
     NSError * error = nil;
     if (segmentIndex == 0)
+        // REVIEW segmentIndex выполняет роль BOOL. Тогда надо просто использовать BOOL.
+        // REVIEW Либо разделить на 2 разные функции.
     {
         NSMutableArray *system = [self SelectAll:@"System"];
         NSManagedObject *note = [system objectAtIndex:0];
@@ -158,6 +160,7 @@
                   forKey:@"animalMale"];
     if (![self.managedObjectContextAll save:&error])
         NSLog(@"Failed to save - error: %@", [error localizedDescription]);
+    // REVIEW Надо сообщать пользователю об ошибке тоже.
 }
 
 - (void) SaveEditAnimalName:(NSString *)animalName AnimalBirthdate:(NSDate *)animalBirthdate IconName:(NSString *)animalIcon SelectiontMale:(NSInteger )selectiontMale AnimalID:(NSInteger)animalID
@@ -178,6 +181,7 @@
                 forKey:@"animalMale"];
     NSError *error;
     [self.managedObjectContextAll save:&error];
+    // REVIEW Нет проверки на ошибки.
 }
 
 - (void) SaveEditEventName:(NSString *)name DateEvent:(NSDate *)date Comment:(NSString *)comment Event:(NSManagedObject *)event
@@ -261,6 +265,7 @@
 
 -(void) NotificationForEvent:(NSString *)nameEvent Date:(NSDate *)dateEvent
 {
+    // REVIEW Работу с уведомлениями вынести. Возможно, в отдельный класс.
     UIUserNotificationType types = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
     UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
     [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];

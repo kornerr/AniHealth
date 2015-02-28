@@ -24,5 +24,7 @@
 @property (nonatomic) NSInteger                             idAnimal;
 @property (nonatomic) NSInteger                             registNuberAnimal;
 @property (nonatomic) BOOL                                  edit;
+// REVIEW Все свойства, что нужны лишь этому классу, нужно
+// REVIEW поместить в файл реализации.
 
 @end

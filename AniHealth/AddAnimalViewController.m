@@ -21,6 +21,7 @@
 @property (nonatomic, retain) NSString                      *nameAnimalSave;
 @property (nonatomic, retain) NSString                      *dateAnimalSave;
 @property (nonatomic) NSInteger                             maleAnimalSave;
+// REVIEW Что за Save везде?
 @property (nonatomic, retain) AnimalsTableViewController    *animalTableView;
 
 @end
@@ -36,17 +37,22 @@
     if (self)
     {
         self.mainTableView = [[MainTableViewController alloc]init];
+        // REVIEW Что это? Ведь надо это присваивать в AppDelegate.
         self.moca = [[UniversalClass alloc] init];
+        // REVIEW Что это? Ведь мы в AppDelegate присваиваем это.
     }
     return self;
 }
 
 - (void) cancelAddAnimalForm
+// REVIEW Лишний пробел.
 {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void) saveAddAnimal
+// REVIEW Лишний пробел. Не хватает пробела.
+// REVIEW Что за save?
 {
     self.registNuberAnimal = self.registNuberAnimal + 1;
     NSNumber *animalRegistrID = [NSNumber numberWithInt: (int)[self registNuberAnimal]];
@@ -59,6 +65,8 @@
 }
 
 -(void) saveEditAnimal
+// REVIEW Лишний пробел. Не хватает пробела.
+// REVIEW Что за save?
 {
     [self.moca SaveEditAnimalName:self.addNameAnimal.text
                   AnimalBirthdate:self.selectedDate
@@ -84,6 +92,7 @@
                                                                         target:self
                                                                         action:@selector(daleteAnimal)];
         self.navigationItem.RightBarButtonItems = [[NSArray alloc] initWithObjects:reset, deleteAnimal, nil];
+        // REVIEW Поменять на @[].
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save"
                                                                                  style:UIBarButtonItemStylePlain
                                                                                 target:self
@@ -93,6 +102,8 @@
         self.addNameAnimal.text = [NSString stringWithFormat:@"%@", [note valueForKey:@"animalName"]];
         self.nameAnimalSave = self.addNameAnimal.text;
         NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+        // REVIEW Это не единственное место конвертации даты. Вынести в
+        // REVIEW отдельную функцию в общедоступное место.
         [dateFormat setDateFormat:@"dd MMM yyyy"];
         self.dateAnimal.text = [dateFormat stringFromDate:[note valueForKey:@"animalBirthdate"]];
         self.dateAnimalSave = self.dateAnimal.text;
@@ -101,6 +112,7 @@
             self.maleAnimal.selectedSegmentIndex = 0;
         else
             self.maleAnimal.selectedSegmentIndex = 1;
+        // REVIEW Заменить на BOOL, если это BOOL. Не надо использовать integer.
         self.maleAnimalSave = self.maleAnimal.selectedSegmentIndex;
     }
     else
@@ -111,11 +123,13 @@
                                                                            target:self
                                                                            action:@selector(cancelAddAnimalForm)];
         self.navigationItem.leftBarButtonItems = [[NSArray alloc] initWithObjects:cancelAddAnimal, nil];
+        // REVIEW Зачем?
         UIBarButtonItem *saveAnimal = [[UIBarButtonItem alloc] initWithTitle:@"Save"
                                                                        style:UIBarButtonItemStylePlain
                                                                       target:self
                                                                       action:@selector(saveAddAnimal)];
         self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:saveAnimal, nil]; 
+        // REVIEW Зачем?
     }
     self.iconNameAnimal = @"iconAnimal3.png";
 }
@@ -150,6 +164,8 @@
 - (IBAction)someTextFieldYouch:(UITextField *)sender
 {
     if (self.dateAnimal.inputView == nil)
+        // REVIEW Нельзя ли сразу присовить inputView?
+        // REVIEW Какой смысл каждый раз что-то проверять?
     {
         UIDatePicker *datePicker = [[UIDatePicker alloc] init];
         datePicker.datePickerMode = UIDatePickerModeDate;
@@ -166,6 +182,7 @@
     [dateFormat setDateFormat:@"dd MMM yyyy"];
     self.dateAnimal.text = [dateFormat stringFromDate:sender.date];
     self.selectedDate = sender.date;
+    // REVIEW Опять же дата.
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
@@ -173,24 +190,29 @@
     [super touchesBegan:touches
               withEvent:event];
     [self.view endEditing:YES];
+    // REVIEW Заменить на использовать UITapGesture.
 }
 
 - (IBAction)clickButtonIcon1:(id)sender
+// REVIEW Названия вообще ни о чём не говорят. Переименовать.
 {
     self.iconNameAnimal = @"iconAnimal4.png";
 }
 
 - (IBAction)clickButtonIcon2:(id)sender
+// REVIEW Названия вообще ни о чём не говорят. Переименовать.
 {
     self.iconNameAnimal = @"iconAnimal3.png";
 }
 
 - (IBAction)clickButtonIcon3:(id)sender
+// REVIEW Названия вообще ни о чём не говорят. Переименовать.
 {
     self.iconNameAnimal = @"iconAnimal2.png";
 }
 
 - (IBAction)clickButtonIcon4:(id)sender
+// REVIEW Названия вообще ни о чём не говорят. Переименовать.
 {
     self.iconNameAnimal = @"iconAnimal1.png";
 }
